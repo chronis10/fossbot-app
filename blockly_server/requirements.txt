@@ -1,8 +1,8 @@
 Jinja2
-flask
+flask==2.3.2
 pyyaml
 SQLAlchemy
-Flask-SQLAlchemy
+Flask-SQLAlchemy=3.0.3
 SQLAlchemy-serializer
 Flask-Cors
 eventlet

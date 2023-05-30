@@ -42,17 +42,17 @@
 * Eleftheria Papageorgiou
 * Manousos Linardakis
   
-### GSoC 2023
+## GSoC 2023
 Part of GSoC contribution:
 * Integration of Monaco web based IDE for Native Python web application
 
-## Student
+### Student
 * Dimitris Charitos
 
-## GSoC Mentors
+### GSoC Mentors
 * Christos Chronis
 
-## Organization : Open Technologies Alliance - GFOSS
+### Organization : Open Technologies Alliance - GFOSS
 
 ## Builds
 [![Build Windows app](https://github.com/chronis10/fossbot-app/actions/workflows/windows_app.yml/badge.svg)](https://github.com/chronis10/fossbot-app/actions/workflows/windows_app.yml)

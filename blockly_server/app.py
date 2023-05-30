@@ -11,7 +11,7 @@ import json
 import sys
 import webbrowser
 from xml.dom import minidom
-from robot.roboclass import Agent
+# from robot.roboclass import Agent
 from multiprocessing import Process,freeze_support
 from threading import Thread
 from flask_babel import Babel
@@ -33,7 +33,8 @@ if os.getenv('ROBOT_MODE') is not None:
     if os.getenv('ROBOT_MODE') == 'physical':
         ROBOT_MODE = 'physical'
 
-DEBUG = False
+
+DEBUG = True
 if os.getenv('DEBUG') is not None:
     if os.getenv('DEBUG') == 'True':
         DEBUG = True
@@ -61,7 +62,7 @@ app.config['BABEL_DEFAULT_LOCALE'] = LOCALE
 CORS(app)
 socketio = SocketIO(app)
 db = SQLAlchemy(app)
-agent = Agent()
+# agent = Agent()
 
 class Projects(db.Model, SerializerMixin):
     project_id = db.Column('project_id', db.Integer, primary_key = True)
@@ -87,7 +88,9 @@ def get_locale():
 
 babel = Babel(app,locale_selector=get_locale)
 
-@app.before_first_request
+
+
+# @app._got_first_request
 def before_first_request():    
     if not os.path.exists(DATA_DIR):
         os.mkdir(DATA_DIR)
@@ -104,6 +107,8 @@ def before_first_request():
     get_sound_effects()
     if not os.path.exists(os.path.join(DATA_DIR,'admin_parameters.yaml')):
         shutil.copy(os.path.join(APP_DIR,'utils/code_templates/admin_parameters.yaml'),os.path.join(DATA_DIR,'admin_parameters.yaml'))
+
+
 
 @socketio.on('connection')
 def on_connect(data):
@@ -435,8 +440,11 @@ def handle_systray_controls(message):
 
 if __name__ == '__main__':
     freeze_support()
+
     if not DOCKER:
         # systray = Thread(target=systray_agent,daemon=True)
         # systray.start()
         webbrowser.open_new("http://127.0.0.1:8081")
+    with app.app_context():
+        before_first_request()
     socketio.run(app, host = '0.0.0.0',port=8081, debug=DEBUG)
