@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  body {
+    padding: 25px;
+    background-color: white;
+    color: black;
+    font-size: 25px;
+  }
+
+  .dark-mode {
+    background-color: rgb(39, 36, 36);
+    color: white;
+  }
+  </style>
+  <title>Monaco Project</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <!-- <script src="https://unpkg.com/blockly"></script> -->
+  <script src="{{ url_for('static',filename='modules/blockly.min.js')}}"></script>
+  <script src="{{ url_for('static',filename='modules/blockly_compressed.js')}}"></script>
+  <script src="{{ url_for('static',filename='modules/blocks_compressed.js')}}"></script>
+  <script src="{{ url_for('static',filename='modules/msg/'+locale+'.js')}}"></script>
+  <script src="{{ url_for('static',filename='modules/jquery-3.5.0.js')}}"></script>
+  <script src="{{ url_for('static',filename='modules/python_compressed.js')}}"></script>
+
+  <script src="{{ url_for('static',filename='modules/buffer@6.0.3')}}"></script>
+  <script src="{{ url_for('static',filename='modules/axios.min.js')}}"></script>
+  <script src="{{ url_for('static',filename='modules/socket.io@4.0.1.js')}}"></script>
+
+  <!-- <script src="{{ url_for('static',filename='js/control.js')}}"></script> -->
+  <script src="{{ url_for('static',filename='js/socket-client.js')}}"></script>
+  <script src="{{ url_for('static',filename='js/modals.js')}}"></script>
+  <script defer src="{{ url_for('static',filename='js/blockly-page.js')}}"></script> 
+  <script defer src="{{ url_for('static',filename='js/blockly/workspace_'+locale+'.js')}}"></script>
+
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css')}}">
+  <script src="{{ url_for('static',filename='modules/jquery.slim.min.js')}}"></script>
+  <script src="{{ url_for('static',filename='modules/popper.min.js')}}"></script>
+  <script src="{{ url_for('static',filename='modules/bootstrap.bundle.min.js')}}"></script>
+  <link href="{{ url_for('static',filename='fontawesome/css/fontawesome.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static',filename='fontawesome/css/brands.css')}}"  rel="stylesheet">
+  <link href="{{ url_for('static',filename='fontawesome/css/solid.css')}}"  rel="stylesheet">
+  <link href="{{ url_for('static',filename='fontawesome/css/all.css')}}"  rel="stylesheet">
+
+  <style>
+    @import url("{{ url_for('static',filename='css/header-style.css')}}");
+    @import url("{{ url_for('static',filename='css/blockly-page-body-style.css')}}");
+    @import url("{{ url_for('static',filename='css/common.css')}}");
+    @import url("{{ url_for('static',filename='css/modals.css')}}");
+    @import url("{{ url_for('static',filename='css/footer-style.css')}}");
+  </style>
+</head>
+
+<body onload="loadProject()" onclick="closeModalSuccessOrErrorwhenClickAnywhere()">
+  {% include 'header.html' %}
+<br>
+<button onclick="getCode()">Click me</button>
+  <script
+			src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"
+			integrity="sha256-0SGl1PJNDyJwcV5T+weg2zpEMrh7xvlwO4oXgvZCeZk="
+			crossorigin="anonymous"
+		></script>
+    <script>
+		
+			var editor;
+			
+			require.config({ paths: { vs: '../static/js/monaco-editor/min/vs' } });
+
+			require(['vs/editor/editor.main'], function () {
+				editor = monaco.editor.create(document.getElementById('container'), {
+					value: ['import time', 'a = time.time()', 'for i in range(0, 10):', '  print(i)', 'print(time.time()-a)'].join('\n'),
+					language: 'python',
+					theme: 'vs-dark',
+					fontSize: '18px'
+				});
+			});
+			
+			function getCode() {
+        var code = editor.getValue();
+        var terminal = document.getElementById('terminal_scrollable-content');
+    
+        var codeLines = code.split('\n');  // Split the code string into an array of lines
+        for (var i = 0; i < codeLines.length; i++) {
+            // Print each line separately
+            terminal.innerHTML += '<p>' + codeLines[i] + '</p>';
+        }
+        console.log(code);
+    }
+    
+		</script>
+    <button onclick="myFunction()">Toggle dark mode</button>
+
+    <script>
+    function myFunction() {
+      var element = document.body;
+      element.classList.toggle("dark-mode");
+    }
+    </script>
+  <div id="main-container">
+    <div class="row custom_row">
+      <div class="col-9" >
+        <!-- <div class="drop_shadow" id="blocklyDiv"></div> -->
+        <div class="drop_shadow" id="container" style="width:800px;height:600px;border:1px solid grey"></div>
+      </div>
+        <div id="buttons-container-right" class="col">
+
+          <div id='button__headers_row'>
+            <div id="button_fa_wrap">
+              <a onclick="save_xml('{{ project_id }}')" href="#" id="open-home-href" style="color: rgb(24, 21, 148); text-decoration: none;">
+              <i class="fa-solid fa-floppy-disk"></i>
+              </a>
+              
+            </div>
+            <!-- <div id="button_spacer"></div> -->
+            <div id="button_fa_wrap" >
+              <a href='/'   style="color: rgb(255, 136, 0); text-decoration: none;">
+              <i class="fa-solid fa-house"></i>
+              </a>
+            </div>
+         </div>  
+        <div class="drop_shadow" id="terminal_div">
+          <div id="terminal_scrollable-content">
+          <p>FossBot Terminal...</p>
+        </div>
+        </div>
+      <br>
+        <div id="button__controls_row">
+        <div id="button_fa_wrap_controls">
+          <a onclick="runCode('{{ project_id }}')" href="#"  style="color: rgb(56, 199, 0); text-decoration: none;">
+          <i class="fa-solid fa-circle-play"></i>
+          </a>
+        </div>
+        <div id="button_fa_wrap_controls">
+          <a onclick="stop_script()" href="#"  style="color: rgb(199, 30, 0); text-decoration: none;">
+          <i class="fa-solid fa-circle-stop"></i>
+          </a>
+        </div>
+      </div>
+      </div>
+    </div>
+    <!-- {% include 'footer.html' %} -->
+  </div>
+
+  <!-- modal : error -->
+  {% include 'modal-error.html' %}
+
+  <!-- modal : success -->
+  {% include 'modal-success.html' %}
+
+</body>
+</html>

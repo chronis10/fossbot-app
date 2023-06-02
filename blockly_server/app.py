@@ -137,6 +137,18 @@ def handle_get_all_projects():
 
     emit('all-projects', { 'status': '200', 'data': projects_list})
 
+
+@app.route('/monaco')
+def monaco():
+    stop_now()
+    id = request.args.get('id') 
+    print("------------------>",id)
+    robot_name = get_robot_name()
+    get_sound_effects()
+    scenes = get_scenes()
+    locale = LOCALE
+    return render_template('monaco.html', project_id=id, robot_name=robot_name,locale=locale,scenes=scenes)  
+
 @app.route('/blockly')
 def blockly():
     stop_now()
