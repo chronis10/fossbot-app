@@ -120,6 +120,18 @@ const sendCode = function(id,code) {
   });
 }
 
+const sendMonacoCode = function(id,code) {
+  return new Promise(function (resolve, reject) {
+    let obj = {'id': id, 'code': code};
+    socket.emit('execute_monaco', obj);
+
+    socket.on('execute_monaco_result', (data) => {
+      console.log("execute_monaco_result", data);
+      resolve(data);
+    });
+  });
+}
+
 const sendParameters = function(data) {
   return new Promise(function (resolve, reject) {
     socket.emit('save_parameters', {'parameters': data});

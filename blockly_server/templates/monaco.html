@@ -34,8 +34,7 @@
   <!-- <script src="{{ url_for('static',filename='js/control.js')}}"></script> -->
   <script src="{{ url_for('static',filename='js/socket-client.js')}}"></script>
   <script src="{{ url_for('static',filename='js/modals.js')}}"></script>
-  <script defer src="{{ url_for('static',filename='js/blockly-page.js')}}"></script> 
-  <script defer src="{{ url_for('static',filename='js/blockly/workspace_'+locale+'.js')}}"></script>
+  <script defer src="{{ url_for('static',filename='js/monaco-page.js')}}"></script> 
 
   <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css')}}">
   <script src="{{ url_for('static',filename='modules/jquery.slim.min.js')}}"></script>
@@ -48,7 +47,7 @@
 
   <style>
     @import url("{{ url_for('static',filename='css/header-style.css')}}");
-    @import url("{{ url_for('static',filename='css/blockly-page-body-style.css')}}");
+    @import url("{{ url_for('static',filename='css/monaco-page-body-style.css')}}");
     @import url("{{ url_for('static',filename='css/common.css')}}");
     @import url("{{ url_for('static',filename='css/modals.css')}}");
     @import url("{{ url_for('static',filename='css/footer-style.css')}}");
@@ -58,40 +57,12 @@
 <body onload="loadProject()" onclick="closeModalSuccessOrErrorwhenClickAnywhere()">
   {% include 'header.html' %}
 <br>
-<button onclick="getCode()">Click me</button>
   <script
 			src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"
 			integrity="sha256-0SGl1PJNDyJwcV5T+weg2zpEMrh7xvlwO4oXgvZCeZk="
 			crossorigin="anonymous"
 		></script>
-    <script>
-		
-			var editor;
-			
-			require.config({ paths: { vs: '../static/js/monaco-editor/min/vs' } });
-
-			require(['vs/editor/editor.main'], function () {
-				editor = monaco.editor.create(document.getElementById('container'), {
-					value: ['import time', 'a = time.time()', 'for i in range(0, 10):', '  print(i)', 'print(time.time()-a)'].join('\n'),
-					language: 'python',
-					theme: 'vs-dark',
-					fontSize: '18px'
-				});
-			});
-			
-			function getCode() {
-        var code = editor.getValue();
-        var terminal = document.getElementById('terminal_scrollable-content');
     
-        var codeLines = code.split('\n');  // Split the code string into an array of lines
-        for (var i = 0; i < codeLines.length; i++) {
-            // Print each line separately
-            terminal.innerHTML += '<p>' + codeLines[i] + '</p>';
-        }
-        console.log(code);
-    }
-    
-		</script>
     <button onclick="myFunction()">Toggle dark mode</button>
 
     <script>

@@ -93,6 +93,7 @@ class Agent():
         robot = FossBot(parameters=parameters)
         coms = Communication()
         transmit = coms.transmit
+        print = transmit
         exec(code)
         
         robot.exit()

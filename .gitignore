@@ -6,4 +6,4 @@ dist/
 data/
 **/__pycache__/
 blockly_server/robot/__pycache__/
-
+blockly_server/lib

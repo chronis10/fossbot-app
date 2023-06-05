@@ -11,7 +11,7 @@ import json
 import sys
 import webbrowser
 from xml.dom import minidom
-# from robot.roboclass import Agent
+from robot.roboclass import Agent
 from multiprocessing import Process,freeze_support
 from threading import Thread
 from flask_babel import Babel
@@ -62,7 +62,7 @@ app.config['BABEL_DEFAULT_LOCALE'] = LOCALE
 CORS(app)
 socketio = SocketIO(app)
 db = SQLAlchemy(app)
-# agent = Agent()
+agent = Agent()
 
 class Projects(db.Model, SerializerMixin):
     project_id = db.Column('project_id', db.Integer, primary_key = True)
@@ -75,7 +75,8 @@ class Projects(db.Model, SerializerMixin):
 def execute_blocks(code):
     agent.execute(code)
     
-
+def execute_monaco(code):
+    agent.execute(code)
 
 def get_locale():
     global LOCALE
@@ -304,6 +305,26 @@ def handle_execute_blockly(data):
         print(e)
         emit('execute_blockly_result',  {'status': 'error when creating .py file or when running the .py file'})
 
+@socketio.on('execute_monaco')
+def handle_execute_monaco(data):
+    # relay_to_robot(json.dumps(data))
+    global SCRIPT_PROCCESS
+    # socketio.emit('execute_monaco_robot', {'status': '200', 'result': 'Code saved with success'})
+    try:
+        id = data['id']
+        code = data['code']
+        # print(code)
+        try:
+            stop_script()
+            SCRIPT_PROCCESS = Process(target=execute_monaco, args=(code,),daemon=True)
+            SCRIPT_PROCCESS.start()
+        except Exception as e:
+            print(e)
+        emit('execute_monaco_result', {'status': '200'})
+    except Exception as e:
+        print(e)
+        emit('execute_monaco_result',  {'status': 'error when creating .py file or when running the .py file'})
+
 @socketio.on('open_audio_folder')
 def open_audio_folder():
     os.startfile(os.path.realpath(os.path.join(DATA_DIR,'sound_effects')))
@@ -456,7 +477,8 @@ if __name__ == '__main__':
     if not DOCKER:
         # systray = Thread(target=systray_agent,daemon=True)
         # systray.start()
-        webbrowser.open_new("http://127.0.0.1:8081")
+        pass
+        # webbrowser.open_new("http://127.0.0.1:8081")
     with app.app_context():
         before_first_request()
     socketio.run(app, host = '0.0.0.0',port=8081, debug=DEBUG)
