@@ -19,7 +19,7 @@
   </style>
   <title>Monaco Project</title>
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <!-- <script src="https://unpkg.com/blockly"></script> -->
+  
   <script src="{{ url_for('static',filename='modules/blockly.min.js')}}"></script>
   <script src="{{ url_for('static',filename='modules/blockly_compressed.js')}}"></script>
   <script src="{{ url_for('static',filename='modules/blocks_compressed.js')}}"></script>
@@ -31,7 +31,7 @@
   <script src="{{ url_for('static',filename='modules/axios.min.js')}}"></script>
   <script src="{{ url_for('static',filename='modules/socket.io@4.0.1.js')}}"></script>
 
-  <!-- <script src="{{ url_for('static',filename='js/control.js')}}"></script> -->
+  
   <script src="{{ url_for('static',filename='js/socket-client.js')}}"></script>
   <script src="{{ url_for('static',filename='js/modals.js')}}"></script>
   <script defer src="{{ url_for('static',filename='js/monaco-page.js')}}"></script> 
@@ -63,21 +63,34 @@
 			crossorigin="anonymous"
 		></script>
     
-    <button onclick="myFunction()">Toggle dark mode</button>
-
     <script>
-    function myFunction() {
-      var element = document.body;
-      element.classList.toggle("dark-mode");
-    }
+      function copyFunction(functionName) {
+        const textarea = document.createElement('textarea');
+        textarea.value = functionName;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+    
+        alert('Copied: ' + functionName);
+      }
     </script>
-  <div id="main-container">
-    <div class="row custom_row">
-      <div class="col-9" >
-        <!-- <div class="drop_shadow" id="blocklyDiv"></div> -->
-        <div class="drop_shadow" id="container" style="width:800px;height:600px;border:1px solid grey"></div>
+
+  <div id="main-container" style="display: flex;">
+      
+      
+
+    <div class="row custom_row no-gutters">
+      <div class="col">
+        <div class="drop_shadow" id="left-column" style="width: 300px; height:1080px;  background-color: rgb(202, 201, 200);">
+          <p onclick="copyFunction('print()')">print()</p>
+        </div>  
       </div>
-        <div id="buttons-container-right" class="col">
+      <div class="col-9" >        
+        <div class="drop_shadow" id="container" style="width:1500px;height:1080px;border:1px solid grey; "></div>
+      </div>
+      
+        <div id="buttons-container-right" class="col" style="margin-left: -10px;">
 
           <div id='button__headers_row'>
             <div id="button_fa_wrap">
@@ -86,7 +99,7 @@
               </a>
               
             </div>
-            <!-- <div id="button_spacer"></div> -->
+            
             <div id="button_fa_wrap" >
               <a href='/'   style="color: rgb(255, 136, 0); text-decoration: none;">
               <i class="fa-solid fa-house"></i>
@@ -95,8 +108,8 @@
          </div>  
         <div class="drop_shadow" id="terminal_div">
           <div id="terminal_scrollable-content">
-          <p>FossBot Terminal...</p>
-        </div>
+            <p>FossBot Terminal...</p>
+          </div>
         </div>
       <br>
         <div id="button__controls_row">
