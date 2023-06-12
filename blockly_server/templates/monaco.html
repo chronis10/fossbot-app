@@ -5,17 +5,42 @@
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-  body {
-    padding: 25px;
-    background-color: white;
-    color: black;
-    font-size: 25px;
-  }
+    body {
+      padding: 25px;
+      background-color: white;
+      color: black;
+      font-size: 25px;
+    }
 
-  .dark-mode {
-    background-color: rgb(39, 36, 36);
-    color: white;
-  }
+    .dark-mode {
+      background-color: rgb(39, 36, 36);
+      color: white;
+    }
+
+    .accordion {
+      background-color: #eee;
+      color: #444;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+      transition: 0.4s;
+    }
+    
+    .active, .accordion:hover {
+      background-color: #ccc;
+    }
+    
+    .panel {
+      padding: 0 18px;
+      background-color: white;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+    }
   </style>
   <title>Monaco Project</title>
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -83,7 +108,61 @@
     <div class="row custom_row no-gutters">
       <div class="col">
         <div class="drop_shadow" id="left-column" style="width: 300px; height:1080px;  background-color: rgb(202, 201, 200);">
-          <p onclick="copyFunction('print()')">print()</p>
+
+          <h6 style="font-weight: bold;">Click on the function name to copy it.</h6>
+          {% for item in instructions['commands'] %}
+          {% set command = item['command'] %}
+          
+          <button class="accordion" style="font-weight: bold;">{{item['name']}}</button>
+          <div class="panel">
+            <br>
+            <p>{{item['description']}}.</p>
+            <i class="fa-solid fa-copy"></i>
+            <p onclick="copyFunction('{{command}}')" style="font-weight: bold;">{{command}}</p>
+            
+    
+          </div>
+          {% endfor%}
+
+
+          <!-- <button class="accordion" style="font-weight: bold;">Movement</button>
+          <div class="panel">
+            <p onclick="copyFunction('just_move()')" style="font-weight: bold;">-- just_move(self, direction: str = "forward")</p>
+            <p><small> Move forward/backwards. <br>
+              Param: direction: the direction to be headed to.</small>
+            </p>
+            <p onclick="copyFunction('move_distance()')" style="font-weight: bold;">-- move_distance(self, dist: float, direction: str = "forward")</p>
+            <p><small>  Moves to input direction (default == forward) a specified - input distance (cm). <br>
+              Param: dist: the distance to be moved (in cm). <br>
+              direction: the direction to be moved towards.</small>
+            </p>
+
+          </div>
+
+          <button class="accordion" style="font-weight: bold;">Moving Forward</button>
+          <div class="panel">
+            <p onclick="copyFunction('move_forward_distance()')" style="font-weight: bold;">-- move_forward_distance(self, dist: float)</p>
+            <p><small>Moves robot forward input distance. <br>
+              Param: dist: the distance (cm) to be moved by robot.</small>
+            </p>
+          </div> -->
+
+          <script>
+          var acc = document.getElementsByClassName("accordion");
+          var i;
+
+          for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+              this.classList.toggle("active");
+              var panel = this.nextElementSibling;
+              if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+              } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+              } 
+            });
+          }
+          </script>
         </div>  
       </div>
       <div class="col-9" >        

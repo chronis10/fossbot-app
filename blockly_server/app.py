@@ -138,9 +138,15 @@ def handle_get_all_projects():
 
     emit('all-projects', { 'status': '200', 'data': projects_list})
 
+def load_monaco_instrunctions(languange: str = 'en') -> dict:
+    with open(f'instructions/library_{languange}.json') as json_file:
+        data = json.load(json_file)
+    return data
+
 
 @app.route('/monaco')
 def monaco():
+    instructions = load_monaco_instrunctions('en')
     stop_now()
     id = request.args.get('id') 
     print("------------------>",id)
@@ -148,7 +154,7 @@ def monaco():
     get_sound_effects()
     scenes = get_scenes()
     locale = LOCALE
-    return render_template('monaco.html', project_id=id, robot_name=robot_name,locale=locale,scenes=scenes)  
+    return render_template('monaco.html', project_id=id, robot_name=robot_name,instructions=instructions,locale=locale,scenes=scenes)  
 
 @app.route('/blockly')
 def blockly():

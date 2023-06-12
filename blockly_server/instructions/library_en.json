@@ -1,0 +1,15 @@
+{
+    "commands": [
+    {
+        "name" : "Move forward",
+        "description": "Hello World",
+        "command" : "robot.move_forward()"
+    },
+    {
+        "name" : "Move forward",
+        "description": " Moves to input direction (default == forward) a specified - input distance (cm). <br> Param: dist: the distance to be moved (in cm). direction: the direction to be moved towards.",
+        "command" : "robot.move_forward()"
+    }
+    ]
+
+}
