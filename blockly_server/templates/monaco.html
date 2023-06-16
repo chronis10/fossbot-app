@@ -45,9 +45,6 @@
   <title>Monaco Project</title>
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   
-  <script src="{{ url_for('static',filename='modules/blockly.min.js')}}"></script>
-  <script src="{{ url_for('static',filename='modules/blockly_compressed.js')}}"></script>
-  <script src="{{ url_for('static',filename='modules/blocks_compressed.js')}}"></script>
   <script src="{{ url_for('static',filename='modules/msg/'+locale+'.js')}}"></script>
   <script src="{{ url_for('static',filename='modules/jquery-3.5.0.js')}}"></script>
   <script src="{{ url_for('static',filename='modules/python_compressed.js')}}"></script>
@@ -107,7 +104,7 @@
 
     <div class="row custom_row no-gutters">
       <div class="col">
-        <div class="drop_shadow" id="left-column" style="width: 300px; height:1080px;  background-color: rgb(202, 201, 200);">
+        <div class="drop_shadow" id="left-column" style="width: 100%; min-height: 100%; background-color: rgb(202, 201, 200);">
 
           <h6 style="font-weight: bold;">Click on the function name to copy it.</h6>
           {% for item in instructions['commands'] %}
@@ -166,7 +163,7 @@
         </div>  
       </div>
       <div class="col-9" >        
-        <div class="drop_shadow" id="container" style="width:1500px;height:1080px;border:1px solid grey; "></div>
+        <div class="drop_shadow" id="container" style="width:70%; min-height: 100%; "></div>
       </div>
       
         <div id="buttons-container-right" class="col" style="margin-left: -10px;">
@@ -185,13 +182,16 @@
               </a>
             </div>
          </div>  
-        <div class="drop_shadow" id="terminal_div">
-          <div id="terminal_scrollable-content">
-            <p>FossBot Terminal...</p>
+         <div class="col-3">
+          <div class="drop_shadow" id="terminal_div" style="margin-left: -10px; width: 150px">
+            <div id="terminal_scrollable-content">
+              <p>FossBot Terminal...</p>
+            </div>
           </div>
         </div>
       <br>
         <div id="button__controls_row">
+
         <div id="button_fa_wrap_controls">
           <a onclick="runCode('{{ project_id }}')" href="#"  style="color: rgb(56, 199, 0); text-decoration: none;">
           <i class="fa-solid fa-circle-play"></i>
