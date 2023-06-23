@@ -1,15 +1,191 @@
 {
-    "commands": [
-    {
-        "name" : "Move forward",
-        "description": "Hello World",
-        "command" : "robot.move_forward()"
-    },
-    {
-        "name" : "Move forward",
-        "description": " Moves to input direction (default == forward) a specified - input distance (cm). <br> Param: dist: the distance to be moved (in cm). direction: the direction to be moved towards.",
-        "command" : "robot.move_forward()"
-    }
+    "commands": {
+        "movement":[
+        {
+            "name" : "Just Move",
+            "description": "Moves forwards/backwords <br> Param: direction: the direction to be headed to.",
+            "command" : "robot.just_move()"
+        },
+        {
+            "name" : "Move Distance",
+            "description": "Moves to input direction (default == forward) a specified - input distance (cm). <br> Param: dist: the distance to be moved (in cm). direction: the direction to be moved towards.",
+            "command" : "robot.move_distance()"
+        },
+        {
+            "name" : "Reset Direction",
+            "description": "Resets all motors direction to default (forward).",
+            "command" : "robot.reset_dir()"
+        },
+        {
+            "name" : "Stop Moving",
+            "description": "Robot stops moving",
+            "command" : "robot.stop()"
+        },
+        {
+            "name" : "Wait(sleep)",
+            "description": "Wait (sleeps) for an amount of time. <br> Param: time_s: the time (seconds) of sleep.",
+            "command" : "robot.wait()"
+        }
+    ],
+        "moving forward":[
+        {
+            "name" : "Move forward distance",
+            "description": "Moves robot forward input distance. <br> Param: dist: the distance (cm) to be moved by robot.",
+            "command" : "robot.move_forward_distance()"
+        },
+        {
+            "name" : "Move forward default",
+            "description": "Moves robot forward default distance.",
+            "command" : "robot.default()"
+        },
+        {
+            "name" : "Move forward",
+            "description": "Moves robot forward.",
+            "command" : "robot.move_forward()"
+        }
+        ],
+        "moving reverse": [
+        {
+            "name" : "Move reverse distance",
+            "description": "Moves robot input distance in reverse. <br> Param: dist: the distance (cm) to be moved by robot.",
+            "command" : "robot.move_reverse_distance()"
+        },
+        {
+            "name" : "Move reverse default",
+            "description": "Moves robot default distance in reverse.",
+            "command" : "robot.move_reverse_default()"
+        },
+        {
+            "name" : "Move reverse",
+            "description": "Moves robot in reverse.",
+            "command" : "robot.move_reverse()"
+        }
+        ],
+        "rotation": [
+        {
+            "name" : "Just rotate",
+            "description": "Rotates fossbot towards the specified direction id. <br> Param: dir_id: the direction id to rotate to: <br> - counterclockwise: dir_id == 0 <br> - clockwise: dir_id == 1",
+            "command" : "robot.just_rotate()"
+        },
+        {
+            "name" : "Rotate 90 degrees",
+            "description": "Rotates fossbot 90 degrees towards the specified direction id. <br> Param: dir_id: the direction id to rotate 90 degrees: <br> - counterclockwise: dir_id == 0 <br> - clockwise: dir_id == 1",
+            "command" : "robot.rotate_90()"
+        },
+        {
+            "name" : "Rotate clockwise",
+            "description": "Rotates fossbot clockwise.",
+            "command" : "robot.rotate_clockwise()"
+        },
+        {
+            "name" : "Rotate counterclockwise",
+            "description": "Rotates fossbot counterclockwise.",
+            "command" : "robot.rotate_counterclockwise()"
+        },
+        {
+            "name" : "Rotate clockwise 90 degrees",
+            "description": "Rotates fossbot 90 degrees clockwise.",
+            "command" : "robot.rotate_clockwise_90()"
+        },
+        {
+            "name" : "Rotate counterclockwise 90 degrees",
+            "description": "Rotates fossbot 90 degrees counterclockwise.",
+            "command" : "robot.rotate_counterclockwise_90()"
+        }
+        ],
+        "ultrasonic sensor": [
+        {
+            "name" : "Distance counter",
+            "description": "Returns distance of nearest obstacle in cm.",
+            "command" : "robot.get_distance()"
+        },
+        {
+            "name" : "Check for obstacle",
+            "description": "Returns True only if an obstacle is detected.",
+            "command" : "robot.check_for_obstacle()"
+        }
+        ],
+        "sound": [
+        {
+            "name" : "Play sound",
+            "description": "Plays mp3 file specified by input audio_path. <br> Param: audio_path: the path to the mp3 file to be played.",
+            "command" : "robot.play_sound()"
+        }
+        ],
+        "floor sensors": [
+        {
+            "name" : "Get reading of floor - line sensor",
+            "description": "Gets reading of a floor - line sensor specified by sensor_id. <br> Param: sensor_id: the id of the wanted floor - line sensor. <br> Returns: the reading of input floor - line sensor.",
+            "command" : "robot.get_floor_sensor()"
+        },
+        {
+            "name" : "Check if on black line", 
+            "description": "Checks if line sensor (specified by sensor_id) is on black line. <br> Param: sensor_id: the id of the wanted floor - line sensor. <br> Returns: True if sensor is on line, else False.",
+            "command" : "robot.get_floor_sensor()"
+        }
+        ],
+        "accelerometer": [
+        {
+            "name" : "Get acceleration", 
+            "description": "Gets acceleration of specified axis. <br> Param: axis: the axis to get the acceleration from. <br> Returns: the acceleration of specified axis.",
+            "command" : "robot.get_acceleration()"
+        },
+        {
+            "name" : "Get gyroscope", 
+            "description": "Gets gyroscope of specified axis. <br> Param: axis: the axis to get the gyroscope from. <br> Returns: the gyroscope of specified axis.",
+            "command" : "robot.get_gyroscope()"
+        }
+        ],
+        "RGB": [
+        {
+            "name" : "Set RGB color", 
+            "description": "Sets led to input color. <br> Param: color: the wanted color.",
+            "command" : "robot.rgb_set_color()"
+        }
+        ],
+        "light sensor": [
+        {
+            "name" : "Get light sensor", 
+            "description": "Returns the reading of the light sensor.",
+            "command" : "robot.get_light_sensor()"
+        },
+        {
+            "name" : "Check if dark", 
+            "description": "Returns True only if light sensor detects dark.",
+            "command" : "robot.check_for_dark()"
+        }
+        ],
+        "noise detection": [
+        {
+            "name" : "Get noise detection", 
+            "description": "Returns True only if noise is detected.",
+            "command" : "robot.get_noise_detection()"
+        }
+        ],
+        "exit": [
+        {
+            "name" : "Exit", 
+            "description": "Exits.",
+            "command" : "robot.exit()"
+        }
+        ],
+        "timer": [
+        {
+            "name" : "Stop timer", 
+            "description": "Stops the timer.",
+            "command" : "robot.stop_timer()"
+        },
+        {
+            "name" : "Start timer", 
+            "description": "Starts the timer.",
+            "command" : "robot.start_timer()"
+        },
+        {
+            "name" : "Time from start", 
+            "description": "Returns the time from start.",
+            "command" : "robot.get_elapsed()"
+        }
     ]
+    }
 
 }

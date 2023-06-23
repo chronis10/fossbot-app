@@ -43,6 +43,8 @@ body {
 }
 #terminal_div{
   margin-top:10px;
+  margin-left: -100%; 
+  margin-right: 20px;
   padding:10px;
   background-color: black;
   color: #fff;

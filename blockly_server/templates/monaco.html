@@ -10,6 +10,9 @@
       background-color: white;
       color: black;
       font-size: 25px;
+      height: 100%;
+      margin: 0;
+      padding: 0;
     }
 
     .dark-mode {
@@ -98,7 +101,7 @@
       }
     </script>
 
-  <div id="main-container" style="display: flex;">
+  <div id="main-container">
       
       
 
@@ -106,19 +109,22 @@
       <div class="col">
         <div class="drop_shadow" id="left-column" style="width: 100%; min-height: 100%; background-color: rgb(202, 201, 200);">
 
-          <h6 style="font-weight: bold;">Click on the function name to copy it.</h6>
-          {% for item in instructions['commands'] %}
-          {% set command = item['command'] %}
-          
-          <button class="accordion" style="font-weight: bold;">{{item['name']}}</button>
-          <div class="panel">
-            <br>
-            <p>{{item['description']}}.</p>
-            <i class="fa-solid fa-copy"></i>
-            <p onclick="copyFunction('{{command}}')" style="font-weight: bold;">{{command}}</p>
-            
-    
-          </div>
+          <h6 style="font-weight: bold;">Click copy icon to copy function.</h6>
+          {% for category, commands in instructions['commands'].items() %}
+            <button class="accordion" style="font-weight: bold;">{{ category }}</button>
+            <div class="panel">
+            {% for item in commands %}
+              {% set command = item['command'] %}            
+              <div>
+                <br>
+                <p>{{item['name']}}.</p>           
+                <p>{{item['description']}}.</p>           
+                <p style="font-weight: bold;">
+                  {{command}} <i onclick="copyFunction('{{command}}')" class="fa-solid fa-copy"></i>
+                </p>    
+              </div>
+            {% endfor%}
+            </div>
           {% endfor%}
 
 
@@ -163,47 +169,50 @@
         </div>  
       </div>
       <div class="col-9" >        
-        <div class="drop_shadow" id="container" style="width:70%; min-height: 100%; "></div>
+        <div class="drop_shadow" id="container" style="width:80%; min-height: 100%; "></div>
       </div>
       
-        <div id="buttons-container-right" class="col" style="margin-left: -10px;">
+      <div id="buttons-container-right" class="col">
 
-          <div id='button__headers_row'>
-            <div id="button_fa_wrap">
-              <a onclick="save_xml('{{ project_id }}')" href="#" id="open-home-href" style="color: rgb(24, 21, 148); text-decoration: none;">
-              <i class="fa-solid fa-floppy-disk"></i>
-              </a>
-              
-            </div>
+        <div id='button__headers_row'>
+          <div id="button_fa_wrap">
+            <a onclick="save_xml('{{ project_id }}')" href="#" id="open-home-href" style="color: rgb(24, 21, 148); text-decoration: none;">
+            <i class="fa-solid fa-floppy-disk"></i>
+            </a>
             
-            <div id="button_fa_wrap" >
-              <a href='/'   style="color: rgb(255, 136, 0); text-decoration: none;">
-              <i class="fa-solid fa-house"></i>
-              </a>
-            </div>
-         </div>  
-         <div class="col-3">
-          <div class="drop_shadow" id="terminal_div" style="margin-left: -10px; width: 150px">
-            <div id="terminal_scrollable-content">
-              <p>FossBot Terminal...</p>
-            </div>
           </div>
-        </div>
-      <br>
-        <div id="button__controls_row">
+          
+          <div id="button_fa_wrap" >
+            <a href='/'   style="color: rgb(255, 136, 0); text-decoration: none;">
+            <i class="fa-solid fa-house"></i>
+            </a>
+          </div>
+       </div>  
+      
+       
+      <div class="drop_shadow" id="terminal_div">
+        <div id="terminal_scrollable-content">
+        <p>FossBot Terminal...</p>
+      </div>
+      </div>
+      
 
-        <div id="button_fa_wrap_controls">
-          <a onclick="runCode('{{ project_id }}')" href="#"  style="color: rgb(56, 199, 0); text-decoration: none;">
-          <i class="fa-solid fa-circle-play"></i>
-          </a>
-        </div>
-        <div id="button_fa_wrap_controls">
-          <a onclick="stop_script()" href="#"  style="color: rgb(199, 30, 0); text-decoration: none;">
-          <i class="fa-solid fa-circle-stop"></i>
-          </a>
-        </div>
+    <br>
+    
+    <div id="button__controls_row">
+
+      <div id="button_fa_wrap_controls">
+        <a onclick="runCode('{{ project_id }}')" href="#"  style="color: rgb(56, 199, 0); text-decoration: none;">
+        <i class="fa-solid fa-circle-play"></i>
+        </a>
       </div>
+      <div id="button_fa_wrap_controls">
+        <a onclick="stop_script()" href="#"  style="color: rgb(199, 30, 0); text-decoration: none;">
+        <i class="fa-solid fa-circle-stop"></i>
+        </a>
       </div>
+    </div>
+    </div>
     </div>
     <!-- {% include 'footer.html' %} -->
   </div>
