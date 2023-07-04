@@ -371,6 +371,12 @@ def export_project(id):
     path = os.path.join(PROJECT_DIR,f'{id}/{id}.xml')
     return send_file(path, as_attachment=True)
 
+@app.route('/export_monaco_project/<int:id>')
+def export_monaco_project(id):
+    print(id)
+    path = os.path.join(PROJECT_DIR,f'{id}/{id}.py')
+    return send_file(path, as_attachment=True)
+
 @app.route('/upload_project', methods=[ 'POST'])
 def upload_project():    
     if request.method == 'POST':
@@ -390,6 +396,28 @@ def upload_project():
         db.session.refresh(project)        
         os.mkdir(os.path.join(PROJECT_DIR,f'{project.project_id}'))
         with open(os.path.join(PROJECT_DIR,f'{project.project_id}/{project.project_id}.xml'), "w", encoding="utf8") as fh:
+            fh.write(data)
+    return redirect("/")
+
+@app.route('/upload_monaco_project', methods=[ 'POST'])
+def upload_monaco_project():    
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return redirect("/")
+        file = request.files['file']
+        if file.filename == '':
+            return redirect("/")
+        data = file.read().decode('utf-8')
+        docs = minidom.parseString(data)
+        pjs = docs.getElementsByTagName('project')[0]
+        title = pjs.getElementsByTagName('title')[0].firstChild.data
+        info = pjs.getElementsByTagName('description')[0].firstChild.data
+        project = Projects(title,info)
+        db.session.add(project)
+        db.session.commit()
+        db.session.refresh(project)        
+        os.mkdir(os.path.join(PROJECT_DIR,f'{project.project_id}'))
+        with open(os.path.join(PROJECT_DIR,f'{project.project_id}/{project.project_id}.py'), "w", encoding="utf8") as fh:
             fh.write(data)
     return redirect("/")
 
