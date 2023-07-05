@@ -15,6 +15,7 @@ from robot.roboclass import Agent
 from multiprocessing import Process,freeze_support
 from threading import Thread
 from flask_babel import Babel
+import pickle
 
 DOCKER = False
 BASED_DIR = '/app' 
@@ -68,9 +69,14 @@ class Projects(db.Model, SerializerMixin):
     project_id = db.Column('project_id', db.Integer, primary_key = True)
     title = db.Column(db.String(100))
     info = db.Column(db.String(500))
-    def __init__(self, title,info):
+    editor = db.Column(db.String(100))
+    data = db.Column(db.Text)
+    def __init__(self, title,info, editor, data=None):
         self.title = title
         self.info = info
+        self.editor = editor
+        self.data = data
+
 
 def execute_blocks(code):
     agent.execute(code)
@@ -226,12 +232,13 @@ def handle_projects():
 def handle_new_project(data):
     title = data['title']
     info = data['info']
-    project = Projects(title,info)
+    editor = data['editor']
+    project = Projects(title, info, editor)
     db.session.add(project)
     db.session.commit()
     db.session.refresh(project)
-    os.mkdir(os.path.join(PROJECT_DIR,f'{project.project_id}'))
-    shutil.copy(os.path.join(APP_DIR,'utils/code_templates/template.xml'),os.path.join(PROJECT_DIR,f'{project.project_id}/{project.project_id}.xml'))
+    # os.mkdir(os.path.join(PROJECT_DIR,f'{project.project_id}'))
+    # shutil.copy(os.path.join(APP_DIR,'utils/code_templates/template.xml'),os.path.join(PROJECT_DIR,f'{project.project_id}/{project.project_id}.xml'))
     emit('new_project_result', { 'status': '200', 'project_id': project.project_id }) 
 
 @socketio.on('delete_project')
@@ -344,26 +351,46 @@ def open_map_folder():
 def handle_send_xml(data):
     try:
         id = data['id']
-        with open (os.path.join(PROJECT_DIR,f'{id}/{id}.xml'), "r", encoding="utf8") as myfile:
-            data=myfile.readlines()
+        project = db.session.query(Projects).get(id)
+        serialized_data = project.data
+        data = serialized_data
+
+        # with open (os.path.join(PROJECT_DIR,f'{id}/{id}.xml'), "r", encoding="utf8") as myfile:
+            # data=myfile.readlines()
         emit('send_xml_result', {'status': '200', 'data': data})   
     except Exception as e:
+        print(e)
         emit('send_xml_result',  {'status': 'file not found'})
+
+# @socketio.on('save_xml')
+# def handle_save_xml(data):
+#     try: 
+#         id = data['id']
+#         code = data['code']        
+#         project = Projects.query.get(id)        
+#         code = code.replace('</xml>','')
+#         extra_info = ''.join(['  <project>\n', f'    <title>{project.title}</title>\n', f'    <description>{project.info}</description>\n', '  </project>\n', '</xml>'])
+#         code += extra_info
+#         with open(os.path.join(PROJECT_DIR,f'{id}/{id}.xml'), "w", encoding="utf8") as fh:
+#             fh.write(code)
+#         emit('save_xml_result', {'status': '200', 'result': 'Code saved with success'})
+#     except Exception as e:
+#         emit('save_xml_result',  {'status': 'error occured', 'result': 'Code was not saved'})
+
 
 @socketio.on('save_xml')
 def handle_save_xml(data):
     try: 
         id = data['id']
         code = data['code']        
-        project = Projects.query.get(id)        
-        code = code.replace('</xml>','')
-        extra_info = ''.join(['  <project>\n', f'    <title>{project.title}</title>\n', f'    <description>{project.info}</description>\n', '  </project>\n', '</xml>'])
-        code += extra_info
-        with open(os.path.join(PROJECT_DIR,f'{id}/{id}.xml'), "w", encoding="utf8") as fh:
-            fh.write(code)
+        project = Projects.query.get(id) 
+        project.data = code  
+        db.session.add(project)
+        db.session.commit()
         emit('save_xml_result', {'status': '200', 'result': 'Code saved with success'})
     except Exception as e:
         emit('save_xml_result',  {'status': 'error occured', 'result': 'Code was not saved'})
+
 
 @app.route('/export_project/<int:id>')
 def export_project(id):

@@ -109,6 +109,31 @@ label, button {
 
 }
 
+#button-editor {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 150px;
+}
+
+.modal-editor-icons {
+  cursor: pointer;
+}
+
+.modal-editor-icons input[type="radio"] {
+  display: none;
+}
+
+.modal-editor-icons input[type="radio"]:checked + label img {
+  border: 2px solid blue;  /* Change this to style the selected item */
+}
+
+
+
+
+
 .text-and-image-line{
  
   vertical-align:middle;

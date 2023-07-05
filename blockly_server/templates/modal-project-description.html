@@ -14,6 +14,24 @@
         <div class="form-group" id="form-project-description">
           <input type="text" id="project-description-text">
         </div>
+        <br>
+        <strong id="modal-project-description-space-text">{{ gettext('Please select programming mode for your new project:')}}</strong>
+        <div id="button-editor">
+          <div class="modal-editor-icons">
+              <input onclick="getRadio()" type="radio" id="blockly" name="editor" value="blockly" checked="True">
+              <label for="blockly">
+                  <img class="selectable" src="{{ url_for('static', filename='/photos/blockly.png') }}">
+              </label>
+          </div>
+          <div class="modal-editor-icons">
+              <input onclick="getRadio()" type="radio" id="python" name="editor" value="python">
+              <label for="python">
+                  <img class="selectable" src="{{ url_for('static', filename='/photos/python-logo.png') }}">
+              </label>
+          </div>
+      </div>
+      
+            
       </div>
 
       <!-- Modal footer -->

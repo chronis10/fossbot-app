@@ -2,6 +2,7 @@
 let new_project_title;
 let new_project_description;
 let last_table_size = 0;
+let editor = 'blockly';
 
 function loadProjects(data) {
     console.log('load projects');
@@ -28,7 +29,7 @@ function loadProjects(data) {
                     '<tr>' +
                     '<td>' + project['title'] +'</td>'+
                     '<td>' + project['info'] +'</td>'+
-                
+                    '<td>' + project['editor'] +'</td>'+
                     // '<td> ' + 
                     // `<div id="button__controls_row">
                     //             <div id="button_fa_wrap_controls_table">
@@ -113,10 +114,11 @@ function createNewProject() {
             closeModalNewProjectName();
 
             //empty the input value 
-            document.getElementById("project-name-text").value = " ";
+            document.getElementById("project-name-text").value = "";
 
             //open decription modal
-            showModalNewProjectDescription()
+            showModalNewProjectDescription();
+            
         }
     }
 
@@ -125,17 +127,22 @@ function createNewProject() {
 async function getDescription() {
     //get the input value 
     new_project_description = document.getElementById("project-description-text").value
+    editor = document.querySelector('input[type=radio][name="editor"]:checked').value;
 
     if (new_project_description != '') {
         //close the modal 
         closeModalNewProjectDescription();
 
         //empty the input value 
-        document.getElementById("project-description-text").value = " ";
+        document.getElementById("project-description-text").value = "";
 
-        const result = await newProject(new_project_title,new_project_description)
+        const result = await newProject(new_project_title,new_project_description, editor)
         console.log('result is ', result)
-        window.location.replace('/blockly?id='+ result.project_id)
+        if (editor == 'blockly') {
+            window.location.replace('/blockly?id='+ result.project_id)
+        } else {
+            window.location.replace('/monaco?id='+ result.project_id)
+        }
     }
 }
 

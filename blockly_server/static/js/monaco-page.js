@@ -20,7 +20,7 @@ function getCode() {
         // Print each line separately
         terminal.innerHTML += '<p>' + codeLines[i] + '</p>';
     }
-    console.log(code);
+    return code;
 }
 
 //send the code from thw workspace to be run in the robot 
@@ -56,4 +56,15 @@ async function runCode(id) {
   //stop the code that was being exeuted in the robot 
   function stop_script() {
     stopScript();
+  }
+
+  async function save_xml(id) {
+    let xmlText = getCode();
+    const result = await saveXml(id, xmlText)
+    const status = result.status
+    if (status == '200') {
+      showModalSuccess("Project Saved!");
+    } else {
+      showModalError("Error on saving!")
+    }
   }
