@@ -23,6 +23,14 @@ function loadProjects(data) {
         if (last_table_size !=  projects_array.length){
             for (var i = 0; i < projects_array.length; i++) {
                 const project = projects_array[i];
+                
+                // check editor type
+                var editorURL;
+                if(project['editor'] == 'blockly') {
+                    editorURL = "/blockly?id=" + project['project_id'];
+                } else if(project['editor'] == 'python') {
+                    editorURL = "/monaco?id=" + project['project_id'];
+                }
 
                 //add every time the the project name as the last row
                 document.getElementById("body-table-projects").insertRow(-1).innerHTML =
@@ -56,7 +64,7 @@ function loadProjects(data) {
                     '<td>' + 
                     `<div id="button__controls_row">
                                 <div id="button_fa_wrap_controls_table">
-                                <a href="/blockly?id=` + project['project_id'] +`"  style="color: rgb(255, 175, 2); text-decoration: none;">
+                                <a href="`+ editorURL + `"  style="color: rgb(255, 175, 2); text-decoration: none;">
                                 <i class="fa-solid fa-pencil"></i>
                                 </a>
                                 </div>` +

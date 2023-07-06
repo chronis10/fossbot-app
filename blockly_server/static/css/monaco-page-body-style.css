@@ -41,6 +41,7 @@ body {
   flex-direction: row;
   /* padding: 0.5%; */
 }
+
 #terminal_div{
   margin-top:10px;
   margin-left: -100%; 
@@ -54,6 +55,18 @@ body {
   border-radius: 8px;
   line-height: 0.1;
 }
+
+/* #terminal_div{
+  margin-top:10px;
+  padding:10px;
+  background-color: black;
+  color: #fff;
+  font-size: 14px;
+  height: 30vh;
+  border: 10px solid rgb(3, 3, 3);
+  border-radius: 8px;
+  line-height: 0.1;
+} */
 
 #terminal_scrollable-content {
   height: 25vh;

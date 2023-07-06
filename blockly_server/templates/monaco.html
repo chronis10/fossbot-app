@@ -5,21 +5,6 @@
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      padding: 25px;
-      background-color: white;
-      color: black;
-      font-size: 25px;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    .dark-mode {
-      background-color: rgb(39, 36, 36);
-      color: white;
-    }
-
     .accordion {
       background-color: #eee;
       color: #444;
@@ -85,29 +70,27 @@
   <script
 			src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"
 			integrity="sha256-0SGl1PJNDyJwcV5T+weg2zpEMrh7xvlwO4oXgvZCeZk="
-			crossorigin="anonymous"
-		></script>
+			crossorigin="anonymous">
+  </script>
     
-    <script>
-      function copyFunction(functionName) {
-        const textarea = document.createElement('textarea');
-        textarea.value = functionName;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-    
-        alert('Copied: ' + functionName);
-      }
-    </script>
+  <script>
+    function copyFunction(functionName) {
+      const textarea = document.createElement('textarea');
+      textarea.value = functionName;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+  
+      alert('Copied: ' + functionName);
+    }
+  </script>
 
   <div id="main-container">
-      
-      
 
     <div class="row custom_row no-gutters">
-      <div class="col">
-        <div class="drop_shadow" id="left-column" style="width: 100%; min-height: 100%; background-color: rgb(202, 201, 200);">
+      <div class="col-md-2">
+        <div class="drop_shadow" id="left-column" style="background-color: rgb(202, 201, 200);">
 
           <h6 style="font-weight: bold;">Click copy icon to copy function.</h6>
           {% for category, commands in instructions['commands'].items() %}
@@ -126,29 +109,6 @@
             {% endfor%}
             </div>
           {% endfor%}
-
-
-          <!-- <button class="accordion" style="font-weight: bold;">Movement</button>
-          <div class="panel">
-            <p onclick="copyFunction('just_move()')" style="font-weight: bold;">-- just_move(self, direction: str = "forward")</p>
-            <p><small> Move forward/backwards. <br>
-              Param: direction: the direction to be headed to.</small>
-            </p>
-            <p onclick="copyFunction('move_distance()')" style="font-weight: bold;">-- move_distance(self, dist: float, direction: str = "forward")</p>
-            <p><small>  Moves to input direction (default == forward) a specified - input distance (cm). <br>
-              Param: dist: the distance to be moved (in cm). <br>
-              direction: the direction to be moved towards.</small>
-            </p>
-
-          </div>
-
-          <button class="accordion" style="font-weight: bold;">Moving Forward</button>
-          <div class="panel">
-            <p onclick="copyFunction('move_forward_distance()')" style="font-weight: bold;">-- move_forward_distance(self, dist: float)</p>
-            <p><small>Moves robot forward input distance. <br>
-              Param: dist: the distance (cm) to be moved by robot.</small>
-            </p>
-          </div> -->
 
           <script>
           var acc = document.getElementsByClassName("accordion");
@@ -170,6 +130,7 @@
       </div>
       <div class="col-9" >        
         <div class="drop_shadow" id="container" style="width:80%; min-height: 100%; "></div>
+        <!-- style="width:80%; min-height: 100%; " -->
       </div>
       
       <div id="buttons-container-right" class="col">
