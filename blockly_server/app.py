@@ -16,6 +16,7 @@ from multiprocessing import Process,freeze_support
 from threading import Thread
 from flask_babel import Babel
 import pickle
+import uuid
 
 DOCKER = False
 BASED_DIR = '/app' 
@@ -390,19 +391,37 @@ def handle_save_xml(data):
         emit('save_xml_result', {'status': '200', 'result': 'Code saved with success'})
     except Exception as e:
         emit('save_xml_result',  {'status': 'error occured', 'result': 'Code was not saved'})
-
+    
 
 @app.route('/export_project/<int:id>')
 def export_project(id):
-    print(id)
-    path = os.path.join(PROJECT_DIR,f'{id}/{id}.xml')
-    return send_file(path, as_attachment=True)
+    project_id = id
 
-@app.route('/export_monaco_project/<int:id>')
-def export_monaco_project(id):
-    print(id)
-    path = os.path.join(PROJECT_DIR,f'{id}/{id}.py')
-    return send_file(path, as_attachment=True)
+    # Fetch the code from the database.
+    code = get_code_from_db(project_id)
+
+    # If the code is not found, return a 404 error.
+    if code is None:
+        return Response(status=404)  
+
+    # Create a unique filename.
+    filename = f"/tmp/{uuid.uuid4().hex}"
+
+    if code['editor'] == 'blockly':
+        filename += ".xml"
+    else:
+        filename += ".py"
+
+    # Write the code to a temporary file.
+    with open(filename, "w") as file:
+        file.write(code['data'])
+
+    # Serve the file, then delete it after serving.
+    try:
+        return send_file(filename, as_attachment=True)
+    finally:
+        os.remove(filename)
+
 
 @app.route('/upload_project', methods=[ 'POST'])
 def upload_project():    
@@ -448,6 +467,16 @@ def upload_monaco_project():
             fh.write(data)
     return redirect("/")
 
+
+def get_code_from_db(project_id):
+    project = Projects.query.get(project_id)
+    if project:
+        return {
+            'editor': project.editor,
+            'data': project.data
+        }
+    else:
+        return None
 
 def get_all_projects():
     projects = Projects.query.all()
