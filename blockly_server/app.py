@@ -16,7 +16,6 @@ from multiprocessing import Process,freeze_support
 from threading import Thread
 from flask_babel import Babel
 import pickle
-import uuid
 
 DOCKER = False
 BASED_DIR = '/app' 
@@ -404,17 +403,17 @@ def export_project(id):
     if code is None:
         return Response(status=404)  
 
-    # Create a unique filename.
-    filename = f"/tmp/{uuid.uuid4().hex}"
-
     if code['editor'] == 'blockly':
-        filename += ".xml"
+        filename = f"{code['title']}.xml"
     else:
-        filename += ".py"
+        filename = f"{code['title']}.py"
+
+    # If data is None, use an empty string as the default value
+    data = code['data'] or ''
 
     # Write the code to a temporary file.
     with open(filename, "w") as file:
-        file.write(code['data'])
+        file.write(data)
 
     # Serve the file, then delete it after serving.
     try:
@@ -423,49 +422,36 @@ def export_project(id):
         os.remove(filename)
 
 
-@app.route('/upload_project', methods=[ 'POST'])
-def upload_project():    
+@app.route('/upload_project', methods=['POST'])
+def upload_project():
     if request.method == 'POST':
         if 'file' not in request.files:
             return redirect("/")
+        
         file = request.files['file']
         if file.filename == '':
             return redirect("/")
+        
+        filename = file.filename
+        title, _ = os.path.splitext(filename)  # Extract the title from the filename (without extension)
+        info = title  # Set the description to the filename
+        
+        if filename.endswith('.xml'):
+            editor = 'blockly'
+        elif filename.endswith('.py'):
+            editor = 'python'
+        else:
+            return redirect("/")
+        
         data = file.read().decode('utf-8')
-        docs = minidom.parseString(data)
-        pjs = docs.getElementsByTagName('project')[0]
-        title = pjs.getElementsByTagName('title')[0].firstChild.data
-        info = pjs.getElementsByTagName('description')[0].firstChild.data
-        project = Projects(title,info)
+        
+        project = Projects(title, info, editor, data)  # Save the file data to the 'data' field
+        
         db.session.add(project)
         db.session.commit()
-        db.session.refresh(project)        
-        os.mkdir(os.path.join(PROJECT_DIR,f'{project.project_id}'))
-        with open(os.path.join(PROJECT_DIR,f'{project.project_id}/{project.project_id}.xml'), "w", encoding="utf8") as fh:
-            fh.write(data)
-    return redirect("/")
-
-@app.route('/upload_monaco_project', methods=[ 'POST'])
-def upload_monaco_project():    
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            return redirect("/")
-        file = request.files['file']
-        if file.filename == '':
-            return redirect("/")
-        data = file.read().decode('utf-8')
-        docs = minidom.parseString(data)
-        pjs = docs.getElementsByTagName('project')[0]
-        title = pjs.getElementsByTagName('title')[0].firstChild.data
-        info = pjs.getElementsByTagName('description')[0].firstChild.data
-        project = Projects(title,info)
-        db.session.add(project)
-        db.session.commit()
-        db.session.refresh(project)        
-        os.mkdir(os.path.join(PROJECT_DIR,f'{project.project_id}'))
-        with open(os.path.join(PROJECT_DIR,f'{project.project_id}/{project.project_id}.py'), "w", encoding="utf8") as fh:
-            fh.write(data)
-    return redirect("/")
+        db.session.refresh(project)
+        
+        return redirect("/")
 
 
 def get_code_from_db(project_id):
@@ -473,7 +459,8 @@ def get_code_from_db(project_id):
     if project:
         return {
             'editor': project.editor,
-            'data': project.data
+            'data': project.data,
+            'title': project.title
         }
     else:
         return None
