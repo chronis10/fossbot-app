@@ -403,17 +403,11 @@ def export_project(id):
     if code is None:
         return Response(status=404)  
 
-    if code['editor'] == 'blockly':
-        filename = f"{code['title']}.xml"
-    else:
-        filename = f"{code['title']}.py"
+    filename = f"{code['title']}.pkl"
 
-    # If data is None, use an empty string as the default value
-    data = code['data'] or ''
-
-    # Write the code to a temporary file.
-    with open(filename, "w") as file:
-        file.write(data)
+    # Pickle the code dictionary.
+    with open(filename, "wb") as file:
+        pickle.dump(code, file)
 
     # Serve the file, then delete it after serving.
     try:
@@ -433,19 +427,16 @@ def upload_project():
             return redirect("/")
         
         filename = file.filename
-        title, _ = os.path.splitext(filename)  # Extract the title from the filename (without extension)
-        info = title  # Set the description to the filename
-        
-        if filename.endswith('.xml'):
-            editor = 'blockly'
-        elif filename.endswith('.py'):
-            editor = 'python'
-        else:
+        if not filename.endswith('.pkl'):
             return redirect("/")
         
-        data = file.read().decode('utf-8')
-        
-        project = Projects(title, info, editor, data)  # Save the file data to the 'data' field
+        try:
+            # Unpickle the file to get a dictionary.
+            data = pickle.load(file)
+        except Exception as e:
+            return "Error: Invalid file format.", 400
+
+        project = Projects(data['title'], data['info'], data['editor'], data['data'])
         
         db.session.add(project)
         db.session.commit()
@@ -460,7 +451,8 @@ def get_code_from_db(project_id):
         return {
             'editor': project.editor,
             'data': project.data,
-            'title': project.title
+            'title': project.title,
+            'info': project.info
         }
     else:
         return None
