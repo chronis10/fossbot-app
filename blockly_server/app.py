@@ -16,6 +16,8 @@ from multiprocessing import Process,freeze_support
 from threading import Thread
 from flask_babel import Babel
 import pickle
+import xml.etree.ElementTree as ET
+
 
 DOCKER = False
 BASED_DIR = '/app' 
@@ -401,13 +403,27 @@ def export_project(id):
 
     # If the code is not found, return a 404 error.
     if code is None:
-        return Response(status=404)  
+        return Response(status=404)
 
-    filename = f"{code['title']}.pkl"
+    filename = f"{code['title']}.xml"
 
-    # Pickle the code dictionary.
-    with open(filename, "wb") as file:
-        pickle.dump(code, file)
+    # Create the root element
+    root = ET.Element("project")
+
+    # Add the attributes to the root element
+    root.set("title", code["title"])
+    root.set("info", code["info"])
+    root.set("editor", code["editor"])
+
+    # Create the data element
+    data = ET.SubElement(root, "data")
+    data.text = code["data"]
+
+    # Create the XML tree
+    tree = ET.ElementTree(root)
+
+    # Save the XML tree to a file
+    tree.write(filename)
 
     # Serve the file, then delete it after serving.
     try:
@@ -421,28 +437,39 @@ def upload_project():
     if request.method == 'POST':
         if 'file' not in request.files:
             return redirect("/")
-        
+
         file = request.files['file']
         if file.filename == '':
             return redirect("/")
-        
+
         filename = file.filename
-        if not filename.endswith('.pkl'):
+        if not filename.endswith('.xml'):
             return redirect("/")
-        
+
         try:
-            # Unpickle the file to get a dictionary.
-            data = pickle.load(file)
-        except Exception as e:
+            # Parse the XML file to get the root element
+            tree = ET.parse(file)
+            root = tree.getroot()
+
+            # Extract the project attributes from the root element
+            title = root.get("title")
+            info = root.get("info")
+            editor = root.get("editor")
+
+            # Extract the data from the data element
+            data = root.find("data").text
+
+            project = Projects(title, info, editor, data)
+
+            db.session.add(project)
+            db.session.commit()
+            db.session.refresh(project)
+
+            return redirect("/")
+        except ET.ParseError as e:
             return "Error: Invalid file format.", 400
 
-        project = Projects(data['title'], data['info'], data['editor'], data['data'])
-        
-        db.session.add(project)
-        db.session.commit()
-        db.session.refresh(project)
-        
-        return redirect("/")
+    return redirect("/")
 
 
 def get_code_from_db(project_id):
