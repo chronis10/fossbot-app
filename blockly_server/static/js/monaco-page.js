@@ -13,13 +13,13 @@ require(['vs/editor/editor.main'], function () {
 
 function getCode() {
   var code = editor.getValue();
-  var terminal = document.getElementById('terminal_scrollable-content');
+  // var terminal = document.getElementById('terminal_scrollable-content');
 
-  var codeLines = code.split('\n');  // Split the code string into an array of lines
-  for (var i = 0; i < codeLines.length; i++) {
-    // Print each line separately
-    terminal.innerHTML += '<p>' + codeLines[i] + '</p>';
-  }
+  // var codeLines = code.split('\n');  // Split the code string into an array of lines
+  // for (var i = 0; i < codeLines.length; i++) {
+  //   // Print each line separately
+  //   terminal.innerHTML += '<p>' + codeLines[i] + '</p>';
+  // }
   return code;
 }
 
@@ -62,21 +62,11 @@ async function runCode(id) {
     return;
   }
 
-  alert(monaco_code);
-
   const result = await sendMonacoCode(id, monaco_code)
   const status = result.status
   if (status == 'started') {
     showModalSuccess("The program running successfully!");
   }
-  // let xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-  // let xmlText = Blockly.Xml.domToPrettyText(xmlDom);
-
-  // const result_save = await saveXml(id, xmlText);
-
-  // if (result_save.status == 200) {
-  //   console.log("The program running successfully!");
-  // }
 }
 
 //stop the code that was being exeuted in the robot 
@@ -120,6 +110,5 @@ function copyFunction(functionName) {
   textarea.select();
   document.execCommand('copy');
   document.body.removeChild(textarea);
-
-  alert('Copied: ' + functionName);
+  showModalSuccess("Copied to clipboard!");
 }
