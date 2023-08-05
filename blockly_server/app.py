@@ -146,8 +146,9 @@ def handle_get_all_projects():
 
     emit('all-projects', { 'status': '200', 'data': projects_list})
 
-def load_monaco_instrunctions(languange: str = 'en') -> dict:
-    with open(f'instructions/library_{languange}.json') as json_file:
+def load_monaco_instrunctions(languange: str = 'en') -> dict: 
+    path = os.path.join(APP_DIR,f'instructions/library_{languange}.json')
+    with open(path) as json_file:
         data = json.load(json_file)
     return data
 
@@ -405,7 +406,7 @@ def export_project(id):
     if code is None:
         return Response(status=404)
 
-    filename = f"{code['title']}.xml"
+    filename = f"tmp/{code['title']}.xml"
 
     # Create the root element
     root = ET.Element("project")
@@ -421,15 +422,17 @@ def export_project(id):
 
     # Create the XML tree
     tree = ET.ElementTree(root)
+    path = os.path.join(APP_DIR, filename)
+    print(path)
 
     # Save the XML tree to a file
-    tree.write(filename)
+    tree.write(path)
 
     # Serve the file, then delete it after serving.
     try:
-        return send_file(filename, as_attachment=True)
+        return send_file(path, as_attachment=True)
     finally:
-        os.remove(filename)
+        os.remove(path)
 
 
 @app.route('/upload_project', methods=['POST'])
