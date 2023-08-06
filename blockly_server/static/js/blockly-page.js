@@ -15,9 +15,11 @@ async function save_xml(id) {
 
 
 function loadXml(xml) {
-  const dom = Blockly.Xml.textToDom(xml);
-  Blockly.mainWorkspace.clear();
-  Blockly.Xml.domToWorkspace(dom, Blockly.mainWorkspace);
+  if (xml !== null) {
+    const dom = Blockly.Xml.textToDom(xml);
+    Blockly.mainWorkspace.clear();
+    Blockly.Xml.domToWorkspace(dom, Blockly.mainWorkspace);
+  }
 }
 
 //get all projects from db  

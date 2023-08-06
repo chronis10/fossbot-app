@@ -252,11 +252,11 @@ def handle_delete_project(data):
         print(type(project))
         db.session.delete(project)
         db.session.commit()
-        shutil.rmtree(os.path.join(PROJECT_DIR,f'{project.project_id}'))
+        # shutil.rmtree(os.path.join(PROJECT_DIR,f'{project.project_id}'))
         emit('delete_project_result', {'status':'200', 'project_deleted': 'true' })
     except Exception as e:
         print(e)
-        emit('delete_project_result', {'status':'error', 'project_deleted': 'false'})
+        emit('delete_project_result', {'status':'error', 'project_deleted': 'false', 'error_message': str(e)})
 
 @socketio.on('edit_project')
 def handle_edit_project(project_id):

@@ -1,4 +1,4 @@
-var editor;
+var editor = null;
 
 require.config({ paths: { vs: '../static/js/monaco-editor/min/vs' } });
 
@@ -23,8 +23,18 @@ function getCode() {
   return code;
 }
 
-function loadXml(code) {
-  editor.setValue(code);
+function loadXml(xml) {
+  if (xml !== null) {
+    const dom = Blockly.Xml.textToDom(xml);
+    Blockly.mainWorkspace.clear();
+    Blockly.Xml.domToWorkspace(dom, Blockly.mainWorkspace);
+  }
+}
+
+function loadPythonCode(code) {
+  if (code !== null) {
+    editor.setValue(code);
+  }
 }
 
 async function loadProject() {
@@ -36,13 +46,15 @@ async function loadProject() {
   console.log("project is id", id);
 
   if (id) {
-    //only if the project is saved, it will have an id , so we can retrieve the xml code 
-    //get project code from BE based on id 
     const result = await sendXml(id);
     console.log("result", result)
-    if (result.status == '200')
-      loadXml(result.data);
-    else {
+    if (result.status == '200') {
+      if (result.editor === 'blockly') {
+        loadXml(result.data);
+      } else {
+        loadPythonCode(result.data);
+      }
+    } else {
       console.log('Error when getting project\n', err);
       showModalError("Error on code loading!");
     }
@@ -112,3 +124,10 @@ function copyFunction(functionName) {
   document.body.removeChild(textarea);
   showModalSuccess("Copied to clipboard!");
 }
+
+// Resize editor window
+window.addEventListener('resize', function () {
+  if (editor) {
+    editor.layout();
+  }
+});
