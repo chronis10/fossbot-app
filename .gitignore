@@ -7,3 +7,5 @@ data/
 **/__pycache__/
 blockly_server/robot/__pycache__/
 blockly_server/lib
+example/main.py
+example/main2.py
