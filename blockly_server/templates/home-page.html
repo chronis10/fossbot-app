@@ -150,12 +150,48 @@
           </div>
           <div class="row custom_row_text">
             <strong>{{ gettext('In this page, you can see all the scripts that have been stored in this FOSSbot organized in folders. You can create new folders or script. You can also access the Administration page for configuring the FOSSbot parameters, and the visual programming mode.') }}</strong>
-            </div>
-         
-            <!-- <img class="rotate"  src="{{ url_for('static',filename='photos/small_fossbot.png')}}"  width="100" alt=" "> -->
+          </div>
 
-        <br>
-        
+          <!-- Process Table -->
+        <div class="row custom_row_text">
+          <h3  style="color: rgb(252, 122, 1);">{{ gettext('Process Table') }}</h3>
+        </div>
+        <div class="row custom_row_text">
+          <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">{{ gettext('Project ID') }}</th>
+                    <th scope="col">{{ gettext('User') }}</th>
+                    <th scope="col">{{ gettext('Status') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for worker in workers %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ worker.project_id }}</td>
+                    <td>{{ worker.user }}</td>
+                    <td>{{ worker.status }}</td>
+                    <td>
+                      <button class="btn btn-success btn-sm" onclick="playWorker('{{ worker.project_id }}')">{{ gettext('Play') }}</button>
+                      <button class="btn btn-danger btn-sm" onclick="stopWorker('{{ worker.project_id }}')">{{ gettext('Stop') }}</button>
+                      <button class="btn btn-warning btn-sm" onclick="deleteWorker('{{ worker.project_id }}')">{{ gettext('Delete') }}</button>
+                  </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col">
+              <button class="btn btn-success" onclick="runAllWorkers()">{{ gettext('Run All') }}</button>
+              <button class="btn btn-danger" onclick="stopAllWorkers()">{{ gettext('Stop All') }}</button>
+              <button class="btn btn-secondary" onclick="deleteFinishedWorkers()">{{ gettext('Delete Finished') }}</button>
+              <button class="btn btn-warning" onclick="deleteAllWorkers()">{{ gettext('Delete All') }}</button>
+          </div>
+        </div>
+
         <div class="row custom_row_text">
           <div class="row custom_row_text">
           <h3  style="color: rgb(252, 122, 1);">{{ gettext('Kindergarten Mode') }}</h3>
@@ -172,6 +208,9 @@
             <input type="image" src="{{ url_for('static', filename='/photos/card_mode2.png') }}" style="height:150px;">
           </a>
         </div>
+        </div>
+            <!-- <img class="rotate"  src="{{ url_for('static',filename='photos/small_fossbot.png')}}"  width="100" alt=" "> -->
+        
           
      
       </div>

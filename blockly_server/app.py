@@ -368,7 +368,7 @@ def all_workers():
             'status': worker['status']
         }
         serialized_workers.append(serialized_worker)
-    return jsonify(serialized_workers)
+    return render_template('home-page.html', workers=serialized_workers)
 
 @app.route('/run_all', methods=['GET'])
 def run_all():
@@ -503,6 +503,21 @@ def stop_process(id):
         return jsonify({"status": "error", "message": "Worker is not running"})
     else:
         return jsonify({"status": "error", "message": "Worker already finished"})
+
+@app.route('/delete/<int:id>', methods=['GET'])
+def delete_process(id):
+    global WORKERS_LIST
+
+    if len(WORKERS_LIST) == 0:
+        return jsonify({"status": "error", "message": "Invalid worker ID"})
+
+    if id >= len(WORKERS_LIST):
+        return jsonify({"status": "error", "message": "Process ID out of range"})
+
+    worker = WORKERS_LIST[id]
+
+    del WORKERS_LIST[id]
+    return jsonify({"status": "success", "message": "Worker deleted"})
 
 @app.route('/clear_finished', methods=['GET'])
 def clear_finished():
