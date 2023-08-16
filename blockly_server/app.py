@@ -17,6 +17,7 @@ from threading import Thread
 from flask_babel import Babel
 import pickle
 import xml.etree.ElementTree as ET
+import multiprocessing as mp
 from multiprocessing import Process, Queue
 import threading
 import time
@@ -56,13 +57,6 @@ COPPELIA_PROCESS = None
 CURRENT_STAGE = None
 app = Flask(__name__)
 
-# def worker_func(code):
-#     print("Child ", code)
-#     time.sleep(1)
-
-code_queue = Queue()
-process_list = []
-
 WORKERS_LIST = []
 
 DATA_DIR =  os.path.join(BASED_DIR,'data')
@@ -71,8 +65,6 @@ PROJECT_DIR =os.path.join(DATA_DIR,'projects')
 app.config ['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + SQLITE_DIR
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['BABEL_DEFAULT_LOCALE'] = LOCALE
-
-
 
 CORS(app)
 socketio = SocketIO(app)
@@ -356,29 +348,6 @@ def handle_execute_blockly(data):
 #         print(e)
 #         emit('execute_monaco_result',  {'status': 'error when creating .py file or when running the .py file'})
 
-def orchestrate_execution():
-    global process_list
-    while True:
-        if len(process_list) > 0:
-            proc = process_list.pop(0)
-            proc.start()
-            proc.join()
-        time.sleep(1)
-
-# @socketio.on('execute_monaco')
-# def handle_execute_monaco(data):
-#     global SCRIPT_PROCCESS, code_queue
-#     try:
-#         id = data['id']
-#         code = data['code']
-#         code_queue.put(code)
-#         proc = Process(target=execute_monaco, args=(code,), daemon=True)
-#         process_list.append(proc)
-#         emit('execute_monaco_result', {'status': '200'})
-#     except Exception as e:
-#         print(e)
-#         emit('execute_monaco_result', {'status': 'error when creating .py file or when running the .py file'})
-
 @socketio.on('execute_monaco')
 def handle_execute_monaco(data):
     global WORKERS_LIST
@@ -390,6 +359,7 @@ def handle_execute_monaco(data):
 
 @app.route('/all_workers', methods=['GET'])
 def all_workers():
+    global WORKERS_LIST
     serialized_workers = []
     for worker in WORKERS_LIST:
         serialized_worker = {
@@ -403,19 +373,62 @@ def all_workers():
 @app.route('/run_all', methods=['GET'])
 def run_all():
     global WORKERS_LIST
+
     if len(WORKERS_LIST) > 0:
         for i, worker in enumerate(WORKERS_LIST):
             if not worker['process'].is_alive() and worker['status'] == 'idle':
                 worker['process'].start()
                 WORKERS_LIST[i]['status'] = 'active'
+                threading.Thread(target=monitor_workers, args=(i,)).start()
                 return jsonify({"status": "success", "message": f"Worker {i} started"})
-            elif not worker['process'].is_alive() and worker['status'] == 'active':
-                WORKERS_LIST[i]['status'] = 'finished'
-            else:
+            elif worker['status'] == 'active':
                 return jsonify({"status": "error", "message": "Another worker is running"})
+
+        # Wait for all worker processes to finish
+        for worker in WORKERS_LIST:
+            worker['process'].join()
+
+        return jsonify({"status": "success", "message": "All workers finished"})
     else:
         return jsonify({"status": "error", "message": "No workers available"})
+
+# @app.route('/run_all', methods=['GET'])
+# def run_all():
+#     global WORKERS_LIST
+#     if len(WORKERS_LIST) > 0:
+#         for i, worker in enumerate(WORKERS_LIST):
+#             if not worker['process'].is_alive() and worker['status'] == 'idle':
+#                 worker['process'].start()
+#                 WORKERS_LIST[i]['status'] = 'active'
+#                 return jsonify({"status": "success", "message": f"Worker {i} started"})
+#             elif not worker['process'].is_alive() and worker['status'] == 'active':
+#                 WORKERS_LIST[i]['status'] = 'finished'
+#             else:
+#                 return jsonify({"status": "error", "message": "Another worker is running"})
+#     else:
+#         return jsonify({"status": "error", "message": "No workers available"})
                 
+# @app.route('/run/<int:id>', methods=['GET'])
+# def run_process(id):
+#     global WORKERS_LIST
+#     if len(WORKERS_LIST) == 0:
+#         return jsonify({"status": "error", "message": "Invalid worker ID"})
+#     if id >= len(WORKERS_LIST):
+#         return jsonify({"status": "error", "message": "Process ID out of range"})
+#     worker = WORKERS_LIST[id]
+#     if not worker['process'].is_alive():
+#         if worker['status'] == 'idle':
+#             worker['process'].start()
+#             worker['status'] = 'active'
+#             return jsonify({"status": "success", "message": f"Worker {id} started"})
+#         elif worker['status'] == 'active':
+#             worker['status'] = 'finished'
+#             return jsonify({"status": "success", "message": "Worker finished running"})
+#         else:
+#             return jsonify({"status": "error", "message": "Worker already finished"})
+#     else:
+#         return jsonify({"status": "error", "message": "Another worker is running"})
+
 @app.route('/run/<int:id>', methods=['GET'])
 def run_process(id):
     global WORKERS_LIST
@@ -430,9 +443,14 @@ def run_process(id):
 
     if not worker['process'].is_alive():
         if worker['status'] == 'idle':
-            worker['process'].start()
-            worker['status'] = 'active'
-            return jsonify({"status": "success", "message": f"Worker {id} started"})
+            if not any(worker['process'].is_alive() for worker in WORKERS_LIST if worker['status'] == 'active'):
+                worker['process'].start()
+                worker['status'] = 'active'
+                # Start a separate thread to monitor the worker process
+                threading.Thread(target=monitor_worker, args=(id,)).start()
+                return jsonify({"status": "success", "message": f"Worker {id} started"})
+            else:
+                return jsonify({"status": "error", "message": "Another worker is running"})
         elif worker['status'] == 'active':
             worker['status'] = 'finished'
             return jsonify({"status": "success", "message": "Worker finished running"})
@@ -442,79 +460,76 @@ def run_process(id):
         return jsonify({"status": "error", "message": "Another worker is running"})
 
 
+def monitor_worker(id):
+    global WORKERS_LIST
 
-    # global SCRIPT_PROCCESS, code_queue
-    # try:
-    #     id = data['id']
-    #     code = data['code']
-    #     code_queue.put(code)
-    #     proc = Process(target=execute_monaco, args=(code,), daemon=True)
-    #     process_list.append(proc)
-    #     emit('execute_monaco_result', {'status': '200'})
-    # except Exception as e:
-    #     print(e)
-    #     emit('execute_monaco_result', {'status': 'error when creating .py file or when running the .py file'})
+    worker = WORKERS_LIST[id]
+    worker['process'].join()  # Wait for the worker process to complete
+    worker['status'] = 'finished'
 
-# orchestration_thread = threading.Thread(target=orchestrate_execution, daemon=True)
-# orchestration_thread.start()
 
-# @app.route('/run/<int:id>', methods=['POST'])
-# def run(id):
-#     global process_list, worker_active
-#     if id < len(process_list):
-#         if not worker_active:
-#             process_list[id].start()
-#             worker_active = True
-#             return jsonify({"status": "success", "message": f"Worker {id} started"})
-#         else:
-#             return jsonify({"status": "error", "message": "Another worker is running"})
-#     else:
-#         return jsonify({"status": "error", "message": "Invalid worker ID"})
+def monitor_workers(id):
+    global WORKERS_LIST
 
-@app.route('/clear_dead', methods=['POST'])
-def clear_dead():
-    global process_list, worker_active
-    if worker_active:
-        if process_list[0].is_alive():
-            return jsonify({"status": "working"})
-        else:
-            process_list.pop(0)
-            worker_active = False
-            return jsonify({"status": "cleared"})
-    else:
-        return jsonify({"status": "no_active_worker"})
+    worker = WORKERS_LIST[id]
+    worker['process'].join()  # Wait for the worker process to complete
+    worker['status'] = 'finished'
 
-# @app.route('/get_workers', methods=['GET'])
-# def get_workers():
-#     return jsonify({"workers": len(process_list)})
+    # Check if there are any idle workers and start the next one
+    for i, worker in enumerate(WORKERS_LIST):
+        if worker['status'] == 'idle':
+            worker['process'].start()
+            worker['status'] = 'active'
+            threading.Thread(target=monitor_worker, args=(i,)).start()
+            break
 
-@app.route('/new_job', methods=['POST'])
-def new_job():
-    global process_list
-    code = request.form.get('code')
-    proc = Process(target=execute_monaco, args=(code,), daemon=True)
-    process_list.append(proc)
-    return jsonify({"status": "success", "message": "New job added"})
+@app.route('/stop/<int:id>', methods=['GET'])
+def stop_process(id):
+    global WORKERS_LIST
 
-@app.route('/stop/<int:id>', methods=['POST'])
-def stop(id):
-    global process_list, worker_active
-    if id < len(process_list):
-        process_list[id].terminate()
-        worker_active = False
-        return jsonify({"status": "success", "message": f"Worker {id} stopped"})
-    else:
+    if len(WORKERS_LIST) == 0:
         return jsonify({"status": "error", "message": "Invalid worker ID"})
 
-@app.route('/stop_all', methods=['POST'])
+    if id >= len(WORKERS_LIST):
+        return jsonify({"status": "error", "message": "Process ID out of range"})
+
+    worker = WORKERS_LIST[id]
+
+    if worker['status'] == 'active':
+        worker['process'].terminate()
+        worker['status'] = 'finished'
+        return jsonify({"status": "success", "message": "Worker stopped"})
+    elif worker['status'] == 'idle':
+        return jsonify({"status": "error", "message": "Worker is not running"})
+    else:
+        return jsonify({"status": "error", "message": "Worker already finished"})
+
+@app.route('/clear_finished', methods=['GET'])
+def clear_finished():
+    global WORKERS_LIST
+
+    WORKERS_LIST = [worker for worker in WORKERS_LIST if worker['status'] != 'finished']
+
+    return jsonify({"status": "success", "message": "Finished workers cleared"})
+
+@app.route('/clear_all', methods=['GET'])
+def clear_all():
+    global WORKERS_LIST
+
+    WORKERS_LIST = []
+
+    return jsonify({"status": "success", "message": "Cleared entire worker list"})
+
+@app.route('/stop_all', methods=['GET'])
 def stop_all():
-    global process_list, worker_active
-    for worker in process_list:
-        if worker.is_alive():
-            worker.terminate()
-    process_list = []
-    worker_active = False
-    return jsonify({"status": "success", "message": "All workers stopped"})
+    global WORKERS_LIST
+
+    for worker in WORKERS_LIST:
+        if worker['status'] == 'active':
+            worker['process'].terminate()
+            worker['status'] = 'finished'
+
+    return jsonify({"status": "success", "message": "All active workers stopped"})
 
 @socketio.on('open_audio_folder')
 def open_audio_folder():
