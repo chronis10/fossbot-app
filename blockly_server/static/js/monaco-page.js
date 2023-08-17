@@ -61,7 +61,7 @@ async function loadProject() {
   }
 }
 
-//send the code from thw workspace to be run in the robot 
+//send the code from the workspace to enter the queue to run in the robot 
 async function runCode(id) {
   let monaco_code = editor.getValue();
 

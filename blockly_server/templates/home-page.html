@@ -174,9 +174,9 @@
                     <td>{{ worker.user }}</td>
                     <td>{{ worker.status }}</td>
                     <td>
-                      <button class="btn btn-success btn-sm" onclick="playWorker('{{ worker.project_id }}')">{{ gettext('Play') }}</button>
-                      <button class="btn btn-danger btn-sm" onclick="stopWorker('{{ worker.project_id }}')">{{ gettext('Stop') }}</button>
-                      <button class="btn btn-warning btn-sm" onclick="deleteWorker('{{ worker.project_id }}')">{{ gettext('Delete') }}</button>
+                      <button class="btn btn-success btn-sm" onclick="playWorker('{{ loop.index }}')">{{ gettext('Play') }}</button>
+                      <button class="btn btn-danger btn-sm" onclick="stopWorker('{{ loop.index }}')">{{ gettext('Stop') }}</button>
+                      <button class="btn btn-warning btn-sm" onclick="deleteWorker('{{ loop.index }}')">{{ gettext('Delete') }}</button>
                   </td>
                 </tr>
                 {% endfor %}

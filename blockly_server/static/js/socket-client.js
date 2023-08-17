@@ -132,6 +132,18 @@ const sendMonacoCode = function(id,code) {
   });
 }
 
+const executeByID = function(id) {
+  return new Promise(function (resolve, reject) {
+    let obj = {'id': id};
+    socket.emit('runByID', obj);
+
+    socket.on('worker_result', (data) => {
+      console.log("worker_result", data);
+      resolve(data);
+    });
+  });
+}
+
 const sendParameters = function(data) {
   return new Promise(function (resolve, reject) {
     socket.emit('save_parameters', {'parameters': data});

@@ -157,6 +157,26 @@ async function getDescription() {
     }
 }
 
+
+// tell which process will be executed in the robot
+async function playWorker(id) {
+    try {
+    //   const response = await fetch(`/run/${id}`, { method: 'GET' });
+    //   const result = await response.json();
+    
+    const result = await executeByID(id)
+    const status = result.status
+      if (result.status === 'success') {
+        showModalSuccess(result.message);
+      } else {
+        showModalError(result.message);
+      }
+    } catch (error) {
+      console.error(error);
+      showModalError('An error occurred while playing the worker.');
+    }
+  }
+
 async function deleteElement(el, id) {
     var tbl = el.parentNode.parentNode.parentNode.parentNode.parentNode;
     var row = el.parentNode.parentNode.parentNode.rowIndex;
