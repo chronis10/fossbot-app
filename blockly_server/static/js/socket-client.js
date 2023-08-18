@@ -144,6 +144,18 @@ const executeByID = function(id) {
   });
 }
 
+const stopByID = function(id) {
+  return new Promise(function (resolve, reject) {
+    let obj = {'id': id};
+    socket.emit('stopByID', obj);
+
+    socket.on('worker_result', (data) => {
+      console.log("worker_result", data);
+      resolve(data);
+    });
+  });
+}
+
 const sendParameters = function(data) {
   return new Promise(function (resolve, reject) {
     socket.emit('save_parameters', {'parameters': data});

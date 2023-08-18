@@ -177,6 +177,25 @@ async function playWorker(id) {
     }
   }
 
+  
+// tell which process will be executed in the robot
+async function stopWorker(id) {
+    try {
+    
+    const result = await stopByID(id)
+    const status = result.status
+      if (result.status === 'success') {
+        showModalSuccess(result.message);
+      } else {
+        showModalError(result.message);
+      }
+    } catch (error) {
+      console.error(error);
+      showModalError('An error occurred while stopping the worker.');
+    }
+  }
+
+
 async function deleteElement(el, id) {
     var tbl = el.parentNode.parentNode.parentNode.parentNode.parentNode;
     var row = el.parentNode.parentNode.parentNode.rowIndex;

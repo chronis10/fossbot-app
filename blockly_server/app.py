@@ -519,7 +519,7 @@ def monitor_workers_status():
                 worker['status'] = 'finished'
         time.sleep(1)
 
-# While and when stop break
+
 def monitor_workers():
     global WORKERS_LIST
     global stopEvent
