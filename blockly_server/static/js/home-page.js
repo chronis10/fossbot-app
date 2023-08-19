@@ -178,7 +178,7 @@ async function playWorker(id) {
   }
 
   
-// tell which process will be executed in the robot
+// tell which process will stop
 async function stopWorker(id) {
     try {
     
@@ -194,6 +194,23 @@ async function stopWorker(id) {
       showModalError('An error occurred while stopping the worker.');
     }
   }
+
+// delete project
+async function deleteWorker(id) {
+  try {
+    const result = await deleteByID(id)
+    const status = result.status
+    if (result.status === 'success') {
+      showModalSuccess(result.message);
+      location.reload();
+    } else {
+      showModalError(result.message);
+    }
+  } catch (error) {
+    console.error(error);
+    showModalError('An error occurred while deleting the worker.');
+  }
+}
 
 
 async function deleteElement(el, id) {

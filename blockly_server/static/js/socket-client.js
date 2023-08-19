@@ -156,6 +156,19 @@ const stopByID = function(id) {
   });
 }
 
+const deleteByID = function(id) {
+  return new Promise(function (resolve, reject) {
+    let obj = {'id': id};
+    socket.emit('deleteByID', obj);
+
+    socket.on('worker_result', (data) => {
+      console.log("worker_result", data);
+      resolve(data);
+    });
+  });
+}
+
+
 const sendParameters = function(data) {
   return new Promise(function (resolve, reject) {
     socket.emit('save_parameters', {'parameters': data});

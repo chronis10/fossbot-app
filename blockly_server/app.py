@@ -413,27 +413,6 @@ def run_all():
 #     else:
 #         return jsonify({"status": "error", "message": "No workers available"})
                 
-# @app.route('/run/<int:id>', methods=['GET'])
-# def run_process(id):
-#     global WORKERS_LIST
-#     if len(WORKERS_LIST) == 0:
-#         return jsonify({"status": "error", "message": "Invalid worker ID"})
-#     if id >= len(WORKERS_LIST):
-#         return jsonify({"status": "error", "message": "Process ID out of range"})
-#     worker = WORKERS_LIST[id]
-#     if not worker['process'].is_alive():
-#         if worker['status'] == 'idle':
-#             worker['process'].start()
-#             worker['status'] = 'active'
-#             return jsonify({"status": "success", "message": f"Worker {id} started"})
-#         elif worker['status'] == 'active':
-#             worker['status'] = 'finished'
-#             return jsonify({"status": "success", "message": "Worker finished running"})
-#         else:
-#             return jsonify({"status": "error", "message": "Worker already finished"})
-#     else:
-#         return jsonify({"status": "error", "message": "Another worker is running"})
-
 @socketio.on('runByID')
 def handle_runByID(data):
     global WORKERS_LIST
@@ -471,44 +450,13 @@ def handle_runByID(data):
         return
 
 
-
-@app.route('/run/<int:id>', methods=['GET'])
-def run_process(id):
-    global WORKERS_LIST
-
-    if len(WORKERS_LIST) == 0:
-        return jsonify({"status": "error", "message": "Invalid worker ID"})
-
-    if id >= len(WORKERS_LIST):
-        return jsonify({"status": "error", "message": "Process ID out of range"})
-
-    worker = WORKERS_LIST[id]
-
-    if not worker['process'].is_alive():
-        if worker['status'] == 'idle':
-            if not any(worker['process'].is_alive() for worker in WORKERS_LIST if worker['status'] == 'active'):
-                worker['process'].start()
-                worker['status'] = 'active'
-                # Start a separate thread to monitor the worker process
-                # threading.Thread(target=monitor_worker, args=(id,)).start()
-                return jsonify({"status": "success", "message": f"Worker {id} started"})
-            else:
-                return jsonify({"status": "error", "message": "Another worker is running"})
-        elif worker['status'] == 'active' and not worker['process'].is_alive():
-            worker['status'] = 'finished'
-            return jsonify({"status": "success", "message": "Worker finished running"})
-        else:
-            return jsonify({"status": "error", "message": "Worker already finished"})
-    else:
-        return jsonify({"status": "error", "message": "Another worker is running"})
-
-
 def monitor_worker(id):
     global WORKERS_LIST
 
     worker = WORKERS_LIST[id]
     worker['process'].join()  # Wait for the worker process to complete
     worker['status'] = 'finished'
+
 
 def monitor_workers_status():
     global WORKERS_LIST
@@ -534,43 +482,51 @@ def monitor_workers():
             if stopEvent.is_set():
                 break
 
-
-
-@app.route('/stop/<int:id>', methods=['GET'])
-def stop_process(id):
+@socketio.on('stopByID')
+def handle_stopByID(data):
     global WORKERS_LIST
+    id = int(data['id']) - 1
 
     if len(WORKERS_LIST) == 0:
-        return jsonify({"status": "error", "message": "Invalid worker ID"})
+        emit('worker_result', {'status': 'error', 'message': 'Invalid worker ID'})
+        return 
 
     if id >= len(WORKERS_LIST):
-        return jsonify({"status": "error", "message": "Process ID out of range"})
-
+        emit('worker_result', {'status': 'error', 'message': 'Process ID out of range'})
+        return
+    
     worker = WORKERS_LIST[id]
 
     if worker['status'] == 'active':
         worker['process'].terminate()
         worker['status'] = 'finished'
-        return jsonify({"status": "success", "message": "Worker stopped"})
+        emit('worker_result', {'status': 'success', 'message': 'Worker stopped'})
+        return
     elif worker['status'] == 'idle':
-        return jsonify({"status": "error", "message": "Worker is not running"})
+        emit('worker_result', {'status': 'error', 'message': 'Worker is not running'})
+        return
     else:
-        return jsonify({"status": "error", "message": "Worker already finished"})
+        emit('worker_result', {'status': 'error', 'message': 'Worker already finished'})
+        return
 
-@app.route('/delete/<int:id>', methods=['GET'])
-def delete_process(id):
+@socketio.on('deleteByID')
+def handle_deleteByID(data):
     global WORKERS_LIST
+    id = int(data['id']) - 1
 
     if len(WORKERS_LIST) == 0:
-        return jsonify({"status": "error", "message": "Invalid worker ID"})
+        emit('worker_result', {'status': 'error', 'message': 'Invalid worker ID'})
+        return 
 
     if id >= len(WORKERS_LIST):
-        return jsonify({"status": "error", "message": "Process ID out of range"})
-
+        emit('worker_result', {'status': 'error', 'message': 'Process ID out of range'})
+        return
+    
     worker = WORKERS_LIST[id]
 
     del WORKERS_LIST[id]
-    return jsonify({"status": "success", "message": "Worker deleted"})
+    emit('worker_result', {'status': 'success', 'message': 'Worker deleted'})
+    return
 
 @app.route('/clear_finished', methods=['GET'])
 def clear_finished():
