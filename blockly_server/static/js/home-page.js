@@ -212,6 +212,67 @@ async function deleteWorker(id) {
   }
 }
 
+async function runAllWorkers() {
+  try {
+    const result = await runAllSerially()
+    const status = result.status
+    if (result.status === 'success') {
+      showModalSuccess(result.message);
+    } else {
+      showModalError(result.message);
+    }
+  } catch (error) {
+    console.error(error);
+    showModalError('An error occurred while running all the workers.');
+  }
+}
+
+async function stopAllWorkers() {
+  try {
+    const result = await stopAllQueue()
+    const status = result.status
+    if (result.status === 'success') {
+      showModalSuccess(result.message);
+    } else {
+      showModalError(result.message);
+    }
+  } catch (error) {
+    console.error(error);
+    showModalError('An error occurred while stopping all the workers.');
+  }
+}
+
+async function deleteFinishedWorkers() {
+  try {
+    const result = await deleteAllFinished()
+    const status = result.status
+    if (result.status === 'success') {
+      showModalSuccess(result.message);
+      location.reload();
+    } else {
+      showModalError(result.message);
+    }
+  } catch (error) {
+    console.error(error);
+    showModalError('An error occurred while deleting all the finished workers.');
+  }
+}
+
+async function deleteAllWorkers() {
+  try {
+    const result = await deleteAllQueue()
+    const status = result.status
+    if (result.status === 'success') {
+      showModalSuccess(result.message);
+      location.reload();
+    } else {
+      showModalError(result.message);
+    }
+  } catch (error) {
+    console.error(error);
+    showModalError('An error occurred while deleting all the finished workers.');
+  }
+}
 
 async function deleteElement(el, id) {
     var tbl = el.parentNode.parentNode.parentNode.parentNode.parentNode;
@@ -268,3 +329,4 @@ function addRadioListeners() {
   document.addEventListener("DOMContentLoaded", function () {
     addRadioListeners();
   });
+  

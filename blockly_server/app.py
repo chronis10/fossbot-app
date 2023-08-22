@@ -373,46 +373,7 @@ def all_workers():
         }
         serialized_workers.append(serialized_worker)
     return render_template('home-page.html', workers=serialized_workers)
-
-@app.route('/run_all', methods=['GET'])
-def run_all():
-    global WORKERS_LIST, stopEvent
-
-    if len(WORKERS_LIST) > 0:
-        stopEvent.clear()
-        threading.Thread(target=monitor_workers, daemon=True).start()
-        # for i, worker in enumerate(WORKERS_LIST):
-        #     if not worker['process'].is_alive() and worker['status'] == 'idle':
-        #         WORKERS_LIST[i]['status'] = 'active'
-        #         threading.Thread(target=monitor_workers, args=(i,)).start()
-        #         return jsonify({"status": "success", "message": f"Worker {i} started"})
-        #     elif worker['status'] == 'active':
-        #         return jsonify({"status": "error", "message": "Another worker is running"})
-
-        # # Wait for all worker processes to finish
-        # for worker in WORKERS_LIST:
-        #     worker['process'].join()
-
-        return jsonify({"status": "success", "message": "Queue started"})
-    else:
-        return jsonify({"status": "error", "message": "No workers available"})
-
-# @app.route('/run_all', methods=['GET'])
-# def run_all():
-#     global WORKERS_LIST
-#     if len(WORKERS_LIST) > 0:
-#         for i, worker in enumerate(WORKERS_LIST):
-#             if not worker['process'].is_alive() and worker['status'] == 'idle':
-#                 worker['process'].start()
-#                 WORKERS_LIST[i]['status'] = 'active'
-#                 return jsonify({"status": "success", "message": f"Worker {i} started"})
-#             elif not worker['process'].is_alive() and worker['status'] == 'active':
-#                 WORKERS_LIST[i]['status'] = 'finished'
-#             else:
-#                 return jsonify({"status": "error", "message": "Another worker is running"})
-#     else:
-#         return jsonify({"status": "error", "message": "No workers available"})
-                
+     
 @socketio.on('runByID')
 def handle_runByID(data):
     global WORKERS_LIST
@@ -528,26 +489,22 @@ def handle_deleteByID(data):
     emit('worker_result', {'status': 'success', 'message': 'Worker deleted'})
     return
 
-@app.route('/clear_finished', methods=['GET'])
-def clear_finished():
-    global WORKERS_LIST
+@socketio.on('runAllSerially')
+def handle_runAllSerially():
+    global WORKERS_LIST, stopEvent 
 
-    WORKERS_LIST = [worker for worker in WORKERS_LIST if worker['status'] != 'finished']
+    if len(WORKERS_LIST) > 0:
+        stopEvent.clear()
+        threading.Thread(target=monitor_workers, daemon=True).start()
+        emit('worker_result', {'status': 'success', 'message': 'Queue started'})
+        return
+    else:
+        emit('worker_result', {'status': 'error', 'message': 'No workers available'})
+        return
 
-    return jsonify({"status": "success", "message": "Finished workers cleared"})
-
-@app.route('/clear_all', methods=['GET'])
-def clear_all():
-    global WORKERS_LIST
-
-    WORKERS_LIST = []
-
-    return jsonify({"status": "success", "message": "Cleared entire worker list"})
-
-@app.route('/stop_all', methods=['GET'])
-def stop_all():
-    global WORKERS_LIST
-    global stopEvent
+@socketio.on('stopAllQueue')
+def handle_stopAllQueue():
+    global WORKERS_LIST, stopEvent
 
     for worker in WORKERS_LIST:
         if worker['status'] == 'active':
@@ -555,7 +512,27 @@ def stop_all():
             worker['status'] = 'finished'
             stopEvent.set()
 
-    return jsonify({"status": "success", "message": "All active workers stopped"})
+    emit('worker_result', {'status': 'success', 'message': 'Queue stopped'})
+    return
+
+
+@socketio.on ('deleteAllFinished')
+def handle_deleteAllFinished():
+    global WORKERS_LIST
+
+    WORKERS_LIST = [worker for worker in WORKERS_LIST if worker['status'] != 'finished']
+
+    emit('worker_result', {'status': 'success', 'message': 'Finished workers deleted'})
+    return
+
+@socketio.on('deleteAllQueue')
+def handle_deleteAllQueue():
+    global WORKERS_LIST
+
+    WORKERS_LIST = []
+
+    emit('worker_result', {'status': 'success', 'message': 'Queue cleared'})
+    return
 
 @socketio.on('open_audio_folder')
 def open_audio_folder():

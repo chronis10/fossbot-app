@@ -168,6 +168,49 @@ const deleteByID = function(id) {
   });
 }
 
+const runAllSerially = function() {
+  return new Promise(function (resolve, reject) {
+    socket.emit('runAllSerially');
+
+    socket.on('worker_result', (result) => {
+      console.log("worker_result");
+      resolve(result);
+    });
+  });
+}
+
+const stopAllQueue = function() {
+  return new Promise(function (resolve, reject) {
+    socket.emit('stopAllQueue');
+
+    socket.on('worker_result', (result) => {
+      console.log("worker_result");
+      resolve(result);
+    });
+  });
+}
+
+const deleteAllFinished = function() {
+  return new Promise(function (resolve, reject) {
+    socket.emit('deleteAllFinished');
+
+    socket.on('worker_result', (result) => {
+      console.log("worker_result");
+      resolve(result);
+    });
+  });
+}
+
+const deleteAllQueue = function() {
+  return new Promise(function (resolve, reject) {
+    socket.emit('deleteAllQueue');
+
+    socket.on('worker_result', (result) => {
+      console.log("worker_result");
+      resolve(result);
+    });
+  });
+}
 
 const sendParameters = function(data) {
   return new Promise(function (resolve, reject) {
