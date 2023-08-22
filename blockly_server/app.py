@@ -361,8 +361,8 @@ def handle_execute_monaco(data):
     print(WORKERS_LIST)
     emit('execute_monaco_result', {'status': '200'})
 
-@app.route('/all_workers', methods=['GET'])
-def all_workers():
+@app.route('/classroom', methods=['GET'])
+def classroom():
     global WORKERS_LIST
     serialized_workers = []
     for worker in WORKERS_LIST:
@@ -372,7 +372,7 @@ def all_workers():
             'status': worker['status']
         }
         serialized_workers.append(serialized_worker)
-    return render_template('home-page.html', workers=serialized_workers)
+    return render_template('classroom.html', workers=serialized_workers)
      
 @socketio.on('runByID')
 def handle_runByID(data):
