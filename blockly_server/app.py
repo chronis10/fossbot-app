@@ -487,6 +487,8 @@ def handle_deleteByID(data):
 
     del WORKERS_LIST[id]
     emit('worker_result', {'status': 'success', 'message': 'Worker deleted'})
+    emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
+    
     return
 
 @socketio.on('runAllSerially')
@@ -523,6 +525,7 @@ def handle_deleteAllFinished():
     WORKERS_LIST = [worker for worker in WORKERS_LIST if worker['status'] != 'finished']
 
     emit('worker_result', {'status': 'success', 'message': 'Finished workers deleted'})
+    emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
     return
 
 @socketio.on('deleteAllQueue')
@@ -532,6 +535,7 @@ def handle_deleteAllQueue():
     WORKERS_LIST = []
 
     emit('worker_result', {'status': 'success', 'message': 'Queue cleared'})
+    emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
     return
 
 @socketio.on('open_audio_folder')

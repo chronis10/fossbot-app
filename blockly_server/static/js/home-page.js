@@ -202,7 +202,7 @@ async function deleteWorker(id) {
     const status = result.status
     if (result.status === 'success') {
       showModalSuccess(result.message);
-      location.reload();
+      // location.reload();
     } else {
       showModalError(result.message);
     }
@@ -227,6 +227,62 @@ async function runAllWorkers() {
   }
 }
 
+socket.on('refresh_table', (data) => {
+  // Update the table with the new data
+  const workers = data.workers;
+
+  // Clear the existing table rows
+  const tableBody = document.querySelector('.table tbody');
+  tableBody.innerHTML = '';
+
+  // Iterate over the workers data and create new table rows
+  workers.forEach((worker, index) => {
+    const row = document.createElement('tr');
+
+    // Create table cells for each worker property
+    const indexCell = document.createElement('th');
+    indexCell.setAttribute('scope', 'row');
+    indexCell.textContent = index + 1;
+    row.appendChild(indexCell);
+
+    const projectIdCell = document.createElement('td');
+    projectIdCell.textContent = worker.project_id;
+    row.appendChild(projectIdCell);
+
+    const userCell = document.createElement('td');
+    userCell.textContent = worker.user;
+    row.appendChild(userCell);
+
+    const statusCell = document.createElement('td');
+    statusCell.textContent = worker.status;
+    row.appendChild(statusCell);
+
+    const buttonCell = document.createElement('td');
+    const playButton = document.createElement('button');
+    playButton.classList.add('btn', 'btn-success', 'btn-sm');
+    playButton.textContent = 'Play';
+    playButton.addEventListener('click', () => playWorker(index + 1));
+    buttonCell.appendChild(playButton);
+
+    const stopButton = document.createElement('button');
+    stopButton.classList.add('btn', 'btn-danger', 'btn-sm');
+    stopButton.textContent = 'Stop';
+    stopButton.addEventListener('click', () => stopWorker(index + 1));
+    buttonCell.appendChild(stopButton);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('btn', 'btn-warning', 'btn-sm');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', () => deleteWorker(index + 1));
+    buttonCell.appendChild(deleteButton);
+
+    row.appendChild(buttonCell);
+
+    // Append the new row to the table body
+    tableBody.appendChild(row);
+  });
+});
+
 async function stopAllWorkers() {
   try {
     const result = await stopAllQueue()
@@ -248,7 +304,7 @@ async function deleteFinishedWorkers() {
     const status = result.status
     if (result.status === 'success') {
       showModalSuccess(result.message);
-      location.reload();
+      // location.reload();
     } else {
       showModalError(result.message);
     }
@@ -264,7 +320,7 @@ async function deleteAllWorkers() {
     const status = result.status
     if (result.status === 'success') {
       showModalSuccess(result.message);
-      location.reload();
+      // location.reload();
     } else {
       showModalError(result.message);
     }
