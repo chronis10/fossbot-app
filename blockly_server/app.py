@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request,Response, render_template,redirect, url_for, send_file
+from flask import Flask, jsonify, request, Response, render_template, redirect, url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy_serializer import SerializerMixin
@@ -12,7 +12,7 @@ import sys
 import webbrowser
 from xml.dom import minidom
 from robot.roboclass import Agent
-from multiprocessing import Process,freeze_support
+from multiprocessing import Process, freeze_support
 from threading import Thread
 from flask_babel import Babel
 import pickle
@@ -24,18 +24,18 @@ import time
 
 
 DOCKER = False
-BASED_DIR = '/app' 
-APP_DIR = '/app' 
+BASED_DIR = '/app'
+APP_DIR = '/app'
 if os.getenv('DOCKER') is not None:
     if os.getenv('DOCKER') == 'True':
         DOCKER = True
 
 if not DOCKER:
-    #from utils.systray_mode import systray_agent
+    # from utils.systray_mode import systray_agent
     APP_DIR = os.path.abspath(os.path.dirname(__file__))
-    BASED_DIR = os.path.abspath(os.path.dirname(sys.executable)) 
+    BASED_DIR = os.path.abspath(os.path.dirname(sys.executable))
 
-ROBOT_MODE  = 'coppelia'
+ROBOT_MODE = 'coppelia'
 if os.getenv('ROBOT_MODE') is not None:
     if os.getenv('ROBOT_MODE') == 'physical':
         ROBOT_MODE = 'physical'
@@ -62,10 +62,10 @@ WORKERS_LIST = []
 stopEvent = threading.Event()
 
 
-DATA_DIR =  os.path.join(BASED_DIR,'data')
-SQLITE_DIR = os.path.join(DATA_DIR,'robot_database.db')
-PROJECT_DIR =os.path.join(DATA_DIR,'projects')
-app.config ['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + SQLITE_DIR
+DATA_DIR = os.path.join(BASED_DIR, 'data')
+SQLITE_DIR = os.path.join(DATA_DIR, 'robot_database.db')
+PROJECT_DIR = os.path.join(DATA_DIR, 'projects')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + SQLITE_DIR
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['BABEL_DEFAULT_LOCALE'] = LOCALE
 
@@ -74,13 +74,15 @@ socketio = SocketIO(app)
 db = SQLAlchemy(app)
 agent = Agent()
 
+
 class Projects(db.Model, SerializerMixin):
-    project_id = db.Column('project_id', db.Integer, primary_key = True)
+    project_id = db.Column('project_id', db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     info = db.Column(db.String(500))
     editor = db.Column(db.String(100))
     data = db.Column(db.Text)
-    def __init__(self, title,info, editor, data=None):
+
+    def __init__(self, title, info, editor, data=None):
         self.title = title
         self.info = info
         self.editor = editor
@@ -89,12 +91,15 @@ class Projects(db.Model, SerializerMixin):
 
 def execute_blocks(code):
     agent.execute(code)
-    
+
+
 def execute_monaco(code):
     agent.execute(code)
 
+
 def execute_code(code):
     agent.execute(code)
+
 
 def get_locale():
     global LOCALE
@@ -105,49 +110,54 @@ def get_locale():
         return lan
     return request.accept_languages.best_match(['el', 'en'])
 
-babel = Babel(app,locale_selector=get_locale)
 
+babel = Babel(app, locale_selector=get_locale)
 
 
 # @app._got_first_request
-def before_first_request(): 
+def before_first_request():
     threading.Thread(target=monitor_workers_status, daemon=True).start()
     if not os.path.exists(DATA_DIR):
         os.mkdir(DATA_DIR)
         os.mkdir(PROJECT_DIR)
     elif not os.path.exists(PROJECT_DIR):
         os.mkdir(PROJECT_DIR)
-    if ROBOT_MODE  == 'coppelia': 
-        if not os.path.exists(os.path.join(DATA_DIR,'Coppelia_Scenes')):
-            os.mkdir(os.path.join(DATA_DIR,'Coppelia_Scenes'))
-    if not os.path.exists(os.path.join(DATA_DIR,'sound_effects')):
-        shutil.copytree(os.path.join(APP_DIR,'utils/sound_effects'),os.path.join(DATA_DIR,'sound_effects'))
+    if ROBOT_MODE == 'coppelia':
+        if not os.path.exists(os.path.join(DATA_DIR, 'Coppelia_Scenes')):
+            os.mkdir(os.path.join(DATA_DIR, 'Coppelia_Scenes'))
+    if not os.path.exists(os.path.join(DATA_DIR, 'sound_effects')):
+        shutil.copytree(os.path.join(APP_DIR, 'utils/sound_effects'),
+                        os.path.join(DATA_DIR, 'sound_effects'))
 
-    db.create_all()    
+    db.create_all()
     get_sound_effects()
-    if not os.path.exists(os.path.join(DATA_DIR,'admin_parameters.yaml')):
-        shutil.copy(os.path.join(APP_DIR,'utils/code_templates/admin_parameters.yaml'),os.path.join(DATA_DIR,'admin_parameters.yaml'))
-
+    if not os.path.exists(os.path.join(DATA_DIR, 'admin_parameters.yaml')):
+        shutil.copy(os.path.join(APP_DIR, 'utils/code_templates/admin_parameters.yaml'),
+                    os.path.join(DATA_DIR, 'admin_parameters.yaml'))
 
 
 @socketio.on('connection')
 def on_connect(data):
     print("Socket connected, data received:", data)
 
+
 @socketio.on('disconnection')
 def on_disconnect(data):
     print("Socket disconnected!!, data received:", data)
 
-@socketio.on_error()  
+
+@socketio.on_error()
 def error_handler(e):
     print('Error - socket  IO : ', e)
 
+
 @app.route('/')
 def index():
-    
+
     stop_now()
     robot_name = get_robot_name()
     return render_template('home-page.html', robot_name=robot_name)
+
 
 @socketio.on('get-all-projects')
 def handle_get_all_projects():
@@ -155,10 +165,11 @@ def handle_get_all_projects():
     print('getting all projects')
     print(projects_list)
 
-    emit('all-projects', { 'status': '200', 'data': projects_list})
+    emit('all-projects', {'status': '200', 'data': projects_list})
 
-def load_monaco_instrunctions(languange: str = 'en') -> dict: 
-    path = os.path.join(APP_DIR,f'instructions/library_{languange}.json')
+
+def load_monaco_instrunctions(languange: str = 'en') -> dict:
+    path = os.path.join(APP_DIR, f'instructions/library_{languange}.json')
     with open(path) as json_file:
         data = json.load(json_file)
     return data
@@ -168,52 +179,58 @@ def load_monaco_instrunctions(languange: str = 'en') -> dict:
 def monaco():
     instructions = load_monaco_instrunctions('en')
     stop_now()
-    id = request.args.get('id') 
-    print("------------------>",id)
+    id = request.args.get('id')
+    print("------------------>", id)
     robot_name = get_robot_name()
     get_sound_effects()
     scenes = get_scenes()
     locale = LOCALE
-    return render_template('monaco.html', project_id=id, robot_name=robot_name,instructions=instructions,locale=locale,scenes=scenes)  
+    return render_template('monaco.html', project_id=id, robot_name=robot_name, instructions=instructions, locale=locale, scenes=scenes)
+
 
 @app.route('/blockly')
 def blockly():
     stop_now()
-    id = request.args.get('id') 
-    print("------------------>",id)
+    id = request.args.get('id')
+    print("------------------>", id)
     robot_name = get_robot_name()
     get_sound_effects()
     scenes = get_scenes()
     locale = LOCALE
-    return render_template('blockly.html', project_id=id, robot_name=robot_name,locale=locale,scenes=scenes)           
+    return render_template('blockly.html', project_id=id, robot_name=robot_name, locale=locale, scenes=scenes)
+
 
 @app.route('/kindergarten')
 def kindergarten():
     stop_now()
     robot_name = get_robot_name()
     scenes = get_scenes()
-    return render_template('blockly_simple.html', project_id=-1, robot_name=robot_name,scenes=scenes)  
+    return render_template('blockly_simple.html', project_id=-1, robot_name=robot_name, scenes=scenes)
+
 
 @socketio.on('get_sound_effects')
 def blockly_get_sound_effects():
-    if os.path.exists(os.path.join(DATA_DIR,'sound_effects.json')):
-        with open(os.path.join(DATA_DIR,'sound_effects.json'), 'r') as file:
+    if os.path.exists(os.path.join(DATA_DIR, 'sound_effects.json')):
+        with open(os.path.join(DATA_DIR, 'sound_effects.json'), 'r') as file:
             sounds = json.load(file)
-            emit('sound_effects',  { 'status': 200, 'data': sounds })
+            emit('sound_effects',  {'status': 200, 'data': sounds})
     else:
-        emit('sound_effects', { 'status': 404, 'data': 'file does not exist'})       
+        emit('sound_effects', {'status': 404, 'data': 'file does not exist'})
+
 
 @app.route('/admin_panel')
 def admin_panel():
     stop_now()
     robot_name = get_robot_name()
-    return render_template('panel-page.html', robot_name=robot_name,docker = DOCKER, mode = ROBOT_MODE)
+    return render_template('panel-page.html', robot_name=robot_name, docker=DOCKER, mode=ROBOT_MODE)
+
 
 @socketio.on('get_admin_panel_parameters')
 def handle_get_admin_panel_parameters():
     parameters = load_parameters()
     parameters.pop('simulator_ids')
-    emit('parameters', { 'status': '200', 'parameters': parameters})
+    emit('parameters', {'status': '200', 'parameters': parameters})
+
 
 @socketio.on('save_parameters')
 def handle_save_parameters(data):
@@ -224,23 +241,26 @@ def handle_save_parameters(data):
         i = 0
         for key, value in parameters.items():
             print(key)
-            if key == 'robot_name':                
+            if key == 'robot_name':
                 value['value'] = params_values['robot_name']
-            elif key != 'simulator_ids':     
+            elif key != 'simulator_ids':
                 value['value'] = int(params_values[key])
             i = i + 1
 
         save_parameters(parameters)
-        emit('save_parameters_result', { 'status': '200', 'data': parameters})
+        emit('save_parameters_result', {'status': '200', 'data': parameters})
     except Exception as e:
         print(e)
-        emit('save_parameters_result', { 'status': 'error', 'data': 'parameters not saved'})
+        emit('save_parameters_result', {
+             'status': 'error', 'data': 'parameters not saved'})
+
 
 @socketio.on('projects')
 def handle_projects():
     projects_list = get_all_projects()
     data = jsonify(projects_list)
-    emit('projects', { 'status': '200', 'data': data })
+    emit('projects', {'status': '200', 'data': data})
+
 
 @socketio.on('new_project')
 def handle_new_project(data):
@@ -253,7 +273,9 @@ def handle_new_project(data):
     db.session.refresh(project)
     # os.mkdir(os.path.join(PROJECT_DIR,f'{project.project_id}'))
     # shutil.copy(os.path.join(APP_DIR,'utils/code_templates/template.xml'),os.path.join(PROJECT_DIR,f'{project.project_id}/{project.project_id}.xml'))
-    emit('new_project_result', { 'status': '200', 'project_id': project.project_id }) 
+    emit('new_project_result', {'status': '200',
+         'project_id': project.project_id})
+
 
 @socketio.on('delete_project')
 def handle_delete_project(data):
@@ -264,73 +286,86 @@ def handle_delete_project(data):
         db.session.delete(project)
         db.session.commit()
         # shutil.rmtree(os.path.join(PROJECT_DIR,f'{project.project_id}'))
-        emit('delete_project_result', {'status':'200', 'project_deleted': 'true' })
+        emit('delete_project_result', {
+             'status': '200', 'project_deleted': 'true'})
     except Exception as e:
         print(e)
-        emit('delete_project_result', {'status':'error', 'project_deleted': 'false', 'error_message': str(e)})
+        emit('delete_project_result', {
+             'status': 'error', 'project_deleted': 'false', 'error_message': str(e)})
+
 
 @socketio.on('edit_project')
 def handle_edit_project(project_id):
     try:
         project = Projects.query.get(project_id)
-        project.title = request.args.get('title')    
+        project.title = request.args.get('title')
         project.info = request.args.get('info')
-        db.session.commit()       
-        emit('edit_project', {'status':'updated'})
+        db.session.commit()
+        emit('edit_project', {'status': 'updated'})
     except Exception as e:
         print(e)
-        emit('edit_project', {'status':'error'})
+        emit('edit_project', {'status': 'error'})
+
 
 @socketio.on('script_status')
 def handle_script_status():
     global SCRIPT_PROCCESS
-    if SCRIPT_PROCCESS is None or SCRIPT_PROCCESS.poll() is not None:       
-        emit('script_status',  {'status': 'completed'}) 
+    if SCRIPT_PROCCESS is None or SCRIPT_PROCCESS.poll() is not None:
+        emit('script_status',  {'status': 'completed'})
     else:
-        emit('script_status',  {'status': 'still running'}) 
+        emit('script_status',  {'status': 'still running'})
+
 
 @app.route('/stop_script')
 def stop_script():
     result = stop_now()
     return jsonify(result)
 
+
 @socketio.on('stop_script')
 def handle_stop_script():
     result = stop_now()
     emit('stop_script', result)
+
 
 @socketio.on('terminal_msgs')
 def handle_terminal_msgs(data):
     print(data)
     socketio.emit('trm',  data)
 
+
 def relay_to_robot(packet):
     socketio.emit('execute_fossbot',  packet)
     socketio.emit('get_fossbot_status')
+
 
 @socketio.on('fossbot_status')
 def on_connect(data):
     print("FossBot status: ", data)
 
+
 @socketio.on('execute_blockly')
 def handle_execute_blockly(data):
     relay_to_robot(json.dumps(data))
     global SCRIPT_PROCCESS
-    socketio.emit('execute_blockly_robot', {'status': '200', 'result': 'Code saved with success'})
+    socketio.emit('execute_blockly_robot', {
+                  'status': '200', 'result': 'Code saved with success'})
     try:
         id = data['id']
         code = data['code']
         print(code)
         try:
             stop_script()
-            SCRIPT_PROCCESS = Process(target=execute_blocks, args=(code,),daemon=True)
+            SCRIPT_PROCCESS = Process(
+                target=execute_blocks, args=(code,), daemon=True)
             SCRIPT_PROCCESS.start()
         except Exception as e:
             print(e)
         emit('execute_blockly_result', {'status': '200'})
     except Exception as e:
         print(e)
-        emit('execute_blockly_result',  {'status': 'error when creating .py file or when running the .py file'})
+        emit('execute_blockly_result',  {
+             'status': 'error when creating .py file or when running the .py file'})
 
 # @socketio.on('execute_monaco')
 # def handle_execute_monaco(data):
@@ -352,19 +387,28 @@ def handle_execute_blockly(data):
 #         print(e)
 #         emit('execute_monaco_result',  {'status': 'error when creating .py file or when running the .py file'})
 
+
 @socketio.on('execute_monaco')
 def handle_execute_monaco(data):
     global WORKERS_LIST
     code = data['code']
-    proc = Process(target=execute_code, args=(code,),daemon=True)
-    WORKERS_LIST.append({'project_id': int(data['id']), 'user': 'default', 'process': proc, 'status': 'idle'})
+    proc = Process(target=execute_code, args=(code,), daemon=True)
+    WORKERS_LIST.append({'project_id': int(
+        data['id']), 'user': 'default', 'process': proc, 'status': 'idle'})
     print(WORKERS_LIST)
     emit('execute_monaco_result', {'status': '200'})
+
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
 
 @app.route('/classroom', methods=['GET'])
 def classroom():
     global WORKERS_LIST
     serialized_workers = []
+    # name = request.args.get('name')
     for worker in WORKERS_LIST:
         serialized_worker = {
             'project_id': worker['project_id'],
@@ -373,19 +417,22 @@ def classroom():
         }
         serialized_workers.append(serialized_worker)
     return render_template('classroom.html', workers=serialized_workers)
-     
+
+
 @socketio.on('runByID')
 def handle_runByID(data):
     global WORKERS_LIST
     id = int(data['id']) - 1
-  
+
     if len(WORKERS_LIST) == 0:
-        emit('worker_result', {'status': 'error', 'message': 'Invalid worker ID'})
-        return 
+        emit('worker_result', {'status': 'error',
+             'message': 'Invalid worker ID'})
+        return
 
     if id >= len(WORKERS_LIST):
-        emit('worker_result', {'status': 'error', 'message': 'Process ID out of range'})
-        return 
+        emit('worker_result', {'status': 'error',
+             'message': 'Process ID out of range'})
+        return
     worker = WORKERS_LIST[id]
 
     if not worker['process'].is_alive():
@@ -395,19 +442,24 @@ def handle_runByID(data):
                 worker['status'] = 'active'
 
                 emit('worker_result', {'status': 'success', 'message': f"Worker {id} started"})
+                emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
                 return
             else:
-                emit('worker_result', {'status': 'error', 'message': "Another worker is running"})
+                emit('worker_result', {'status': 'error',
+                     'message': "Another worker is running"})
                 return
         elif worker['status'] == 'active':
             worker['status'] = 'finished'
-            emit('worker_result', {'status': 'error', 'message': "Worker finished running"})
+            emit('worker_result', {'status': 'error',
+                 'message': "Worker finished running"})
             return
         else:
-            emit('worker_result', {'status': 'error', 'message': "Worker already finished"})
+            emit('worker_result', {'status': 'error',
+                 'message': "Worker already finished"})
             return
     else:
-        emit('worker_result', {'status': 'error', 'message': "Another worker is running"})
+        emit('worker_result', {'status': 'error',
+             'message': "Another worker is running"})
         return
 
 
@@ -443,25 +495,29 @@ def monitor_workers():
             if stopEvent.is_set():
                 break
 
+
 @socketio.on('stopByID')
 def handle_stopByID(data):
     global WORKERS_LIST
     id = int(data['id']) - 1
 
     if len(WORKERS_LIST) == 0:
-        emit('worker_result', {'status': 'error', 'message': 'Invalid worker ID'})
-        return 
+        emit('worker_result', {'status': 'error',
+             'message': 'Invalid worker ID'})
+        return
 
     if id >= len(WORKERS_LIST):
-        emit('worker_result', {'status': 'error', 'message': 'Process ID out of range'})
+        emit('worker_result', {'status': 'error',
+             'message': 'Process ID out of range'})
         return
-    
+
     worker = WORKERS_LIST[id]
 
     if worker['status'] == 'active':
         worker['process'].terminate()
         worker['status'] = 'finished'
         emit('worker_result', {'status': 'success', 'message': 'Worker stopped'})
+        emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
         return
     elif worker['status'] == 'idle':
         emit('worker_result', {'status': 'error', 'message': 'Worker is not running'})
@@ -470,38 +526,45 @@ def handle_stopByID(data):
         emit('worker_result', {'status': 'error', 'message': 'Worker already finished'})
         return
 
+
 @socketio.on('deleteByID')
 def handle_deleteByID(data):
     global WORKERS_LIST
     id = int(data['id']) - 1
 
     if len(WORKERS_LIST) == 0:
-        emit('worker_result', {'status': 'error', 'message': 'Invalid worker ID'})
-        return 
+        emit('worker_result', {'status': 'error',
+             'message': 'Invalid worker ID'})
+        return
 
     if id >= len(WORKERS_LIST):
-        emit('worker_result', {'status': 'error', 'message': 'Process ID out of range'})
+        emit('worker_result', {'status': 'error',
+             'message': 'Process ID out of range'})
         return
-    
+
     worker = WORKERS_LIST[id]
 
     del WORKERS_LIST[id]
     emit('worker_result', {'status': 'success', 'message': 'Worker deleted'})
-    emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
-    
+    emit('refresh_table', {'workers': WORKERS_LIST},
+         broadcast=True)  # Send updated data to all clients
+
     return
+
 
 @socketio.on('runAllSerially')
 def handle_runAllSerially():
-    global WORKERS_LIST, stopEvent 
+    global WORKERS_LIST, stopEvent
 
     if len(WORKERS_LIST) > 0:
         stopEvent.clear()
         threading.Thread(target=monitor_workers, daemon=True).start()
-        emit('worker_result', {'status': 'success', 'message': 'Queue started'})
+        emit('worker_result', {'status': 'success',
+             'message': 'Queue started'})
         return
     else:
         emit('worker_result', {'status': 'error', 'message': 'No workers available'})
+        emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
         return
 
 @socketio.on('stopAllQueue')
@@ -515,6 +578,7 @@ def handle_stopAllQueue():
             stopEvent.set()
 
     emit('worker_result', {'status': 'success', 'message': 'Queue stopped'})
+    emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
     return
 
 
@@ -737,7 +801,7 @@ def get_sound_effects():
             audio_name = audio_name_list[0]
             sounds_names.append({ "sound_name": audio_name, "sound_path": os.path.normpath(sound)})        
         print("sound effects:")        
-        #delete first the json file if exists and then create it again 
+        # delete first the json file if exists and then create it again 
         if os.path.exists(os.path.join(DATA_DIR,'sound_effects.json')):
             os.remove(os.path.join(DATA_DIR,'sound_effects.json'))
         with open(os.path.join(DATA_DIR,'sound_effects.json'), 'w') as out_file:
