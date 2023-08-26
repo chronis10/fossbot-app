@@ -159,6 +159,15 @@ def index():
     return render_template('home-page.html', robot_name=robot_name)
 
 
+# @socketio.on('get-all-projects')
+# def handle_get_all_projects():
+#     user_name = session['user_name']  # Replace this with the correct method to get the user's name
+#     projects_list = get_all_projects(user_name)
+#     print('getting all projects')
+#     print(projects_list)
+
+    # emit('all-projects', {'status': '200', 'data': projects_list})
+
 @socketio.on('get-all-projects')
 def handle_get_all_projects():
     projects_list = get_all_projects()
@@ -267,6 +276,9 @@ def handle_new_project(data):
     title = data['title']
     info = data['info']
     editor = data['editor']
+    # name = request.args.get('name')
+    # if name is None:
+    #     name = 'default'
     project = Projects(title, info, editor)
     db.session.add(project)
     db.session.commit()
@@ -396,6 +408,7 @@ def handle_execute_monaco(data):
     WORKERS_LIST.append({'project_id': int(
         data['id']), 'user': 'default', 'process': proc, 'status': 'idle'})
     print(WORKERS_LIST)
+    emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)
     emit('execute_monaco_result', {'status': '200'})
 
 
@@ -417,6 +430,14 @@ def classroom():
         }
         serialized_workers.append(serialized_worker)
     return render_template('classroom.html', workers=serialized_workers)
+
+
+@socketio.on('refresh_table')
+def handle_refresh_table():
+    global WORKERS_LIST
+
+    emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
+    return
 
 
 @socketio.on('runByID')
@@ -463,6 +484,24 @@ def handle_runByID(data):
         return
 
 
+# @socketio.on('connect')
+# def handle_connect():
+#     global WORKERS_LIST
+
+#     # Your existing code here
+
+#     # Emit the event when a client is connected
+#     serialized_workers = []
+#     for worker in WORKERS_LIST:
+#         serialized_worker = {
+#             'project_id': worker['project_id'],
+#             'user': worker['user'],
+#             'status': worker['status']
+#         }
+#         serialized_workers.append(serialized_worker)
+#     socketio.emit('refresh_table', {'workers': serialized_workers})
+
+
 def monitor_worker(id):
     global WORKERS_LIST
 
@@ -474,10 +513,13 @@ def monitor_worker(id):
 def monitor_workers_status():
     global WORKERS_LIST
 
+    previousList = WORKERS_LIST.copy()
+
     while True:
         for worker in WORKERS_LIST:
             if worker['status'] == 'active' and not worker['process'].is_alive():
                 worker['status'] = 'finished'
+        
         time.sleep(1)
 
 
@@ -752,6 +794,11 @@ def get_all_projects():
     projects = Projects.query.all()
     projects_list = [pr.to_dict() for pr in projects]
     return projects_list
+
+# def get_all_projects(user_name):
+#     projects = Projects.query.filter_by(Creator=user_name).all()
+#     projects_list = [pr.to_dict() for pr in projects]
+#     return projects_list
 
 def stop_now():
     global SCRIPT_PROCCESS

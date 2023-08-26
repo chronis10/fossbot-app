@@ -247,7 +247,16 @@ socket.on('refresh_table', (data) => {
 
   // Iterate over the workers data and create new table rows
   workers.forEach((worker, index) => {
-    const row = document.createElement('tr');
+    // Check if the worker already exists in the table
+    const existingRow = document.querySelector(`#worker-${worker.project_id}`);
+    if (existingRow) {
+      // Update the existing row with the new worker data
+      existingRow.querySelector('.status').textContent = worker.status;
+    } else {
+      // Create a new row for the worker
+      const row = document.createElement('tr');
+      row.id = `worker-${worker.project_id}`;
+    }
 
     // Create table cells for each worker property
     const indexCell = document.createElement('th');
@@ -293,15 +302,36 @@ socket.on('refresh_table', (data) => {
   });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+  var loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", redirectToClassroom);
+  }
+});
+
 function redirectToClassroom(event) {
   event.preventDefault(); // Prevent form submission
 
   // Get the value of the name input field
   var name = document.getElementById("name").value;
+  var password = document.getElementById("password").value;
+  var passwordField = document.getElementById("password-field");
 
   // Check if the name is empty
   if (name.trim() === "") {
     showModalError('Please enter your name.');
+    return;
+  }
+
+  // If the password field is not displayed and the name is "teacher", show the password field
+  if (passwordField.style.display === "none" && name.toLowerCase() === "teacher") {
+    passwordField.style.display = "block";
+    return;
+  }
+
+  // Check if the case-insensitive name is "teacher" and the password is correct
+  if (name.toLowerCase() === "teacher" && password !== "1234") {
+    showModalError('Incorrect password.');
     return;
   }
 

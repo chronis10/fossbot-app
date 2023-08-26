@@ -20,6 +20,11 @@ socket.on("trm", (incoming) => {
 });
 
 
+// socket.on("refresh_worker_list", (data) => {
+//   const workers = data.workers;
+//   console.log("refresh_worker_list", workers);
+//   processTable = document.getElementById('workers');
+// });
 
 
 const deleteProject = function (id) {
