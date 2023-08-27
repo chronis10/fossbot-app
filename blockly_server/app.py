@@ -80,12 +80,14 @@ class Projects(db.Model, SerializerMixin):
     title = db.Column(db.String(100))
     info = db.Column(db.String(500))
     editor = db.Column(db.String(100))
+    creator = db.Column(db.String(100))
     data = db.Column(db.Text)
 
-    def __init__(self, title, info, editor, data=None):
+    def __init__(self, title, info, editor, creator, data=None):
         self.title = title
         self.info = info
         self.editor = editor
+        self.creator = creator
         self.data = data
 
 
@@ -276,10 +278,8 @@ def handle_new_project(data):
     title = data['title']
     info = data['info']
     editor = data['editor']
-    # name = request.args.get('name')
-    # if name is None:
-    #     name = 'default'
-    project = Projects(title, info, editor)
+    creator = data['creator']
+    project = Projects(title, info, editor, creator)
     db.session.add(project)
     db.session.commit()
     db.session.refresh(project)
@@ -312,6 +312,7 @@ def handle_edit_project(project_id):
         project = Projects.query.get(project_id)
         project.title = request.args.get('title')
         project.info = request.args.get('info')
+        project.creator = request.args.get('creator')
         db.session.commit()
         emit('edit_project', {'status': 'updated'})
     except Exception as e:
@@ -718,6 +719,7 @@ def export_project(id):
     root.set("title", code["title"])
     root.set("info", code["info"])
     root.set("editor", code["editor"])
+    root.set("creator", code["creator"])
 
     # Create the data element
     data = ET.SubElement(root, "data")
@@ -761,11 +763,12 @@ def upload_project():
             title = root.get("title")
             info = root.get("info")
             editor = root.get("editor")
+            creator = root.get("creator")
 
             # Extract the data from the data element
             data = root.find("data").text
 
-            project = Projects(title, info, editor, data)
+            project = Projects(title, info, editor, creator, data)
 
             db.session.add(project)
             db.session.commit()
@@ -785,7 +788,8 @@ def get_code_from_db(project_id):
             'editor': project.editor,
             'data': project.data,
             'title': project.title,
-            'info': project.info
+            'info': project.info,
+            'creator': project.creator
         }
     else:
         return None

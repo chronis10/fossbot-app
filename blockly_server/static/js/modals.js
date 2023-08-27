@@ -33,6 +33,10 @@ function showModalNewProjectDescription() {
     document.getElementById("modal-project-description-space").style.display = 'block';
 }
 
+function showModalNewProjectCreator() {
+    document.getElementById("modal-project-creator-space").style.display = 'block';
+}
+
 function closeModalNewProjectName() {
     document.getElementById("modal-projectname-space").style.display = 'none';
 }
@@ -41,13 +45,20 @@ function closeModalNewProjectDescription() {
     document.getElementById("modal-project-description-space").style.display = 'none';
 }
 
+function closeModalNewProjectCreator() {
+    document.getElementById("modal-project-creator-space").style.display = 'none';
+}
+
 function closeModalsInHomeWhenClickAnywhere() {
     if(document.getElementById("modal-projectname-space").style.display == 'block') {
         closeModalNewProjectName() 
     }
-    if(document.getElementById("modal-project-description-space").style.display == 'block') {
-        closeModalNewProjectDescription()
+    if(document.getElementById("modal-project-creator-space").style.display == 'block') {
+        closeModalNewProjectCreator()
     }
+    if(document.getElementById("modal-project-description-space").style.display == 'block') {
+    }
+        closeModalNewProjectDescription()
     closeModalSuccessOrErrorwhenClickAnywhere()
 }
 //END-AREA: MODALS FOR HOME-PAGE.HTML

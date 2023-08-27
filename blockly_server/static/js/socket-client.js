@@ -38,9 +38,9 @@ const deleteProject = function (id) {
   });
 }
 
-const newProject = function (title_name,infos, editor) {
+const newProject = function (title_name,infos, editor, creator_name) {
   return new Promise(function(resolve, reject) {
-    socket.emit('new_project', { title: title_name, info: infos, editor: editor });
+    socket.emit('new_project', { title: title_name, info: infos, editor: editor, creator: creator_name });
 
     socket.on('new_project_result', (data) => {
       console.log("new_project, id given from server:", data);

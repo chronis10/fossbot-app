@@ -1,0 +1,30 @@
+<div class="modal show" id="modal-project-creator-space" style="top: 5em;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" id="modal-project-creator-space-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header border-0">
+          <button type="button" class="close" id="modal-project-creator-space-close-button" data-dismiss="modal"
+            onclick="closeModalNewProjectCreator()">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <strong id="modal-project-creator-space-text">{{ gettext('Please give the name of the creator of the new project:')}}</strong>
+          <div class="form-group" id="form-project-creator">
+            <input type="text" id="project-creator-text">
+          </div>
+          <!-- <strong id="modal-username-space-text">{{ gettext('Please enter your name:')}}</strong>
+          <div class="form-group" id="form-user-name">
+            <input type="text" id="user-name-text">
+          </div> -->
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer border-0">
+            <button onclick="getCreator()" type="button" class="btn btn-primary" id="button-project-creator"
+              data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>

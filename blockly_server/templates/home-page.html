@@ -118,6 +118,7 @@
                     <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Title')}}</th>
                     <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Description')}}</th>
                     <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Editor')}}</th>
+                    <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Creator')}}</th>
                     <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Export')}}</th>
                     <!-- <th class="head-title" tabindex="0" rowspan="1" colspan="1"></th> -->
                     <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Edit')}}</th>
@@ -333,6 +334,9 @@
 
   <!-- modal : ask for new project description -->
   {% include 'modal-project-description.html' %}
+  
+  <!-- modal : ask for new project description -->
+  {% include 'modal-project-creator.html' %}
 
 
 </body>

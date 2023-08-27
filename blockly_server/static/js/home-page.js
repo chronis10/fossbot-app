@@ -1,7 +1,7 @@
 //attributes for adding a new project 
 let new_project_title;
 let new_project_description;
-let creatorName;
+let new_project_creator;
 let last_table_size = 0;
 let editor = 'blockly';
 
@@ -59,6 +59,7 @@ function loadProjects(data) {
         //         ` +
 
         // '</td>' +
+        '<td>' + project['creator'] + '</td>' +
         '<td>' +
         `<div id="button__controls_row">
                                 <div id="button_fa_wrap_controls_table">
@@ -130,25 +131,34 @@ function createNewProject() {
       document.getElementById("project-name-text").value = "";
 
       //open decription modal
-      showModalNewProjectDescription();
+      showModalNewProjectCreator();
+
 
     }
   }
 
 }
 
+async function getCreator() {
+  //get the input value 
+  new_project_creator = document.getElementById("project-creator-text").value
+
+  if (new_project_creator != '') {
+    //close the modal 
+    closeModalNewProjectCreator();
+
+    //empty the input value 
+    document.getElementById("project-creator-text").value = "";
+
+    //open decription modal
+    showModalNewProjectDescription();
+  }
+}
+
 async function getDescription() {
   //get the input value 
   new_project_description = document.getElementById("project-description-text").value
   editor = document.querySelector('input[type=radio][name="editor"]:checked').value;
-
-  const url = new URL(window.location.href);
-
-  // Check if the URL contains the "classroom" parameter
-  if (url.searchParams.has("classroom")) {
-    // Get the value of the "name" parameter
-    creatorName = url.searchParams.get("name");
-  }
 
   if (new_project_description != '') {
     //close the modal 
@@ -157,7 +167,7 @@ async function getDescription() {
     //empty the input value 
     document.getElementById("project-description-text").value = "";
 
-    const result = await newProject(new_project_title, new_project_description, editor)
+    const result = await newProject(new_project_title, new_project_description, editor, new_project_creator)
     console.log('result is ', result)
     if (editor == 'blockly') {
       window.location.replace('/blockly?id=' + result.project_id)
