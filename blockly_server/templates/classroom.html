@@ -188,7 +188,7 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">{{ gettext('Project ID') }}</th>
-                  <th scope="col">{{ gettext('User') }}</th>
+                  <th scope="col">{{ gettext('Creator') }}</th>
                   <th scope="col">{{ gettext('Status') }}</th>
                 </tr>
               </thead>
@@ -236,16 +236,18 @@
               </thead>
               <tbody>
                 {% set usernames = [] %}
+                {% set ns = namespace(index=1) %}
                 {% for worker in workers %}
-                {% if worker.user not in usernames %}
-                <tr>
-                  <th scope="row">{{ loop.index }}</th>
-                  <td>{{ worker.user }}</td>
-                </tr>
-                {% set _ = usernames.append(worker.user) %}
-                {% endif %}
+                    {% if worker.user not in usernames %}
+                        <tr>
+                            <th scope="row">{{ ns.index }}</th>
+                            <td>{{ worker.user }}</td>
+                        </tr>
+                        {% set _ = usernames.append(worker.user) %}
+                        {% set ns.index = ns.index + 1 %}
+                    {% endif %}
                 {% endfor %}
-              </tbody>
+            </tbody>
             </table>
           </div>
         </div>

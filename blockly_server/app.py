@@ -405,11 +405,13 @@ def handle_execute_blockly(data):
 def handle_execute_monaco(data):
     global WORKERS_LIST
     code = data['code']
+    project = db.session.query(Projects).get(data['id'])
+    creator = project.creator
     proc = Process(target=execute_code, args=(code,), daemon=True)
     WORKERS_LIST.append({'project_id': int(
-        data['id']), 'user': 'default', 'process': proc, 'status': 'idle'})
+        data['id']), 'user': creator, 'process': proc, 'status': 'idle'})
     print(WORKERS_LIST)
-    emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)
+    # emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)
     emit('execute_monaco_result', {'status': '200'})
 
 
