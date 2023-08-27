@@ -56,16 +56,6 @@
 
 </script>
 <script>
-  function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-  }
-
   document.addEventListener('DOMContentLoaded', function() {
     // Get the user's name from the URL
     const userName = getParameterByName("name");
@@ -151,6 +141,8 @@
                       gettext('Description')}}</th>
                     <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{
                       gettext('Editor')}}</th>
+                    <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{
+                      gettext('Creator')}}</th>
                     <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{
                       gettext('Export')}}</th>
                     <!-- <th class="head-title" tabindex="0" rowspan="1" colspan="1"></th> -->
@@ -273,6 +265,9 @@
 
   <!-- modal : ask for new project description -->
   {% include 'modal-project-description.html' %}
+
+  <!-- modal : ask for new project description -->
+  {% include 'modal-project-creator.html' %}
 
 
 </body>

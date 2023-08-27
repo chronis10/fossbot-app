@@ -8,17 +8,22 @@ let editor = 'blockly';
 function loadProjects(data) {
   console.log('load projects');
 
-  //get the array with the projects
-  const projects_array = data.data;
-  console.log('projects:', projects_array);
+  // Get the user's name from the URL
+  const userName = getParameterByName("name");
 
-  // const rows = document.getElementById("body-table-projects").rows.length;
-  // if(rows >0){
-  //     for(var i=1; i<=rows; i++) {
-  //         document.getElementById("body-table-projects").deleteRow(i);
-  //     }
-  //     location.reload();
-  // }
+ // Check the current URL
+ const currentUrl = window.location.href;
+
+ // Filter the projects based on the creator's name and the user's role
+ let projects_array;
+ if (currentUrl.includes("/classroom") && userName) {
+   // Apply filtering logic for the classroom URL
+   projects_array = data.data.filter(project => userName.toLowerCase() === 'teacher' || project.creator === userName);
+ } else if (!currentUrl.includes("/classroom")) {
+   // Display all projects for the homepage URL
+   projects_array = data.data;
+ }
+ console.log('projects:', projects_array);
 
 
   if (last_table_size != projects_array.length) {
@@ -107,6 +112,15 @@ function loadProjects(data) {
 
 }
 
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+      results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
 
 function uplodadProject() {
 
