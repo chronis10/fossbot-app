@@ -357,28 +357,40 @@ def on_connect(data):
     print("FossBot status: ", data)
 
 
+# @socketio.on('execute_blockly')
+# def handle_execute_blockly(data):
+#     relay_to_robot(json.dumps(data))
+#     global SCRIPT_PROCCESS
+#     socketio.emit('execute_blockly_robot', {
+#                   'status': '200', 'result': 'Code saved with success'})
+#     try:
+#         id = data['id']
+#         code = data['code']
+#         print(code)
+#         try:
+#             stop_script()
+#             SCRIPT_PROCCESS = Process(
+#                 target=execute_blocks, args=(code,), daemon=True)
+#             SCRIPT_PROCCESS.start()
+#         except Exception as e:
+#             print(e)
+#         emit('execute_blockly_result', {'status': '200'})
+#     except Exception as e:
+#         print(e)
+#         emit('execute_blockly_result',  {
+#              'status': 'error when creating .py file or when running the .py file'})
+
 @socketio.on('execute_blockly')
 def handle_execute_blockly(data):
-    relay_to_robot(json.dumps(data))
-    global SCRIPT_PROCCESS
-    socketio.emit('execute_blockly_robot', {
-                  'status': '200', 'result': 'Code saved with success'})
-    try:
-        id = data['id']
-        code = data['code']
-        print(code)
-        try:
-            stop_script()
-            SCRIPT_PROCCESS = Process(
-                target=execute_blocks, args=(code,), daemon=True)
-            SCRIPT_PROCCESS.start()
-        except Exception as e:
-            print(e)
-        emit('execute_blockly_result', {'status': '200'})
-    except Exception as e:
-        print(e)
-        emit('execute_blockly_result',  {
-             'status': 'error when creating .py file or when running the .py file'})
+    global WORKERS_LIST
+    code = data['code']
+    project = db.session.query(Projects).get(data['id'])
+    creator = project.creator
+    proc = Process(target=execute_blocks, args=(code,), daemon=True)
+    WORKERS_LIST.append({'project_id': int(
+        data['id']), 'user': creator, 'process': proc, 'status': 'idle'})
+    print(WORKERS_LIST)
+    emit('execute_blockly_result', {'status': '200'})
 
 # @socketio.on('execute_monaco')
 # def handle_execute_monaco(data):
@@ -401,6 +413,17 @@ def handle_execute_blockly(data):
 #         emit('execute_monaco_result',  {'status': 'error when creating .py file or when running the .py file'})
 
 
+def serialize_workers_list(workers_list):
+    serialized_workers = []
+    for worker in workers_list:
+        serialized_worker = {
+            'project_id': worker['project_id'],
+            'user': worker['user'],
+            'status': worker['status']
+        }
+        serialized_workers.append(serialized_worker)
+    return serialized_workers
+
 @socketio.on('execute_monaco')
 def handle_execute_monaco(data):
     global WORKERS_LIST
@@ -411,7 +434,7 @@ def handle_execute_monaco(data):
     WORKERS_LIST.append({'project_id': int(
         data['id']), 'user': creator, 'process': proc, 'status': 'idle'})
     print(WORKERS_LIST)
-    # emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)
+    emit('refresh_table', {'workers': serialize_workers_list(WORKERS_LIST)}, broadcast=True)
     emit('execute_monaco_result', {'status': '200'})
 
 
@@ -433,14 +456,6 @@ def classroom():
         }
         serialized_workers.append(serialized_worker)
     return render_template('classroom.html', workers=serialized_workers)
-
-
-@socketio.on('refresh_table')
-def handle_refresh_table():
-    global WORKERS_LIST
-
-    emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
-    return
 
 
 @socketio.on('runByID')
@@ -466,7 +481,7 @@ def handle_runByID(data):
                 worker['status'] = 'active'
 
                 emit('worker_result', {'status': 'success', 'message': f"Worker {id} started"})
-                emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
+                emit('refresh_table', {'workers': serialize_workers_list(WORKERS_LIST)}, broadcast=True)
                 return
             else:
                 emit('worker_result', {'status': 'error',
@@ -562,7 +577,7 @@ def handle_stopByID(data):
         worker['process'].terminate()
         worker['status'] = 'finished'
         emit('worker_result', {'status': 'success', 'message': 'Worker stopped'})
-        emit('refresh_table', {'workers': WORKERS_LIST}, broadcast=True)  # Send updated data to all clients
+        emit('refresh_table', {'workers': serialize_workers_list(WORKERS_LIST)}, broadcast=True)
         return
     elif worker['status'] == 'idle':
         emit('worker_result', {'status': 'error', 'message': 'Worker is not running'})
@@ -591,8 +606,7 @@ def handle_deleteByID(data):
 
     del WORKERS_LIST[id]
     emit('worker_result', {'status': 'success', 'message': 'Worker deleted'})
-    emit('refresh_table', {'workers': WORKERS_LIST},
-         broadcast=True)  # Send updated data to all clients
+    emit('refresh_table', {'workers': serialize_workers_list(WORKERS_LIST)}, broadcast=True)
 
     return
 

@@ -326,6 +326,27 @@ socket.on('refresh_table', (data) => {
   });
 });
 
+// socket.on('refresh_table', (data) => {
+//   // Update the table with the new data
+//   const workers = data.workers;
+
+//   // Clear the existing table rows
+//   const tableBody = document.querySelector('.table tbody');
+//   tableBody.innerHTML = '';
+
+//   // Iterate over the workers data and create new table rows
+//   workers.forEach((worker, index) => {
+//     // Create a new row for the worker
+//     const row = document.createElement('tr');
+//     row.id = `worker-${worker.project_id}`;
+
+//     // ... (rest of the code for creating table cells)
+
+//     // Append the new row to the table body
+//     tableBody.appendChild(row);
+//   });
+// });
+
 document.addEventListener('DOMContentLoaded', function() {
   var loginForm = document.getElementById("login-form");
   if (loginForm) {
