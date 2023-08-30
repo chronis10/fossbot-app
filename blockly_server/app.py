@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, Response, render_template, redirect, url_for, send_file
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy_serializer import SerializerMixin
@@ -72,6 +73,11 @@ app.config['BABEL_DEFAULT_LOCALE'] = LOCALE
 CORS(app)
 socketio = SocketIO(app)
 db = SQLAlchemy(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+# login_manager.login_view = 'login'
+
 agent = Agent()
 
 
@@ -90,6 +96,16 @@ class Projects(db.Model, SerializerMixin):
         self.creator = creator
         self.data = data
 
+class Users(UserMixin, db.Model, SerializerMixin):
+    user_id = db.Column('user_id', db.Integer, primary_key=True)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(500))
+    role = db.Column(db.String(10), nullable=False, default='student')
+
+    def __init__(self, username, password, role):
+        self.username = username
+        self.password = password
+        self.role = role
 
 def execute_blocks(code):
     agent.execute(code)
@@ -116,6 +132,10 @@ def get_locale():
 babel = Babel(app, locale_selector=get_locale)
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
+
 # @app._got_first_request
 def before_first_request():
     threading.Thread(target=monitor_workers_status, daemon=True).start()
@@ -132,6 +152,10 @@ def before_first_request():
                         os.path.join(DATA_DIR, 'sound_effects'))
 
     db.create_all()
+    if db.session.query(Users).filter_by(username='teacher').first() is None:
+        admin = Users('teacher', '123', 'admin')
+        db.session.add(admin)
+        db.session.commit()
     get_sound_effects()
     if not os.path.exists(os.path.join(DATA_DIR, 'admin_parameters.yaml')):
         shutil.copy(os.path.join(APP_DIR, 'utils/code_templates/admin_parameters.yaml'),
@@ -434,7 +458,8 @@ def handle_execute_monaco(data):
     WORKERS_LIST.append({'project_id': int(
         data['id']), 'user': creator, 'process': proc, 'status': 'idle'})
     print(WORKERS_LIST)
-    emit('refresh_table', {'workers': serialize_workers_list(WORKERS_LIST)}, broadcast=True)
+    socketio.emit('refresh_table', {'workers': serialize_workers_list(WORKERS_LIST)})
+    socketio.emit('refresh_list', {'data': serialize_workers_list(WORKERS_LIST)})
     emit('execute_monaco_result', {'status': '200'})
 
 
@@ -443,7 +468,9 @@ def login():
     return render_template('login.html')
 
 
+
 @app.route('/classroom', methods=['GET'])
+# @login_required
 def classroom():
     global WORKERS_LIST
     serialized_workers = []

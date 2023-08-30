@@ -488,3 +488,13 @@ function addRadioListeners() {
 document.addEventListener("DOMContentLoaded", function () {
   addRadioListeners();
 });
+
+
+socket.on("refresh_list", (incoming) => {
+  // console.log(incoming);
+  // document.getElementById('terminal_scrollable-content').innerHTML+= '<p>' + incoming.data + '</p>';
+  // var elem = document.getElementById('terminal_scrollable-content');
+  // elem.scrollTop = elem.scrollHeight;
+
+  alert(incoming.data);
+});
