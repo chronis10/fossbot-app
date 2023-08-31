@@ -87,13 +87,15 @@ class Projects(db.Model, SerializerMixin):
     info = db.Column(db.String(500))
     editor = db.Column(db.String(100))
     creator = db.Column(db.String(100))
+    mode = db.Column(db.String(20), nullable=False, default='homepage')
     data = db.Column(db.Text)
 
-    def __init__(self, title, info, editor, creator, data=None):
+    def __init__(self, title, info, editor, creator, mode, data=None):
         self.title = title
         self.info = info
         self.editor = editor
         self.creator = creator
+        self.mode = mode
         self.data = data
 
 class Users(UserMixin, db.Model, SerializerMixin):
@@ -303,7 +305,8 @@ def handle_new_project(data):
     info = data['info']
     editor = data['editor']
     creator = data['creator']
-    project = Projects(title, info, editor, creator)
+    mode = data['mode']
+    project = Projects(title, info, editor, creator, mode)
     db.session.add(project)
     db.session.commit()
     db.session.refresh(project)
@@ -337,6 +340,7 @@ def handle_edit_project(project_id):
         project.title = request.args.get('title')
         project.info = request.args.get('info')
         project.creator = request.args.get('creator')
+        project.mode = request.args.get('mode')
         db.session.commit()
         emit('edit_project', {'status': 'updated'})
     except Exception as e:
@@ -380,32 +384,39 @@ def relay_to_robot(packet):
 def on_connect(data):
     print("FossBot status: ", data)
 
-
-# @socketio.on('execute_blockly')
-# def handle_execute_blockly(data):
-#     relay_to_robot(json.dumps(data))
-#     global SCRIPT_PROCCESS
-#     socketio.emit('execute_blockly_robot', {
-#                   'status': '200', 'result': 'Code saved with success'})
-#     try:
-#         id = data['id']
-#         code = data['code']
-#         print(code)
-#         try:
-#             stop_script()
-#             SCRIPT_PROCCESS = Process(
-#                 target=execute_blocks, args=(code,), daemon=True)
-#             SCRIPT_PROCCESS.start()
-#         except Exception as e:
-#             print(e)
-#         emit('execute_blockly_result', {'status': '200'})
-#     except Exception as e:
-#         print(e)
-#         emit('execute_blockly_result',  {
-#              'status': 'error when creating .py file or when running the .py file'})
-
 @socketio.on('execute_blockly')
-def handle_execute_blockly(data):
+def handle_execute_monaco(data):
+    project = db.session.query(Projects).get(data['id'])
+    if project.mode == 'homepage':
+        handle_execute_blockly_homepage(data)
+    elif project.mode == 'classroom':
+        handle_execute_blockly_classroom(data)
+
+
+def handle_execute_blockly_homepage(data):
+    relay_to_robot(json.dumps(data))
+    global SCRIPT_PROCCESS
+    socketio.emit('execute_blockly_robot', {
+                  'status': '200', 'result': 'Code saved with success'})
+    try:
+        id = data['id']
+        code = data['code']
+        print(code)
+        try:
+            stop_script()
+            SCRIPT_PROCCESS = Process(
+                target=execute_blocks, args=(code,), daemon=True)
+            SCRIPT_PROCCESS.start()
+        except Exception as e:
+            print(e)
+        emit('execute_blockly_result', {'status': '200'})
+    except Exception as e:
+        print(e)
+        emit('execute_blockly_result',  {
+             'status': 'error when creating .py file or when running the .py file'})
+
+
+def handle_execute_blockly_classroom(data):
     global WORKERS_LIST
     code = data['code']
     project = db.session.query(Projects).get(data['id'])
@@ -416,25 +427,47 @@ def handle_execute_blockly(data):
     print(WORKERS_LIST)
     emit('execute_blockly_result', {'status': '200'})
 
-# @socketio.on('execute_monaco')
-# def handle_execute_monaco(data):
-#     # relay_to_robot(json.dumps(data))
-#     global SCRIPT_PROCCESS
-#     # socketio.emit('execute_monaco_robot', {'status': '200', 'result': 'Code saved with success'})
-#     try:
-#         id = data['id']
-#         code = data['code']
-#         # print(code)
-#         try:
-#             stop_script()
-#             SCRIPT_PROCCESS = Process(target=execute_monaco, args=(code,),daemon=True)
-#             SCRIPT_PROCCESS.start()
-#         except Exception as e:
-#             print(e)
-#         emit('execute_monaco_result', {'status': '200'})
-#     except Exception as e:
-#         print(e)
-#         emit('execute_monaco_result',  {'status': 'error when creating .py file or when running the .py file'})
+@socketio.on('execute_monaco')
+def handle_execute_monaco(data):
+    project = db.session.query(Projects).get(data['id'])
+    if project.mode == 'homepage':
+        handle_execute_monaco_homepage(data)
+    elif project.mode == 'classroom':
+        handle_execute_monaco_classroom(data)
+
+
+def handle_execute_monaco_classroom(data):
+    global WORKERS_LIST
+    code = data['code']
+    project = db.session.query(Projects).get(data['id'])
+    creator = project.creator
+    proc = Process(target=execute_code, args=(code,), daemon=True)
+    WORKERS_LIST.append({'project_id': int(
+        data['id']), 'user': creator, 'process': proc, 'status': 'idle'})
+    print(WORKERS_LIST)
+    socketio.emit('refresh_table', {'workers': serialize_workers_list(WORKERS_LIST)})
+    socketio.emit('refresh_list', {'data': serialize_workers_list(WORKERS_LIST)})
+    emit('execute_monaco_result', {'status': '200'})
+
+
+def handle_execute_monaco_homepage(data):
+    # relay_to_robot(json.dumps(data))
+    global SCRIPT_PROCCESS
+    # socketio.emit('execute_monaco_robot', {'status': '200', 'result': 'Code saved with success'})
+    try:
+        id = data['id']
+        code = data['code']
+        # print(code)
+        try:
+            stop_script()
+            SCRIPT_PROCCESS = Process(target=execute_monaco, args=(code,),daemon=True)
+            SCRIPT_PROCCESS.start()
+        except Exception as e:
+            print(e)
+        emit('execute_monaco_result', {'status': '200'})
+    except Exception as e:
+        print(e)
+        emit('execute_monaco_result',  {'status': 'error when creating .py file or when running the .py file'})
 
 
 def serialize_workers_list(workers_list):
@@ -448,19 +481,7 @@ def serialize_workers_list(workers_list):
         serialized_workers.append(serialized_worker)
     return serialized_workers
 
-@socketio.on('execute_monaco')
-def handle_execute_monaco(data):
-    global WORKERS_LIST
-    code = data['code']
-    project = db.session.query(Projects).get(data['id'])
-    creator = project.creator
-    proc = Process(target=execute_code, args=(code,), daemon=True)
-    WORKERS_LIST.append({'project_id': int(
-        data['id']), 'user': creator, 'process': proc, 'status': 'idle'})
-    print(WORKERS_LIST)
-    socketio.emit('refresh_table', {'workers': serialize_workers_list(WORKERS_LIST)})
-    socketio.emit('refresh_list', {'data': serialize_workers_list(WORKERS_LIST)})
-    emit('execute_monaco_result', {'status': '200'})
+
 
 
 @app.route('/login')
