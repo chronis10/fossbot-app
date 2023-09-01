@@ -2,6 +2,7 @@
 let new_project_title;
 let new_project_description;
 let new_project_creator;
+let new_project_mode;
 let last_table_size = 0;
 let editor = 'blockly';
 
@@ -64,7 +65,7 @@ function loadProjects(data) {
         //         ` +
 
         // '</td>' +
-        '<td>' + project['creator'] + '</td>' +
+        // '<td>' + project['creator'] + '</td>' +
         '<td>' +
         `<div id="button__controls_row">
                                 <div id="button_fa_wrap_controls_table">
@@ -144,13 +145,19 @@ function createNewProject() {
       //empty the input value 
       document.getElementById("project-name-text").value = "";
 
-      //open decription modal
-      showModalNewProjectCreator();
+      if (!document.location.href.includes('classroom')) {
+        new_project_creator = 'default'
+        new_project_mode = 'homepage'
+        //open decription modal
+        showModalNewProjectDescription();
+      }else {
+        new_project_mode = 'classroom'
+        //open decription modal
+        showModalNewProjectCreator();
 
-
+      }
     }
   }
-
 }
 
 async function getCreator() {
@@ -180,8 +187,7 @@ async function getDescription() {
 
     //empty the input value 
     document.getElementById("project-description-text").value = "";
-
-    const result = await newProject(new_project_title, new_project_description, editor, new_project_creator)
+    const result = await newProject(new_project_title, new_project_description, editor, new_project_creator, new_project_mode)
     console.log('result is ', result)
     if (editor == 'blockly') {
       window.location.replace('/blockly?id=' + result.project_id)

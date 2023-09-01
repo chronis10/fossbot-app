@@ -87,7 +87,7 @@ class Projects(db.Model, SerializerMixin):
     info = db.Column(db.String(500))
     editor = db.Column(db.String(100))
     creator = db.Column(db.String(100))
-    mode = db.Column(db.String(20), nullable=False, default='homepage')
+    mode = db.Column(db.String(20))
     data = db.Column(db.Text)
 
     def __init__(self, title, info, editor, creator, mode, data=None):
@@ -784,6 +784,7 @@ def export_project(id):
     root.set("info", code["info"])
     root.set("editor", code["editor"])
     root.set("creator", code["creator"])
+    root.set("mode", code["mode"])
 
     # Create the data element
     data = ET.SubElement(root, "data")
@@ -828,11 +829,12 @@ def upload_project():
             info = root.get("info")
             editor = root.get("editor")
             creator = root.get("creator")
+            mode = root.get("mode")
 
             # Extract the data from the data element
             data = root.find("data").text
 
-            project = Projects(title, info, editor, creator, data)
+            project = Projects(title, info, editor, creator, mode, data)
 
             db.session.add(project)
             db.session.commit()
@@ -853,7 +855,8 @@ def get_code_from_db(project_id):
             'data': project.data,
             'title': project.title,
             'info': project.info,
-            'creator': project.creator
+            'creator': project.creator,
+            'mode': project.mode
         }
     else:
         return None
