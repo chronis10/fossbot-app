@@ -446,7 +446,7 @@ def handle_execute_monaco_classroom(data):
         data['id']), 'user': creator, 'process': proc, 'status': 'idle'})
     print(WORKERS_LIST)
     socketio.emit('refresh_table', {'workers': serialize_workers_list(WORKERS_LIST)})
-    socketio.emit('refresh_list', {'data': serialize_workers_list(WORKERS_LIST)})
+    # socketio.emit('refresh_list', {'data': serialize_workers_list(WORKERS_LIST)})
     emit('execute_monaco_result', {'status': '200'})
 
 
@@ -548,24 +548,6 @@ def handle_runByID(data):
         emit('worker_result', {'status': 'error',
              'message': "Another worker is running"})
         return
-
-
-# @socketio.on('connect')
-# def handle_connect():
-#     global WORKERS_LIST
-
-#     # Your existing code here
-
-#     # Emit the event when a client is connected
-#     serialized_workers = []
-#     for worker in WORKERS_LIST:
-#         serialized_worker = {
-#             'project_id': worker['project_id'],
-#             'user': worker['user'],
-#             'status': worker['status']
-#         }
-#         serialized_workers.append(serialized_worker)
-#     socketio.emit('refresh_table', {'workers': serialized_workers})
 
 
 def monitor_worker(id):

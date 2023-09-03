@@ -19,8 +19,8 @@ function loadProjects(data) {
  let projects_array;
  if (currentUrl.includes("/classroom") && userName) {
    // Apply filtering logic for the classroom URL
-   projects_array = data.data.filter(project => userName.toLowerCase() === 'teacher' || project.creator === userName);
- } else if (!currentUrl.includes("/classroom")) {
+   projects_array = data.data.filter(project => (userName.toLowerCase() === 'teacher' && project.mode === 'classroom') || (project.creator === userName && project.mode === 'classroom'));
+   } else if (!currentUrl.includes("/classroom")) {
    // Display all projects for the homepage URL
    projects_array = data.data;
  }
@@ -50,22 +50,6 @@ function loadProjects(data) {
         '<td>' + project['title'] + '</td>' +
         '<td>' + project['info'] + '</td>' +
         '<td><img src="' + imageSrc + '" alt="Logo" style="width: ' + imageSize + '; height: ' + imageSize + '"></td>' +
-        // '<td> ' + 
-        // `<div id="button__controls_row">
-        //             <div id="button_fa_wrap_controls_table">
-        //             <a onclick="jsfunction()" href="javascript:runCode(` + project['project_id'] +`);"  style="color: rgb(56, 199, 0); text-decoration: none;">
-        //             <i class="fa-solid fa-circle-play"></i>
-        //             </a>
-        //             </div>
-        //             <div id="button_fa_wrap_controls_table">
-        //             <a onclick="jsfunction()" href="javascript:stop_script();"  style="color: rgb(199, 30, 0); text-decoration: none;">
-        //             <i class="fa-solid fa-circle-stop"></i>
-        //             </a>
-        //             </div>
-        //         ` +
-
-        // '</td>' +
-        // '<td>' + project['creator'] + '</td>' +
         '<td>' +
         `<div id="button__controls_row">
                                 <div id="button_fa_wrap_controls_table">
@@ -81,13 +65,6 @@ function loadProjects(data) {
                                 <i class="fa-solid fa-pencil"></i>
                                 </a>
                                 </div>` +
-        // '<div id="open-Blockly-Button-container" class="open-Blockly-Button-container">' +
-        //     '<div id="open-Blockly-Button-wrap" class="open-Blockly-Button-wrap">' +
-        //         '<button type="button" class="open-Blockly" id="open-Blockly">' +
-        //             '<a href="/blockly?id='+ project['project_id'] +'" id="open-Blockly-href" style="color: white; text-decoration: none;">Επεξεργασία</a>' +
-        //         '</button>' +
-        // '</div>' +
-        // '</div>' +
         '</td>' +
         '<td>' +
         `<div id="button_fa_wrap_controls_table">
@@ -95,22 +72,11 @@ function loadProjects(data) {
                     <i class="fa-solid fa-trash"></i>
                     </a>
                     </div>` +
-
-        //   '<div id="delete-Blockly-Button-container" class="delete-Blockly-Button-container">' +
-        //             '<div id="delete-Blockly-Button-wrap" class="delete-Blockly-Button-wrap">' +
-        //                 '<button onclick="deleteElement(this,'+ project['project_id'] +')" type="button" class="delete-Blockly" id="open-Blockly">' +
-        //                     '<a id="open-Blockly-href" style="color: white; text-decoration: none;">Διαγραφή</a>' +
-        //                 '</button>' +
-        //             '</div>' +
-        //         '</div>' +
         '</td>' +
         '</tr>';
     }
     last_table_size = projects_array.length
   }
-
-
-
 }
 
 function getParameterByName(name, url) {
@@ -267,91 +233,6 @@ async function runAllWorkers() {
   }
 }
 
-socket.on('refresh_table', (data) => {
-  // Update the table with the new data
-  const workers = data.workers;
-
-  // Clear the existing table rows
-  const tableBody = document.querySelector('.table tbody');
-  tableBody.innerHTML = '';
-
-  // Iterate over the workers data and create new table rows
-  workers.forEach((worker, index) => {
-    // Check if the worker already exists in the table
-    const existingRow = document.querySelector(`#worker-${worker.project_id}`);
-    if (existingRow) {
-      // Update the existing row with the new worker data
-      existingRow.querySelector('.status').textContent = worker.status;
-    } else {
-      // Create a new row for the worker
-      const row = document.createElement('tr');
-      row.id = `worker-${worker.project_id}`;
-    }
-
-    // Create table cells for each worker property
-    const indexCell = document.createElement('th');
-    indexCell.setAttribute('scope', 'row');
-    indexCell.textContent = index + 1;
-    row.appendChild(indexCell);
-
-    const projectIdCell = document.createElement('td');
-    projectIdCell.textContent = worker.project_id;
-    row.appendChild(projectIdCell);
-
-    const userCell = document.createElement('td');
-    userCell.textContent = worker.user;
-    row.appendChild(userCell);
-
-    const statusCell = document.createElement('td');
-    statusCell.textContent = worker.status;
-    row.appendChild(statusCell);
-
-    const buttonCell = document.createElement('td');
-    const playButton = document.createElement('button');
-    playButton.classList.add('btn', 'btn-success', 'btn-sm');
-    playButton.textContent = 'Play';
-    playButton.addEventListener('click', () => playWorker(index + 1));
-    buttonCell.appendChild(playButton);
-
-    const stopButton = document.createElement('button');
-    stopButton.classList.add('btn', 'btn-danger', 'btn-sm');
-    stopButton.textContent = 'Stop';
-    stopButton.addEventListener('click', () => stopWorker(index + 1));
-    buttonCell.appendChild(stopButton);
-
-    const deleteButton = document.createElement('button');
-    deleteButton.classList.add('btn', 'btn-warning', 'btn-sm');
-    deleteButton.textContent = 'Delete';
-    deleteButton.addEventListener('click', () => deleteWorker(index + 1));
-    buttonCell.appendChild(deleteButton);
-
-    row.appendChild(buttonCell);
-
-    // Append the new row to the table body
-    tableBody.appendChild(row);
-  });
-});
-
-// socket.on('refresh_table', (data) => {
-//   // Update the table with the new data
-//   const workers = data.workers;
-
-//   // Clear the existing table rows
-//   const tableBody = document.querySelector('.table tbody');
-//   tableBody.innerHTML = '';
-
-//   // Iterate over the workers data and create new table rows
-//   workers.forEach((worker, index) => {
-//     // Create a new row for the worker
-//     const row = document.createElement('tr');
-//     row.id = `worker-${worker.project_id}`;
-
-//     // ... (rest of the code for creating table cells)
-
-//     // Append the new row to the table body
-//     tableBody.appendChild(row);
-//   });
-// });
 
 document.addEventListener('DOMContentLoaded', function() {
   var loginForm = document.getElementById("login-form");
@@ -503,4 +384,70 @@ socket.on("refresh_list", (incoming) => {
   // elem.scrollTop = elem.scrollHeight;
 
   alert(incoming.data);
+});
+
+socket.on('refresh_table', (data) => {
+  
+  // Update the table with the new data
+  const workers = data.workers;
+  console.log("refresh_table", workers);
+  // // Clear the existing table rows
+  // const tableBody = document.querySelector('.table tbody');
+  // tableBody.innerHTML = '';
+
+  // // Iterate over the workers data and create new table rows
+  // workers.forEach((worker, index) => {
+  //   // Check if the worker already exists in the table
+  //   const existingRow = document.querySelector(`#worker-${worker.project_id}`);
+  //   if (existingRow) {
+  //     // Update the existing row with the new worker data
+  //     existingRow.querySelector('.status').textContent = worker.status;
+  //   } else {
+  //     // Create a new row for the worker
+  //     const row = document.createElement('tr');
+  //     row.id = `worker-${worker.project_id}`;
+  //   }
+
+  //   // Create table cells for each worker property
+  //   const indexCell = document.createElement('th');
+  //   indexCell.setAttribute('scope', 'row');
+  //   indexCell.textContent = index + 1;
+  //   row.appendChild(indexCell);
+
+  //   const projectIdCell = document.createElement('td');
+  //   projectIdCell.textContent = worker.project_id;
+  //   row.appendChild(projectIdCell);
+
+  //   const userCell = document.createElement('td');
+  //   userCell.textContent = worker.user;
+  //   row.appendChild(userCell);
+
+  //   const statusCell = document.createElement('td');
+  //   statusCell.textContent = worker.status;
+  //   row.appendChild(statusCell);
+
+  //   const buttonCell = document.createElement('td');
+  //   const playButton = document.createElement('button');
+  //   playButton.classList.add('btn', 'btn-success', 'btn-sm');
+  //   playButton.textContent = 'Play';
+  //   playButton.addEventListener('click', () => playWorker(index + 1));
+  //   buttonCell.appendChild(playButton);
+
+  //   const stopButton = document.createElement('button');
+  //   stopButton.classList.add('btn', 'btn-danger', 'btn-sm');
+  //   stopButton.textContent = 'Stop';
+  //   stopButton.addEventListener('click', () => stopWorker(index + 1));
+  //   buttonCell.appendChild(stopButton);
+
+  //   const deleteButton = document.createElement('button');
+  //   deleteButton.classList.add('btn', 'btn-warning', 'btn-sm');
+  //   deleteButton.textContent = 'Delete';
+  //   deleteButton.addEventListener('click', () => deleteWorker(index + 1));
+  //   buttonCell.appendChild(deleteButton);
+
+  //   row.appendChild(buttonCell);
+
+  //   // Append the new row to the table body
+  //   tableBody.appendChild(row);
+  // });
 });
