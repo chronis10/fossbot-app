@@ -22,7 +22,7 @@ function loadProjects(data) {
    projects_array = data.data.filter(project => (userName.toLowerCase() === 'teacher' && project.mode === 'classroom') || (project.creator === userName && project.mode === 'classroom'));
    } else if (!currentUrl.includes("/classroom")) {
    // Display all projects for the homepage URL
-   projects_array = data.data;
+   projects_array = data.data.filter(project => project.mode === 'homepage');
  }
  console.log('projects:', projects_array);
 
