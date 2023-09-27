@@ -234,44 +234,81 @@ async function runAllWorkers() {
 }
 
 
-document.addEventListener('DOMContentLoaded', function() {
-  var loginForm = document.getElementById("login-form");
-  if (loginForm) {
-    loginForm.addEventListener("submit", redirectToClassroom);
-  }
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//   var loginForm = document.getElementById("login-form");
+//   if (loginForm) {
+//     loginForm.addEventListener("submit", redirectToClassroom);
+//   }
+// });
 
-function redirectToClassroom(event) {
-  event.preventDefault(); // Prevent form submission
+// function redirectToClassroom(event) {
+//   event.preventDefault(); // Prevent form submission
 
-  // Get the value of the name input field
+//   // Get the value of the name input field
+//   var name = document.getElementById("name").value;
+//   var password = document.getElementById("password").value;
+//   var passwordField = document.getElementById("password-field");
+
+//   // Check if the name is empty
+//   if (name.trim() === "") {
+//     showModalError('Please enter your name.');
+//     return;
+//   }
+
+//   // If the password field is not displayed and the name is "teacher", show the password field
+//   if (passwordField.style.display === "none" && name.toLowerCase() === "teacher") {
+//     passwordField.style.display = "block";
+//     return;
+//   }
+
+//   // Check if the case-insensitive name is "teacher" and the password is correct
+//   if (name.toLowerCase() === "teacher" && password !== "1234") {
+//     showModalError('Incorrect password.');
+//     return;
+//   }
+
+//   showModalSuccess('Redirecting to classroom...');
+
+//   // Redirect to /classroom and pass the name as a query parameter
+//   window.location.href = "/classroom?name=" + encodeURIComponent(name);
+// }
+
+// function redirectToClassroom(event) {
+//   event.preventDefault();
+
+//   var name = document.getElementById("name").value;
+//   var password = document.getElementById("password").value;
+
+//   // Send an AJAX request to the server for authentication
+//   fetch('/login', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({ username: name, password: password })
+//   })
+//   .then(response => response.json())
+//   .then(data => {
+//     if (data.success) {
+//       window.location.href = "/classroom?name=" + encodeURIComponent(name);
+//     } else {
+//       showModalError(data.error);
+//     }
+//   });
+// }
+
+
+function checkTeacher() {
   var name = document.getElementById("name").value;
-  var password = document.getElementById("password").value;
   var passwordField = document.getElementById("password-field");
 
-  // Check if the name is empty
-  if (name.trim() === "") {
-    showModalError('Please enter your name.');
-    return;
-  }
-
-  // If the password field is not displayed and the name is "teacher", show the password field
-  if (passwordField.style.display === "none" && name.toLowerCase() === "teacher") {
+  if (name.toLowerCase() === "teacher") {
     passwordField.style.display = "block";
-    return;
+  } else {
+    passwordField.style.display = "none";
   }
-
-  // Check if the case-insensitive name is "teacher" and the password is correct
-  if (name.toLowerCase() === "teacher" && password !== "1234") {
-    showModalError('Incorrect password.');
-    return;
-  }
-
-  showModalSuccess('Redirecting to classroom...');
-
-  // Redirect to /classroom and pass the name as a query parameter
-  window.location.href = "/classroom?name=" + encodeURIComponent(name);
 }
+
 
 async function stopAllWorkers() {
   try {

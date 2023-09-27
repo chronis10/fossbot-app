@@ -57,6 +57,7 @@ SCRIPT_PROCCESS = None
 COPPELIA_PROCESS = None
 CURRENT_STAGE = None
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
 WORKERS_LIST = []
 # Create an Event object
@@ -108,6 +109,9 @@ class Users(UserMixin, db.Model, SerializerMixin):
         self.username = username
         self.password = password
         self.role = role
+
+    def get_id(self):
+        return str(self.user_id)
 
 def execute_blocks(code):
     agent.execute(code)
@@ -482,20 +486,43 @@ def serialize_workers_list(workers_list):
     return serialized_workers
 
 
-
-
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'GET':
+        return render_template('login.html')
 
+    username = request.form.get('username')
+    password = request.form.get('password')
+    username = username.lower()
 
+    user = Users.query.filter_by(username=username).first()
+
+    if user:
+        login_user(user)
+        return redirect(url_for('classroom', name=username))
+    else:
+        # Create a new student user with the default password
+        if username.lower() != 'teacher':
+            new_student = Users(username, '1234', 'student')
+            db.session.add(new_student)
+            db.session.commit()
+            login_user(new_student)
+            return redirect(url_for('classroom', name=username))
+        else:
+            user_teacher = Users.query.filter_by(username='teacher').first()
+            if not password or password != user_teacher.password:
+                return jsonify(success=False, error='Invalid password.')
+            else:
+                login_user(user_teacher)
+                return redirect(url_for('classroom', name='teacher'))
+            
 
 @app.route('/classroom', methods=['GET'])
-# @login_required
+@login_required
 def classroom():
     global WORKERS_LIST
     serialized_workers = []
-    # name = request.args.get('name')
+    name = request.args.get('name')
     for worker in WORKERS_LIST:
         serialized_worker = {
             'project_id': worker['project_id'],
