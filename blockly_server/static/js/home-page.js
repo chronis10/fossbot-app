@@ -371,6 +371,15 @@ async function deleteElement(el, id) {
   }
 }
 
+function logoutButtonClickListener() {
+  const logoutButton = document.getElementById('logout-button');
+  if (logoutButton) {
+    logoutButton.addEventListener('click', function() {
+      window.location.href = '/logout';
+    });
+  }
+}
+
 async function execute_script(project_id) {
   const result = await executeScript(project_id)
   console.log('execute script result is ', result)
@@ -487,4 +496,8 @@ socket.on('refresh_table', (data) => {
   //   // Append the new row to the table body
   //   tableBody.appendChild(row);
   // });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  logoutButtonClickListener();
 });

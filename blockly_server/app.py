@@ -485,6 +485,15 @@ def serialize_workers_list(workers_list):
         serialized_workers.append(serialized_worker)
     return serialized_workers
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    if current_user.is_authenticated:
+        print("User session is still active")
+    else:
+        print("User has successfully logged out")
+    return redirect('/')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -520,6 +529,10 @@ def login():
 @app.route('/classroom', methods=['GET'])
 @login_required
 def classroom():
+    if current_user.is_authenticated:
+        print("User session is active")
+    else:
+        print("User session is not active")
     global WORKERS_LIST
     serialized_workers = []
     name = request.args.get('name')
