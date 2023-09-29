@@ -62,6 +62,7 @@
 
     // Get the admin content element
     const adminContent = document.getElementById("admin-content");
+    const studentContent = document.getElementById("student-content");
 
     // Convert both the user's name and the string "teacher" to lowercase
     const lowerCaseUserName = userName.toLowerCase();
@@ -70,7 +71,9 @@
     // Show or hide the admin content based on the user's name
     if (lowerCaseUserName === lowerCaseTeacher) {
       adminContent.style.display = "block";
+      studentContent.style.display = "none";
     } else {
+      studentContent.style.display = "block";
       adminContent.style.display = "none";
     }
   });
@@ -142,6 +145,8 @@
                     <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{
                       gettext('Editor')}}</th>
                     <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{
+                      gettext('Creator')}}</th>
+                    <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{
                       gettext('Export')}}</th>
                     <!-- <th class="head-title" tabindex="0" rowspan="1" colspan="1"></th> -->
                     <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Edit')}}
@@ -160,19 +165,31 @@
 
         </div>
 
-        <div id="admin-content" class="col">
+        <div id="student-content" class="col">
           <div class="row">
             <div id="button__headers_row_one_icon">
-              <!-- <div id="button_fa_wrap">
-                <a href='/' style="color: rgb(255, 136, 0); text-decoration: none;">
-                  <i class="fa-solid fa-house"></i>
-                </a>
-              </div> -->
               <div id="button_fa_wrap">
                 <a id="logout-button" style="color: rgb(255, 136, 0); text-decoration: none;">
                   <i class="fa-solid fa-house"></i>
                 </a>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="admin-content" class="col">
+          <div class="row">
+            <div id="button__headers_row_one_icon">
+              <div id="button_fa_wrap">
+                <a href='/' style="color: rgb(255, 136, 0); text-decoration: none;">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </div>
+              <!-- <div id="button_fa_wrap">
+                <a id="logout-button" style="color: rgb(255, 136, 0); text-decoration: none;">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </div> -->
               <div id="button_fa_wrap">
                 <a href="/admin_panel" style="color: rgb(75, 75, 75); text-decoration: none;">
                   <i class="fa-solid fa-cog"> </i>

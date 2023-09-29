@@ -44,12 +44,19 @@ function loadProjects(data) {
         imageSrc = "/static//photos/python-logo.png";
       }
 
+      // Check if the current URL includes "/classroom"
+      const isClassroomPage = currentUrl.includes("/classroom");
+
+      // Add the creator's name only for the classroom page
+      const creatorColumn = isClassroomPage ? '<td>' + project['creator'] + '</td>' : '';
+
       //add every time the the project name as the last row
       document.getElementById("body-table-projects").insertRow(-1).innerHTML =
         '<tr>' +
         '<td>' + project['title'] + '</td>' +
         '<td>' + project['info'] + '</td>' +
         '<td><img src="' + imageSrc + '" alt="Logo" style="width: ' + imageSize + '; height: ' + imageSize + '"></td>' +
+        creatorColumn +
         '<td>' +
         `<div id="button__controls_row">
                                 <div id="button_fa_wrap_controls_table">
