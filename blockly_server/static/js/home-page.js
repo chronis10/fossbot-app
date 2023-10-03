@@ -12,78 +12,110 @@ function loadProjects(data) {
   // Get the user's name from the URL
   const userName = getParameterByName("name");
 
- // Check the current URL
- const currentUrl = window.location.href;
+  // Check the current URL
+  const currentUrl = window.location.href;
 
- // Filter the projects based on the creator's name and the user's role
- let projects_array;
- if (currentUrl.includes("/classroom") && userName) {
-   // Apply filtering logic for the classroom URL
-   projects_array = data.data.filter(project => (userName.toLowerCase() === 'teacher' && project.mode === 'classroom') || (project.creator === userName && project.mode === 'classroom'));
-   } else if (!currentUrl.includes("/classroom")) {
-   // Display all projects for the homepage URL
-   projects_array = data.data.filter(project => project.mode === 'homepage');
- }
- console.log('projects:', projects_array);
+  // Filter the projects based on the creator's name and the user's role
+  let projects_array;
+  if (currentUrl.includes("/classroom") && userName) {
+    // Apply filtering logic for the classroom URL
+    projects_array = data.data.filter(project => (userName.toLowerCase() === 'teacher' && project.mode === 'classroom') || (project.creator === userName && project.mode === 'classroom'));
+  } else if (!currentUrl.includes("/classroom")) {
+    // Display all projects for the homepage URL
+    projects_array = data.data.filter(project => project.mode === 'homepage');
+  }
+  console.log('projects:', projects_array);
 
+  // Get the table body elements
+  const homepageTableBody = document.getElementById("body-table-projects-homepage");
+  const adminTableBody = document.getElementById("body-table-projects-admin");
+  const studentTableBody = document.getElementById("body-table-projects-student");
+
+  // Clear the existing content
+  if (homepageTableBody) {
+    homepageTableBody.innerHTML = "";
+  }
+  if (adminTableBody) {
+    adminTableBody.innerHTML = "";
+  }
+  if (studentTableBody) {
+    studentTableBody.innerHTML = "";
+  }
 
   if (last_table_size != projects_array.length) {
     for (var i = 0; i < projects_array.length; i++) {
       const project = projects_array[i];
 
-      // check editor type
-      var editorURL;
-      var imageSrc;
-      var imageSize = "50px";
+      // Create the project row
+      const projectRow = createProjectRow(project);
 
-      if (project['editor'] == 'blockly') {
-        editorURL = "/blockly?id=" + project['project_id'];
-        imageSrc = "/static//photos/blockly.png";
-      } else if (project['editor'] == 'python') {
-        editorURL = "/monaco?id=" + project['project_id'];
-        imageSrc = "/static//photos/python-logo.png";
+      // Add the project row to the table body
+      if (currentUrl.includes("/classroom")) {
+        if (userName.toLowerCase() === 'teacher') {
+          adminTableBody.appendChild(projectRow.cloneNode(true));
+        } else {
+          studentTableBody.appendChild(projectRow.cloneNode(true));
+        }
+      } else if (homepageTableBody) {
+        homepageTableBody.appendChild(projectRow.cloneNode(true));
       }
+    }
+    last_table_size = projects_array.length
+  }
+}
 
-      // Check if the current URL includes "/classroom"
-      const isClassroomPage = currentUrl.includes("/classroom");
+function createProjectRow(project) {
+  // check editor type
+  var editorURL;
+  var imageSrc;
+  var imageSize = "50px";
 
-      // Add the creator's name only for the classroom page
-      const creatorColumn = isClassroomPage ? '<td>' + project['creator'] + '</td>' : '';
+  if (project['editor'] == 'blockly') {
+    editorURL = "/blockly?id=" + project['project_id'];
+    imageSrc = "/static//photos/blockly.png";
+  } else if (project['editor'] == 'python') {
+    editorURL = "/monaco?id=" + project['project_id'];
+    imageSrc = "/static//photos/python-logo.png";
+  }
 
-      //add every time the the project name as the last row
-      document.getElementById("body-table-projects").insertRow(-1).innerHTML =
-        '<tr>' +
-        '<td>' + project['title'] + '</td>' +
-        '<td>' + project['info'] + '</td>' +
-        '<td><img src="' + imageSrc + '" alt="Logo" style="width: ' + imageSize + '; height: ' + imageSize + '"></td>' +
-        creatorColumn +
-        '<td>' +
-        `<div id="button__controls_row">
+  // Check if the current URL includes "/classroom"
+  const isClassroomPage = window.location.href.includes("/classroom");
+
+  // Add the creator's name only for the classroom page
+  const creatorColumn = isClassroomPage ? '<td>' + project['creator'] + '</td>' : '';
+
+  // Create the project row
+  const row = document.createElement("tr");
+  row.innerHTML =
+    '<td>' + project['title'] + '</td>' +
+    '<td>' + project['info'] + '</td>' +
+    '<td><img src="' + imageSrc + '" alt="Logo" style="width: ' + imageSize + '; height: ' + imageSize + '"></td>' +
+    creatorColumn +
+    '<td>' +
+    `<div id="button__controls_row">
                                 <div id="button_fa_wrap_controls_table">
                                 <a href="/export_project/` + project['project_id'] + `"  style="color: rgb(0, 110, 255); text-decoration: none;">
                                 <i class="fa-solid fa-download"></i>
                                 </a>
                                 </div>` +
-        '</td>' +
-        '<td>' +
-        `<div id="button__controls_row">
+    '</td>' +
+    '<td>' +
+    `<div id="button__controls_row">
                                 <div id="button_fa_wrap_controls_table">
                                 <a href="`+ editorURL + `"  style="color: rgb(255, 175, 2); text-decoration: none;">
                                 <i class="fa-solid fa-pencil"></i>
                                 </a>
                                 </div>` +
-        '</td>' +
-        '<td>' +
-        `<div id="button_fa_wrap_controls_table">
+    '</td>' +
+    '<td>' +
+    `<div id="button_fa_wrap_controls_table">
                     <a href="#" onclick="deleteElement(this,`+ project['project_id'] + `)" style="color: rgb(199, 30, 0); text-decoration: none;">
                     <i class="fa-solid fa-trash"></i>
                     </a>
                     </div>` +
-        '</td>' +
-        '</tr>';
-    }
-    last_table_size = projects_array.length
-  }
+    '</td>';
+
+  return row;
 }
 
 function getParameterByName(name, url) {
@@ -125,27 +157,10 @@ function createNewProject() {
         showModalNewProjectDescription();
       }else {
         new_project_mode = 'classroom'
-        //open decription modal
-        showModalNewProjectCreator();
-
+        new_project_creator = getParameterByName("name");
+        showModalNewProjectDescription();
       }
     }
-  }
-}
-
-async function getCreator() {
-  //get the input value 
-  new_project_creator = document.getElementById("project-creator-text").value
-
-  if (new_project_creator != '') {
-    //close the modal 
-    closeModalNewProjectCreator();
-
-    //empty the input value 
-    document.getElementById("project-creator-text").value = "";
-
-    //open decription modal
-    showModalNewProjectDescription();
   }
 }
 
@@ -379,9 +394,17 @@ async function deleteElement(el, id) {
 }
 
 function logoutButtonClickListener() {
-  const logoutButton = document.getElementById('logout-button');
-  if (logoutButton) {
-    logoutButton.addEventListener('click', function() {
+  const studentLogoutButton = document.getElementById('student-logout-button');
+  const adminLogoutButton = document.getElementById('admin-logout-button');
+
+  if (studentLogoutButton) {
+    studentLogoutButton.addEventListener('click', function() {
+      window.location.href = '/logout';
+    });
+  }
+
+  if (adminLogoutButton) {
+    adminLogoutButton.addEventListener('click', function() {
       window.location.href = '/logout';
     });
   }
