@@ -443,7 +443,7 @@ Blockly.Python['check_for_obstacle'] = function (block) {
 Blockly.Blocks['check_for_line'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField(new Blockly.FieldDropdown([["left", "1"], ["middle", "2"], ["right", "3"]]), "check_for_line_option")
+      .appendField(new Blockly.FieldDropdown([["left", "3"], ["middle", "1"], ["right", "2"]]), "check_for_line_option")
       .appendField("Black line existence");
     this.setOutput(true, 'Boolean');
     this.setColour(45);
