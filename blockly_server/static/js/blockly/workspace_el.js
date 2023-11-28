@@ -443,7 +443,7 @@ Blockly.Python['check_for_obstacle'] = function (block) {
 Blockly.Blocks['check_for_line'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField(new Blockly.FieldDropdown([["αριστερός", "1"], ["μεσαίος", "2"], ["δεξιός", "3"]]), "check_for_line_option")
+      .appendField(new Blockly.FieldDropdown([["αριστερός", "3"], ["μεσαίος", "1"], ["δεξιός", "2"]]), "check_for_line_option")
       .appendField("ύπαρξη μαύρης γραμμής");
     this.setOutput(true, 'Boolean');
     this.setColour(45);
