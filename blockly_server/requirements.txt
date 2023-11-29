@@ -1,5 +1,6 @@
 Jinja2
-Flask==2.0.0
+Werkzeug==2.2.2
+Flask==2.2.2
 pyyaml
 SQLAlchemy
 Flask-SQLAlchemy
