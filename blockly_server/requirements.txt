@@ -1,5 +1,5 @@
 Jinja2
-flask
+Flask==2.0.0
 pyyaml
 SQLAlchemy
 Flask-SQLAlchemy
