@@ -18,7 +18,7 @@ Download the diagnostics files
 ```bash 
 wget https://raw.githubusercontent.com/chronis10/fossbot-app/master/diagnostics/admin_parameters.yaml
 wget https://raw.githubusercontent.com/chronis10/fossbot-app/master/diagnostics/diagnostics.py
-wget https://raw.githubusercontent.com/chronis10/fossbot-app/master/diagnostics/proccesing.mp3
+wget https://raw.githubusercontent.com/chronis10/fossbot-app/master/diagnostics/r2d2.mp3
 wget https://raw.githubusercontent.com/chronis10/fossbot-app/master/diagnostics/run_diagnostics.sh
 ```
 
