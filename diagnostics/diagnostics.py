@@ -123,7 +123,7 @@ def _test_speaker(robot: FossBot) -> None:
     try:
         while True:
             print("Check the speaker")
-            robot.play_sound("proccesing.mp3")
+            robot.play_sound("r2d2.mp3")
             input_user = input("Press any key to repeat the test.")
     except KeyboardInterrupt:
         pass
