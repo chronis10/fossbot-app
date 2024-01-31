@@ -22,7 +22,7 @@
   <script src="{{ url_for('static',filename='js/modals.js')}}"></script>
   <script defer src="{{ url_for('static',filename='js/blockly-page.js')}}"></script>
 
-  
+
   <script defer src="{{ url_for('static',filename='js/blockly/workspace_'+locale+'.js')}}"></script>
 
   <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css')}}">
@@ -32,9 +32,9 @@
 
 
   <link href="{{ url_for('static',filename='fontawesome/css/fontawesome.css')}}" rel="stylesheet">
-  <link href="{{ url_for('static',filename='fontawesome/css/brands.css')}}"  rel="stylesheet">
-  <link href="{{ url_for('static',filename='fontawesome/css/solid.css')}}"  rel="stylesheet">
-  <link href="{{ url_for('static',filename='fontawesome/css/all.css')}}"  rel="stylesheet">
+  <link href="{{ url_for('static',filename='fontawesome/css/brands.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static',filename='fontawesome/css/solid.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static',filename='fontawesome/css/all.css')}}" rel="stylesheet">
 
   <style>
     @import url("{{ url_for('static',filename='css/header-style.css')}}");
@@ -47,120 +47,91 @@
 
 <body onload="loadProject()" onclick="closeModalSuccessOrErrorwhenClickAnywhere()">
   {% include 'header.html' %}
-</br>
+  </br>
   <div id="main-container">
- 
-    <!-- <div id="back-import-export-buttons-container">
-      
-      <div id="go-back-to-home-button-wrap">
-        <button type="button" class="go-back-to-home">
-          <a href='/'  id="open-home-href" style="color: white; text-decoration: none;">
-            Επιστροφή στην αρχική σελίδα  <i class="fa-solid fa-house"></i>
-          </a>
-        </button>
-      </div>
 
-      <div id="button-export">
-        
-        <button onclick="save_xml('{{ project_id }}')" type="button" class="export">Αποθήκευση</button>
-      </div>
-    </div> -->
     <div class="row custom_row">
-      <div class="col-9" >
+      <div class="col-8">
         <div class="drop_shadow" id="blocklyDiv"></div>
       </div>
-     
-      
 
-        <div id="buttons-container-right" class="col">
+      <div id="buttons-container-right" class="col-4">
 
-          <div id='button__headers_row'>
-            <div id="button_fa_wrap">
-              <a onclick="save_xml('{{ project_id }}')" href="#" id="open-home-href" style="color: rgb(24, 21, 148); text-decoration: none;">
+        <div id='button__headers_row'>
+          <div id="button_fa_wrap">
+            <a onclick="save_xml('{{ project_id }}')" href="#" id="open-home-href"
+              style="color: rgb(24, 21, 148); text-decoration: none;">
               <i class="fa-solid fa-floppy-disk"></i>
-              </a>
-              
-            </div>
-            <!-- <div id="button_spacer"></div> -->
-            <div id="button_fa_wrap" >
-              <a href='/'   style="color: rgb(255, 136, 0); text-decoration: none;">
+            </a>
+
+          </div>
+
+          <div id="button_fa_wrap">
+            <a href='/' style="color: rgb(255, 136, 0); text-decoration: none;">
               <i class="fa-solid fa-house"></i>
-              </a>
-            </div>
-         </div>  
-        
-         <!-- <div class="embed-responsive embed-responsive-16by9" width="640" height="480">
+            </a>
+          </div>
+        </div>
+
+        {% if robot_mode=="coppelia" %}
+        <div class="embed-responsive embed-responsive-16by9" width="640" height="480">
           <iframe class="embed-responsive-item" src="http://127.0.0.1:23020/"></iframe>
-        </div>  -->
-        <!-- <div id="button_fa_wrap" >
-        <button class="btn btn-success" onClick="window.open('http://127.0.0.1:23020');">{{ gettext('Window')}}</button>
-      </div> -->
+        </div>
+        <br>
+        <div id="button__controls_row">
+          <button class="btn btn-success" onClick="window.open('http://127.0.0.1:23020');">{{
+            gettext('Window')}}</button>
+
+          <select id="stage_select" class="form-select">
+            <option value="-1" selected>Select stage</option>
+            {% for scene in scenes %}
+            <option>{{scene}}</option>
+            {% endfor %}
+          </select>
+          <button class="btn btn-primary" onClick="open_map()">Load stage</button>
+          <!-- <div id="button_fa_wrap_controls_small">
+           
+            <a onclick="open_map()" href="#"  style="color: rgb(23, 76, 155); text-decoration: none;">
+            <i class="fa-solid fa-globe"></i>
+            </a>
+          </div> -->
+
+        </div>
+        {% endif %}
+
+
         <div class="drop_shadow" id="terminal_div">
           <div id="terminal_scrollable-content">
-          <p>FossBot Terminal...</p>
-        </div>
-        </div>
-        
-
-      </br>
-      <!-- <div id="button__controls_row">
-        <select id="stage_select" class="form-select" aria-label="Επιλέξτε πίστα">
-          <option value="-1" selected>Select stage</option>
-          {% for scene in scenes %}
-            <option >{{scene}}</option>
-          {% endfor %}
-          
-        </select>
-
-        <div id="button_fa_wrap_controls_small">
-          <a onclick="open_map()" href="#"  style="color: rgb(23, 76, 155); text-decoration: none;">
-          <i class="fa-solid fa-globe"></i>
-          </a>
+            <p>FossBot Terminal...</p>
+          </div>
         </div>
 
-      </div>
-     -->
         <div id="button__controls_row">
 
-        <div id="button_fa_wrap_controls">
-          <a onclick="runCode('{{ project_id }}')" href="#"  style="color: rgb(56, 199, 0); text-decoration: none;">
-          <i class="fa-solid fa-circle-play"></i>
-          </a>
+          <div id="button_fa_wrap_controls">
+            <a onclick="runCode('{{ project_id }}')" href="#" style="color: rgb(56, 199, 0); text-decoration: none;">
+              <i class="fa-solid fa-circle-play"></i>
+            </a>
+          </div>
+          <div id="button_fa_wrap_controls">
+            <a onclick="stop_script()" href="#" style="color: rgb(199, 30, 0); text-decoration: none;">
+              <i class="fa-solid fa-circle-stop"></i>
+            </a>
+          </div>
+          {% if robot_mode=="coppelia" %}
+          <div id="button_fa_wrap_controls">
+            <a onclick="reset_stage()" href="#" style="color: rgb(253, 165, 1); text-decoration: none;">
+              <i class="fa-solid fa-circle-dot"></i>
+            </a>
+          </div>
+          {% endif %}
         </div>
-        <div id="button_fa_wrap_controls">
-          <a onclick="stop_script()" href="#"  style="color: rgb(199, 30, 0); text-decoration: none;">
-          <i class="fa-solid fa-circle-stop"></i>
-          </a>
-        </div>
-        <!-- <div id="button_fa_wrap_controls">
-          <a onclick="reset_stage()" href="#"  style="color: rgb(253, 165, 1); text-decoration: none;">
-          <i class="fa-solid fa-circle-dot"></i>
-          </a>
-        </div> -->
-      
-      </div>
-    
-       
-        <!-- <div id="right_buttons">
-
-          <button onclick="runCode('{{ project_id }}')" type="button" class="run">Τρέξε το πρόγραμμα!</button>
-        
-        </div>
-        <div id="right_buttons">
-          <button onclick="stop_script()" type="button" class="stop">Σταμάτα την εκτέλεση!</button>
-        </div> -->
       </div>
     </div>
-    <!-- <div id="buttons-container">
-      
-
-      
-       
-    </div> -->
     <!-- {% include 'footer.html' %} -->
   </div>
 
-  
+
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
     <category name="{{ gettext('Logic')}}" colour="#5B80A5">
@@ -481,7 +452,7 @@
       </block>
       <block type="get_timer">
       </block>
-      
+
     </category>
 
     <category name="{{ gettext('Sensors')}}" colour="#A5935B">

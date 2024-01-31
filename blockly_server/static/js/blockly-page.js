@@ -63,10 +63,11 @@ async function runCode_simple(id) {
   }
 
   const result = await sendCode(id, blockly_code)
-  const status = result.status
-  if (status == 'started') {
-    showModalSuccess("The program running successfully!");
-  }
+  showModalSuccess("The program started!");
+  // const status = result.status
+  // if (status == 'started') {
+  //   showModalSuccess("The program running successfully!");
+  // }
 }
 
 
@@ -84,17 +85,18 @@ async function runCode(id) {
 
   const result = await sendCode(id, blockly_code)
   const status = result.status
-  if (status == 'started') {
-    showModalSuccess("The program running successfully!");
-  }
+  // if (status == 'started') {
+  //   showModalSuccess("The program running successfully!");
+  // }
+  showModalSuccess("The program started!");
   let xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
   let xmlText = Blockly.Xml.domToPrettyText(xmlDom);
 
   const result_save = await saveXml(id, xmlText);
-
-  if (result_save.status == 200) {
-    console.log("The program running successfully!");
-  }
+  
+  // if (result_save.status == 200) {
+  //   console.log("The program running successfully!");
+  // }
 }
 
 //stop the code that was being exeuted in the robot 

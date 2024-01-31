@@ -15,6 +15,7 @@ from robot.roboclass import Agent
 from multiprocessing import Process,freeze_support
 from threading import Thread
 from flask_babel import Babel
+import requests
 
 DOCKER = False
 BASED_DIR = '/app' 
@@ -33,7 +34,7 @@ if os.getenv('ROBOT_MODE') is not None:
     if os.getenv('ROBOT_MODE') == 'physical':
         ROBOT_MODE = 'physical'
 
-DEBUG = False
+DEBUG = True
 if os.getenv('DEBUG') is not None:
     if os.getenv('DEBUG') == 'True':
         DEBUG = True
@@ -86,6 +87,16 @@ def get_locale():
     return request.accept_languages.best_match(['el', 'en'])
 
 babel = Babel(app,locale_selector=get_locale)
+
+# def start_coppelia():
+#     global COPPELIA_PROCESS
+#     if ROBOT_MODE  == 'coppelia': 
+#         if COPPELIA_PROCESS is None or COPPELIA_PROCESS.poll() is not None:       
+#             try:
+#                 COPPELIA_PROCESS = Process(target=agent.start_coppelia,daemon=True)
+#                 COPPELIA_PROCESS.start()
+#             except Exception as e:
+#                 print(e)
 
 @app.before_first_request
 def before_first_request():    
@@ -141,14 +152,14 @@ def blockly():
     get_sound_effects()
     scenes = get_scenes()
     locale = LOCALE
-    return render_template('blockly.html', project_id=id, robot_name=robot_name,locale=locale,scenes=scenes)           
+    return render_template('blockly.html', project_id=id, robot_name=robot_name,locale=locale,scenes=scenes,robot_mode = ROBOT_MODE)           
 
 @app.route('/kindergarten')
 def kindergarten():
     stop_now()
     robot_name = get_robot_name()
     scenes = get_scenes()
-    return render_template('blockly_simple.html', project_id=-1, robot_name=robot_name,scenes=scenes)  
+    return render_template('blockly_simple.html', project_id=-1, robot_name=robot_name,scenes=scenes,robot_mode = ROBOT_MODE)  
 
 @socketio.on('get_sound_effects')
 def blockly_get_sound_effects():
@@ -276,6 +287,11 @@ def handle_execute_blockly(data):
         id = data['id']
         code = data['code']
         print(code)
+        print(ROBOT_MODE)
+        if ROBOT_MODE=="coppelia":
+            
+            r = requests.get(url = 'http://127.0.0.1:23020/start')
+            print(f'STart Coppelia {r}')
         try:
             stop_script()
             SCRIPT_PROCCESS = Process(target=execute_blocks, args=(code,),daemon=True)
@@ -295,6 +311,26 @@ def open_audio_folder():
 @socketio.on('open_stage_folder')
 def open_map_folder():
     os.startfile(os.path.realpath(os.path.join(DATA_DIR,'Coppelia_Scenes')))
+
+@socketio.on('open_map')
+def open_map(data):
+    if '.ttt' in data:
+        stop_script()
+        res = requests.get(url = 'http://localhost:23020/stop')
+        print(f'Stop Coppelia {res}')
+        coppelia_dir =  os.path.join(DATA_DIR,'Coppelia_Scenes')
+        scene_name =  os.path.join(coppelia_dir,data)
+        print(scene_name)
+        res = requests.post(url = 'http://localhost:23020/loadscene', data =scene_name)
+        print(f'Load scene {res}')
+    print('No map')
+
+@socketio.on('reset_stage')
+def reset_stage():
+    res = requests.get(url = 'http://localhost:23020/stop')
+    print(f'Stop Coppelia {res}')
+    res = requests.get(url = 'http://localhost:23020/start')
+    print(f'Start Coppelia {res}')
 
 @socketio.on('send_xml')
 def handle_send_xml(data):
@@ -435,8 +471,8 @@ def handle_systray_controls(message):
 
 if __name__ == '__main__':
     freeze_support()
-    if not DOCKER:
+    #if not DOCKER:
         # systray = Thread(target=systray_agent,daemon=True)
         # systray.start()
-        webbrowser.open_new("http://127.0.0.1:8081")
+        #webbrowser.open_new("http://127.0.0.1:8081")
     socketio.run(app, host = '0.0.0.0',port=8081, debug=DEBUG)

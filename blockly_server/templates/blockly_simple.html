@@ -46,21 +46,15 @@
 </br>
   <div id="main-container">
     <div class="row custom_row">
-      <div class="col-10 " >
+      <div class="col-8 " >
         <div class="drop_shadow" id="blocklyDiv"></div>
       </div>
      
       
 
-        <div id="buttons-container-right_kind" class="col-2">
+        <div id="buttons-container-right_kind" class="col-4">
 
           <div id='button__headers_row_one_icon'>
-            <!-- <div id="button_fa_wrap">
-              <a onclick="jsfunction()" href="javascript:save_xml('{{ project_id }}');"  id="open-home-href" style="color: rgb(24, 21, 148); text-decoration: none;">
-              <i class="fa-solid fa-floppy-disk"></i>
-              </a>
-            </div> -->
-            <!-- <div id="button_spacer"></div> -->
             <div id="button_fa_wrap"  >
               <a href='/'   style="color: rgb(255, 136, 0); text-decoration: none;">
               <i class="fa-solid fa-house"></i>
@@ -68,12 +62,31 @@
             </div>
           
          </div>  
-        
-        <!-- <div id="terminal_div">
-          <div id="terminal_scrollable-content">
-          <p>FossBot Terminal...</p>
-        </div>
-        </div> -->
+         {% if robot_mode=="coppelia" %}
+         <div class="embed-responsive embed-responsive-16by9" width="640" height="480">
+           <iframe class="embed-responsive-item" src="http://127.0.0.1:23020/"></iframe>
+         </div>
+         <br>
+         <div id="button__controls_row">
+           <button class="btn btn-success" onClick="window.open('http://127.0.0.1:23020');">{{
+             gettext('Window')}}</button>
+ 
+           <select id="stage_select" class="form-select">
+             <option value="-1" selected>Select stage</option>
+             {% for scene in scenes %}
+             <option>{{scene}}</option>
+             {% endfor %}
+           </select>
+           <button class="btn btn-primary" onClick="open_map()">Load stage</button>
+           <!-- <div id="button_fa_wrap_controls_small">
+            
+             <a onclick="open_map()" href="#"  style="color: rgb(23, 76, 155); text-decoration: none;">
+             <i class="fa-solid fa-globe"></i>
+             </a>
+           </div> -->
+ 
+         </div>
+         {% endif %}
       
 
         <div id="button__controls_row">
@@ -87,65 +100,20 @@
           <i class="fa-solid fa-circle-stop"></i>
           </a>
         </div>
-        <!-- <div id="button_fa_wrap_controls">
-          <a onclick="reset_stage()" href="#"  style="color: rgb(253, 165, 1); text-decoration: none;">
-          <i class="fa-solid fa-circle-dot"></i>
+        {% if robot_mode=="coppelia" %}
+        <div id="button_fa_wrap_controls">
+          <a onclick="reset_stage()" href="#" style="color: rgb(253, 165, 1); text-decoration: none;">
+            <i class="fa-solid fa-circle-dot"></i>
           </a>
-        </div> -->
-      </div>
-    </br>
-    <!-- <div id="button__controls_row">
-      <select id="stage_select" class="form-select" aria-label="Επιλέξτε πίστα">
-        <option value="-1" selected>Select stage</option>
-        {% for scene in scenes %}
-          <option >{{scene}}</option>
-        {% endfor %}
-        
-      </select>
-
-      <div id="button_fa_wrap_controls_small">
-        <a onclick="open_map()" href="#"  style="color: rgb(23, 76, 155); text-decoration: none;">
-        <i class="fa-solid fa-globe"></i>
-        </a>
-      </div>
-
-    </div> -->
-       
-        <!-- <div id="right_buttons">
-
-          <button onclick="runCode('{{ project_id }}')" type="button" class="run">Τρέξε το πρόγραμμα!</button>
-        
         </div>
-        <div id="right_buttons">
-          <button onclick="stop_script()" type="button" class="stop">Σταμάτα την εκτέλεση!</button>
-        </div> -->
+        {% endif %}
       </div>
-    </div>
-    <!-- <div id="buttons-container">
-      
 
-      
-       
-    </div> -->
+     </div>
+    </div>
+ 
     <!-- {% include 'footer.html' %} -->
   </div>
-
- 
-
-
-
-  <!-- <div>
-  <a onclick="javascript:runCode(1)" href="#" class="float_btn_play">
-    <i class="fa-solid fa-play float_btn_play_icon"></i>
-  </a>
-</div>
-
-<div>
-  <a onclick="stop_script()" href="#" class="float_btn_stop">
-    <i class="fa-solid fa-stop float_btn_stop_icon"></i>
-  </a>
-</div> -->
-
   <xml  id="toolbox" style="display: none">
     <block type="move_forward_default"></block>
     <block type="move_reverse_default"></block>

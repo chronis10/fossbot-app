@@ -286,7 +286,7 @@ label, button {
 }
 
 .float_btn_play:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
   color:#FFF;
 }
 
@@ -312,31 +312,31 @@ label, button {
 }
 
 .float_btn_stop:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
   color:#FFF;
 }
 
 
 #button_fa_wrap:hover{
-  transform: scale(1.5); 
+  transform: scale(1.1); 
 }
 
 #button_fa_wrap_controls:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
 
 }
 
 #button_fa_wrap_controls:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
 
 }
 
 #button_fa_wrap_home:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
 
 }
 
 #button_fa_wrap_upload:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
 
 }
