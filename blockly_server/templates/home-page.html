@@ -88,7 +88,7 @@
                 <a onclick="uplodadProject()" href="#"  style="color: rgb(141, 141, 141); text-decoration: none;">
                 <i class="fa-solid fa-upload"></i>
                 </a>
-                <form action="{{ url_for('upload_project') }}"  method="POST" enctype="multipart/form-data" style="display: none;">
+                <form action="{{ url_for('routes_bp.upload_project') }}"  method="POST" enctype="multipart/form-data" style="display: none;">
                   <input type="file" id="fileDialogId" name="file" onchange="form.submit()"/>
                   
                 </form>
