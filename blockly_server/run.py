@@ -35,6 +35,9 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+        
+    if not Config.DOCKER and Config.AUTOSTART_BROWSER:
+        webbrowser.open_new(f"http://{Config.BROWSER_HOST}:{Config.PORT}")
 
     return app,socketio
 
@@ -43,7 +46,6 @@ if __name__ == '__main__':
     app,socketio = create_app()
     freeze_support()
     
-    if not Config.DOCKER and Config.AUTOSTART_BROWSER:
-        webbrowser.open_new(f"http://{Config.BROWSER_HOST}:{Config.PORT}")
+    
 
     socketio.run(app, host = Config.HOST, port=Config.PORT, debug=Config.DEBUG , allow_unsafe_werkzeug=True)

@@ -6,6 +6,9 @@
 ![](images/screen1.png)
 
 ## For the Simulator 
+
+Beta 0.6 under development, more instructions soon...
+
 ### Installation
 1) Download the latest release for your system (Windows, Ubuntu, MacOS) from the Releases section
 2) Unzip
@@ -32,8 +35,8 @@
 2) Enjoy!
 
 ## Screenshots
-![](images/screen3.png)
-![](images/screen2.png)
+![](images/blockly_coppelia.png)
+
 
 
 
