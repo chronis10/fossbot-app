@@ -15,23 +15,23 @@ def index():
     robot_name = get_robot_name()
     return render_template('home-page.html', robot_name=robot_name)
 
-@routes_bp.route('/blockly')
-def blockly():
+def shared_blockly_logic(project_id=None, kindergarten=False):
     stop_now()
-    id = request.args.get('id') 
-    print("------------------>",id)
+    id = request.args.get('id') if project_id is None else project_id
+
+    print("------------------>", id)
     robot_name = get_robot_name()
-    get_sound_effects()
     scenes = get_scenes()
     locale = Config.LOCALE
-    return render_template('blockly.html', project_id=id, robot_name=robot_name,locale=locale,scenes=scenes,robot_mode = Config.ROBOT_MODE)           
+    return render_template('editors/blockly.html', project_id=id, robot_name=robot_name, scenes=scenes,locale=locale, robot_mode=Config.ROBOT_MODE, kindergarten=kindergarten)
+
+@routes_bp.route('/blockly')
+def blockly():
+    return shared_blockly_logic()
 
 @routes_bp.route('/kindergarten')
 def kindergarten():
-    stop_now()
-    robot_name = get_robot_name()
-    scenes = get_scenes()
-    return render_template('blockly_simple.html', project_id=-1, robot_name=robot_name,scenes=scenes,robot_mode = Config.ROBOT_MODE)  
+    return shared_blockly_logic(project_id=-1, kindergarten=True)
 
 @routes_bp.route("/shutdown")
 def shutdown():

@@ -56,7 +56,7 @@
 </script>
 
 <body onclick="closeModalSuccessOrErrorwhenClickAnywhere()">
-  {% include 'header.html' %}
+  {% include 'common/header.html' %}
   <div id="main-container">
     <div id="go-back-to-home-button-container">
       <div id="button_fa_wrap"  >
@@ -129,13 +129,13 @@
 
     </div>
 
-    <!-- {% include 'footer.html' %} -->
+ 
 
     <!-- modal : error while loading/ saving settings -->
-    {% include 'modal-error.html' %}
+    {% include 'modals/modal-error.html' %}
 
     <!-- modal : success while loading/ saving settings -->
-    {% include 'modal-success.html' %}
+    {% include 'modals/modal-success.html' %}
 
 </body>
 

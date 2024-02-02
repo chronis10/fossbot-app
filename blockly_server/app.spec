@@ -1,14 +1,33 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import os
 
 block_cipher = None
 
+# Function to recursively get all python files in a directory
+def get_python_files(directory):
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.endswith('.py'):
+                yield os.path.join(root, file)
+
+# List of directories to include all Python files from
+directories_to_include = ['app'] # Add your directories here
+
+# Start with your specific Python files
+python_files = ['run.py','config.py','extensions.py']
+
+# Add all Python files from the specified directories
+for directory in directories_to_include:
+    python_files.extend(get_python_files(directory))
+
+
 
 a = Analysis(
-    ['app.py','utils/systray_mode.py','robot/roboclass.py'],
+    python_files,
     pathex=[],
     binaries=[],
-    datas=[('templates', 'templates'), ('utils', 'utils'), ('static', 'static'),('translations', 'translations'), ('robot', 'robot'), ('../lib', 'lib'),('app.ico','app.ico')],
+    datas=[('templates', 'templates'), ('assets', 'assets'), ('static', 'static'),('translations', 'translations'), ('../lib', 'lib'),('app.ico','app.ico')],
     hiddenimports=[
         'engineio.async_drivers.threading',
                 'eventlet.hubs.epolls',
@@ -34,8 +53,10 @@ a = Analysis(
     win_private_assemblies=False,
     cipher=block_cipher,
     noarchive=False,
-    
 )
+
+
+
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
 exe = EXE(
@@ -45,7 +66,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='FossBot Blockly',
+    name='fossbot-app',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

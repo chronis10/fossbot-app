@@ -160,7 +160,7 @@ def register_socketio_events(socketio):
             emit('execute_blockly_result', {'status': '200'})
         except Exception as e:
             print(e)
-            emit('execute_blockly_result',  {'status': 'error when creating .py file or when running the .py file'})
+            emit('execute_blockly_result',  {'status': '400'})
 
     @socketio.on('open_audio_folder')
     def open_audio_folder():
@@ -173,6 +173,7 @@ def register_socketio_events(socketio):
 
     @socketio.on('open_map')
     def open_map(data):
+        print(data)
         if '.ttt' in data:
             stop_now()
             res = requests.get(url = 'http://localhost:23020/stop')

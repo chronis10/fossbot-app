@@ -35,6 +35,6 @@ class Config:
     DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
     # Austostart web browser
-    AUTOSTART_BROWSER  = os.getenv('AUTOSTART_BROWSER', 'False') == 'True'
+    AUTOSTART_BROWSER  = os.getenv('AUTOSTART_BROWSER', 'True') == 'True'
 
     
