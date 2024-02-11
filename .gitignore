@@ -1,5 +1,6 @@
 *_env/
 *-env/
+*fenv/
 .DS_Store
 **/build/
 build/

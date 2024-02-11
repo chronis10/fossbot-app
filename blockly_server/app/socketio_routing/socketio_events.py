@@ -77,7 +77,8 @@ def register_socketio_events(socketio):
     def handle_new_project(data):
         title = data['title']
         info = data['info']
-        project = Projects(title,info)
+        editor = data['editor']
+        project = Projects(title, info, editor)
         db.session.add(project)
         db.session.commit()
         db.session.refresh(project)
@@ -105,6 +106,7 @@ def register_socketio_events(socketio):
             project = Projects.query.get(project_id)
             project.title = request.args.get('title')    
             project.info = request.args.get('info')
+            project.editor = request.args.get('editor')
             db.session.commit()       
             emit('edit_project', {'status':'updated'})
         except Exception as e:

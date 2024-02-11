@@ -29,6 +29,29 @@ def shared_blockly_logic(project_id=None, kindergarten=False):
 def blockly():
     return shared_blockly_logic()
 
+def shared_monaco_logic(project_id=None, kindergarten=False):
+    stop_now()
+    id = request.args.get('id') if project_id is None else project_id
+
+    print("------------------>", id)
+    robot_name = get_robot_name()
+    scenes = get_scenes()
+    locale = Config.LOCALE
+    return render_template('editors/monaco.html', project_id=id, robot_name=robot_name, scenes=scenes,locale=locale, robot_mode=Config.ROBOT_MODE, kindergarten=kindergarten)
+
+@routes_bp.route('/monaco')
+def monaco():
+    # instructions = load_monaco_instrunctions('en')
+    # get_sound_effects()
+    # locale = LOCALE
+    return shared_monaco_logic()
+
+# def load_monaco_instrunctions(languange: str = 'en') -> dict: 
+#     path = os.path.join('/app',f'instructions/library_{languange}.json')
+#     with open(path) as json_file:
+#         data = json.load(json_file)
+#     return data
+
 @routes_bp.route('/kindergarten')
 def kindergarten():
     return shared_blockly_logic(project_id=-1, kindergarten=True)
