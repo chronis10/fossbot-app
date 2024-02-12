@@ -211,7 +211,7 @@ def register_socketio_events(socketio):
             code = data['code']        
             project = Projects.query.get(id)        
             code = code.replace('</xml>','')
-            extra_info = ''.join(['  <project>\n', f'    <title>{project.title}</title>\n', f'    <description>{project.info}</description>\n', '  </project>\n', '</xml>'])
+            extra_info = ''.join(['  <project>\n', f'    <title>{project.title}</title>\n', f'    <description>{project.info}</description>\n', f'    <description>{project.editor}</description>\n', '  </project>\n', '</xml>'])
             code += extra_info
             with open(os.path.join(Config.PROJECT_DIR,f'{id}/{id}.xml'), "w", encoding="utf8") as fh:
                 fh.write(code)

@@ -90,7 +90,8 @@ def upload_project():
         pjs = docs.getElementsByTagName('project')[0]
         title = pjs.getElementsByTagName('title')[0].firstChild.data
         info = pjs.getElementsByTagName('description')[0].firstChild.data
-        project = Projects(title,info)
+        editor = pjs.getElementsByTagName('editor')[0].firstChild.data
+        project = Projects(title,info, editor)
         db.session.add(project)
         db.session.commit()
         db.session.refresh(project)        

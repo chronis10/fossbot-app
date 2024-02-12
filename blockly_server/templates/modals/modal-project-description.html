@@ -14,6 +14,15 @@
         <div class="form-group" id="form-project-description">
           <input type="text" id="project-description-text">
         </div>
+        <br>
+        <strong id="modal-project-description-space-text">{{ gettext('Please select programming mode for your new
+          project:')}}</strong>
+          <div class="form-group" id="form-project-description">
+            <select id="editor-dropdown">
+                <option value="blockly" selected>Blockly</option>
+                <option value="monaco">Monaco</option>
+            </select>
+        </div>
       </div>
 
       <!-- Modal footer -->

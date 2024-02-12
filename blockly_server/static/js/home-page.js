@@ -19,11 +19,21 @@ function loadProjects(data) {
 
 function createProjectRow(project) {
     const row = document.createElement('tr');
+
+    var editorURL;
+    
+    if (project['editor'] == 'blockly') {
+        editorURL = "/blockly";
+    } else if (project['editor'] == 'monaco') {
+        editorURL = "/monaco";
+    }
+
     row.innerHTML = `
         <td>${project['title']}</td>
         <td>${project['info']}</td>
+        <td> <span>${project['editor']}</span></td>
         <td><a href="/export_project/${project['project_id']}" class="button-style"><i class="fa-solid fa-download"></i></a></td>
-        <td><a href="/blockly?id=${project['project_id']}" class="button-style"><i class="fa-solid fa-pencil" style="color: orange;"></i></a></td>
+        <td><a href="${editorURL}?id=${project['project_id']}" class="button-style"><i class="fa-solid fa-pencil" style="color: orange;"></i></a></td>
         <td><a href="#" onclick="deleteProject(${project['project_id']})" class="button-style"><i class="fa-solid fa-trash" style="color: red;"></i></a></td>`;
     return row;
 }
@@ -46,12 +56,18 @@ function uplodadProject() {
 
 async function getDescription() {
     newProjectDescription = getInputValue("project-description-text");
+    const selectedEditor = document.getElementById("editor-dropdown").value;
+
     if (newProjectDescription) {
         closeModalNewProjectDescription();
         try {
-            const result = await newProject(newProjectTitle, newProjectDescription);
+            const result = await newProject(newProjectTitle, newProjectDescription, selectedEditor);
             console.log('result is ', result);
-            window.location.replace(`/blockly?id=${result.project_id}`);
+            if (selectedEditor === 'blockly') {
+                window.location.replace(`/blockly?id=${result.project_id}`);
+            } else {
+                window.location.replace(`/monaco?id=${result.project_id}`);
+            }
         } catch (error) {
             console.error('Error creating new project:', error);
         }
