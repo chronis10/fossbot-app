@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, jsonify, send_file
 from extensions import db
 import os
+import json
 from app.db_models.models import Projects
 from config import Config
 from app.control_utils.utils import stop_now, get_robot_name, get_scenes, get_sound_effects, imed_exit
@@ -30,6 +31,7 @@ def blockly():
     return shared_blockly_logic()
 
 def shared_monaco_logic(project_id=None, kindergarten=False):
+    instructions = load_monaco_instrunctions('en')
     stop_now()
     id = request.args.get('id') if project_id is None else project_id
 
@@ -37,7 +39,7 @@ def shared_monaco_logic(project_id=None, kindergarten=False):
     robot_name = get_robot_name()
     scenes = get_scenes()
     locale = Config.LOCALE
-    return render_template('editors/monaco.html', project_id=id, robot_name=robot_name, scenes=scenes,locale=locale, robot_mode=Config.ROBOT_MODE, kindergarten=kindergarten)
+    return render_template('editors/monaco.html', project_id=id, robot_name=robot_name, instructions=instructions, scenes=scenes,locale=locale, robot_mode=Config.ROBOT_MODE, kindergarten=kindergarten)
 
 @routes_bp.route('/monaco')
 def monaco():
@@ -46,11 +48,11 @@ def monaco():
     # locale = LOCALE
     return shared_monaco_logic()
 
-# def load_monaco_instrunctions(languange: str = 'en') -> dict: 
-#     path = os.path.join('/app',f'instructions/library_{languange}.json')
-#     with open(path) as json_file:
-#         data = json.load(json_file)
-#     return data
+def load_monaco_instrunctions(languange: str = 'en') -> dict: 
+    path = os.path.join(Config.BASE_DIR,f'blockly_server/instructions/library_{languange}.json')
+    with open(path) as json_file:
+        data = json.load(json_file)
+    return data
 
 @routes_bp.route('/kindergarten')
 def kindergarten():

@@ -50,7 +50,27 @@
 
     <div class="row no-gutters">
       <div class="col-md-2 col-sm-12 col-12 col-lg-2">
-        
+        <div class="drop_shadow" id="left-column">
+
+          <h6 id="copy-instructions">Click copy icon to copy function.</h6>
+          {% for category, commands in instructions['commands'].items() %}
+          <button class="accordion">{{ category }}</button>
+          <div class="panel">
+            {% for item in commands %}
+            {% set command = item['command'] %}
+            <div>
+              <br>
+              <p>{{item['name']}}.</p>
+              <p>{{item['description']}}.</p>
+              <p style="font-weight: bold;">
+                {{command}} <i onclick="copyFunction('{{command}}')" class="fa-solid fa-copy" style="cursor: copy;"></i>
+              </p>
+            </div>
+            {% endfor%}
+          </div>
+          {% endfor%}
+
+        </div>
       </div>
       
       <div class="col-md-7 col-sm-12 col-12 col-lg-7">
