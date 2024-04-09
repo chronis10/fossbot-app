@@ -52,13 +52,14 @@ async function runBlocklyCode(id) {
     console.log("sendCode result", result);
     if (result === '200') {
     
-      showModalSuccess("The program started!");
+      // showModalSuccess("The program started!");
       if (id!=-1) {
         await saveXmlToDB(id); // Save after running the code
       }
     } else {
       showModalError("Error in running the code!");
     }
+    return;
 
   } catch (error) {
     showModalError("Error in running the code!");

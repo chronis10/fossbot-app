@@ -8,6 +8,7 @@ from app.db_models.models import Projects
 from multiprocessing import Process
 from extensions import db, process_manager
 from config import Config
+import time
 from app.control_utils.utils import stop_now, execute_blocks, imed_exit, load_parameters, save_parameters, get_all_projects, stop_now
 
 if Config.ROBOT_MODE=="coppelia":
@@ -145,8 +146,8 @@ def register_socketio_events(socketio):
 
     @socketio.on('execute_blockly')
     def handle_execute_blockly(data):
-        client = RemoteAPIClient()
-        sim = client.require('sim')
+        
+        
         relay_to_robot(json.dumps(data))
         socketio.emit('execute_blockly_robot', {'status': '200', 'result': 'Code saved with success'})
         try:
@@ -155,7 +156,10 @@ def register_socketio_events(socketio):
             print(code)
             print(Config.ROBOT_MODE)
             if Config.ROBOT_MODE=="coppelia":
+                client = RemoteAPIClient()
+                sim = client.require('sim')
                 sim.startSimulation()
+                time.sleep(1)
                 # r = requests.get(url = 'http://127.0.0.1:23020/start')
                 # print(f'Start Coppelia {r}')
             try:
@@ -209,6 +213,7 @@ def register_socketio_events(socketio):
         sim = client.require('sim')
         sim.stopSimulation()
         print(f'Stop Coppelia')
+        time.sleep(1)
         sim.startSimulation()
         print(f'Start Coppelia')
 

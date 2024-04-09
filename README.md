@@ -17,7 +17,7 @@ Beta 0.6 under development, please open a github issue for any bug or feature re
 ### At first run
 1) Start the ```FossBot Simulator``` app
 2) Go to settings sections inside the app
-3) Set the path to the CoppeliaSim executable e.g. ```C:\Program Files\CoppeliaRobotics\CoppeliaSimEdu``` or ```/home/user/CoppeliaSim_Edu```
+3) Set the path to the CoppeliaSim executable e.g. ```C:\Program Files\CoppeliaRobotics\CoppeliaSimEdu_4.6\CoppeliaSimEdu\coppeliaSim.exe``` or ```/home/user/CoppeliaSim_Edu_4.6/coppeliaSim.sh```
 4) Save the settings and restart the app
 
 Now the app will and the CoppeliaSim will start together.

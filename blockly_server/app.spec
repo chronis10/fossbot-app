@@ -30,6 +30,9 @@ a = Analysis(
     datas=[('templates', 'templates'), ('assets', 'assets'), ('static', 'static'),('translations', 'translations'), ('../lib', 'lib'),('app.ico','app.ico')],
     hiddenimports=[
         'engineio.async_drivers.threading',
+                'pyzmq',
+                'zmq',
+                'coppeliasim_zmqremoteapi_client',
                 'eventlet.hubs.epolls',
                 'eventlet.hubs.kqueue',
                 'eventlet.hubs.selects',

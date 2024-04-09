@@ -45,7 +45,7 @@ def create_app():
         if coppelia_path:
             headless = '-h ' if paramters['coppelia_headless']['value'] else ''
             pwd = os.getcwd()
-            command = f'"{coppelia_path}/coppeliaSim.sh" {headless}-GvisualizationStream.autoStart=true -f {coppelia_scenes_dir}'
+            command = f'"{coppelia_path}" {headless}-GvisualizationStream.autoStart=true -f {coppelia_scenes_dir}'
             subprocess.Popen(command, shell=True)
 
     if not Config.DOCKER:
@@ -56,7 +56,6 @@ def create_app():
 
 
 if __name__ == '__main__':
-    app,socketio = create_app()
     freeze_support()
-    
+    app,socketio = create_app()   
     socketio.run(app, host = Config.HOST, port=Config.PORT, debug=Config.DEBUG , allow_unsafe_werkzeug=True)
