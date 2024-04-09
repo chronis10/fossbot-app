@@ -89,33 +89,34 @@ label, button {
   transition: transform .2s;
 }
 
-#button__headers_row_one_icon{
-  /* text-align: center; */
-  text-align:right;
 
-    /* border: 1px solid black;  */
-    width: 100%; 
-    margin-right: 25px;
-
+#button_headers_row {
+  display: flex;
+  justify-content: space-between;
+}
+#button_headers_row > #button_fa_wrap:first-child {
+  align-self: flex-start;
+}
+#button_headers_row > #button_fa_wrap:last-child {
+  align-self: flex-end;
 }
 
-#button__headers_row_two_icon{
-  /* text-align: center; */
-  text-align:right;
-
-    /* border: 1px solid black;  */
-    width: 100%; 
-    margin-right: 15px;
-
-}
-
-.text-and-image-line{
- 
+.text-and-image-line{ 
   vertical-align:middle;
    display:inline;
   font-size: 10px;
 }
 
+.custom_row_right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#custom-one {
+  display: flex;
+  justify-content: flex-end;
+ 
+}
 
 
 
@@ -286,7 +287,7 @@ label, button {
 }
 
 .float_btn_play:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
   color:#FFF;
 }
 
@@ -312,31 +313,31 @@ label, button {
 }
 
 .float_btn_stop:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
   color:#FFF;
 }
 
 
 #button_fa_wrap:hover{
-  transform: scale(1.5); 
+  transform: scale(1.1); 
 }
 
 #button_fa_wrap_controls:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
 
 }
 
 #button_fa_wrap_controls:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
 
 }
 
 #button_fa_wrap_home:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
 
 }
 
 #button_fa_wrap_upload:hover {
-  transform: scale(1.5); 
+  transform: scale(1.1); 
 
 }

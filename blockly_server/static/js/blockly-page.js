@@ -1,132 +1,86 @@
-//save xml to db
-async function save_xml(id) {
-  let xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-  let xmlText = Blockly.Xml.domToPrettyText(xmlDom);
+async function saveXmlToDB(id) {
+  let xmlText = getBlocklyXmlText();
 
-  const result = await saveXml(id, xmlText)
-  const status = result.status
-  if (status == '200') {
-    showModalSuccess("Project Saved!");
-  } else {
-    showModalError("Error on saving!")
+  try {
+    const result = await saveXml(id, xmlText);
+    if (result.status === '200') {
+      showModalSuccess("Project Saved!");
+    } else {
+      throw new Error('Save Error');
+    }
+  } catch (error) {
+    showModalError("Error on saving!");
   }
 }
 
-
-
-function loadXml(xml) {
+function loadXmlIntoBlockly(xml) {
   const dom = Blockly.Xml.textToDom(xml);
   Blockly.mainWorkspace.clear();
   Blockly.Xml.domToWorkspace(dom, Blockly.mainWorkspace);
 }
 
-//get all projects from db  
-async function loadProject() {
-  // terminalhandler();
-  const url_str = window.location.href;
-  console.log(url_str)
-
-  var url = new URL(url_str);
-  var id = url.searchParams.get("id");
-  console.log("project is id", id);
+async function loadProjectFromDB() {
+  const id = new URL(window.location.href).searchParams.get("id");
+  console.log("project id", id);
 
   if (id) {
-    //only if the project is saved, it will have an id , so we can retrieve the xml code 
-    //get project code from BE based on id 
-    const result = await sendXml(id);
-    console.log("result", result)
-    if (result.status == '200')
-      loadXml(result.data);
-    else {
-      console.log('Error when getting project\n', err);
+    try {
+      const result = await sendXml(id);
+      if (result.status === '200') {
+        loadXmlIntoBlockly(result.data);
+      } else {
+        throw new Error('Load Error');
+      }
+    } catch (error) {
+      console.error('Error when getting project', error);
       showModalError("Error on blocks loading!");
     }
   }
 }
 
-// async function terminalhandler(){
-//   let temp = await terminal_data_reciever();
-//   alert(temp);
-//   return temp;
-// }
-
-
-async function runCode_simple(id) {
-  let blockly_code = Blockly.Python.workspaceToCode(Blockly.mainWorkspace);
-
-  if (blockly_code == "") {
+async function runBlocklyCode(id) {
+  let blocklyCode = Blockly.Python.workspaceToCode(Blockly.mainWorkspace);
+  if (!blocklyCode) {
     console.log("no code to run");
-
-    //show modal
-    showModalError("No Blocks detected!")
+    showModalError("No Blocks detected!");
     return;
   }
 
-  const result = await sendCode(id, blockly_code)
-  const status = result.status
-  if (status == 'started') {
-    showModalSuccess("The program running successfully!");
+  try {
+    const result = await sendCode(id, blocklyCode);
+    
+    console.log("sendCode result", result);
+    if (result === '200') {
+    
+      showModalSuccess("The program started!");
+      if (id!=-1) {
+        await saveXmlToDB(id); // Save after running the code
+      }
+    } else {
+      showModalError("Error in running the code!");
+    }
+
+  } catch (error) {
+    showModalError("Error in running the code!");
+    return;
   }
+
 }
 
+// function stopScript() {
+//   // Implementation for stopping the script
+// }
 
-//send the code from thw workspace to be run in the robot 
-async function runCode(id) {
-  let blockly_code = Blockly.Python.workspaceToCode(Blockly.mainWorkspace);
+function openMapForStage() {
+  let stage = document.getElementById("stage_select").value;
+  openMap(stage);
+}
 
-  if (blockly_code == "") {
-    console.log("no code to run");
+// function resetStage() {
+//   // Implementation for resetting the stage
+// }
 
-    //show modal
-    showModalError("No Blocks detected!")
-    return;
-  }
-
-  const result = await sendCode(id, blockly_code)
-  const status = result.status
-  if (status == 'started') {
-    showModalSuccess("The program running successfully!");
-  }
+function getBlocklyXmlText() {
   let xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-  let xmlText = Blockly.Xml.domToPrettyText(xmlDom);
-
-  const result_save = await saveXml(id, xmlText);
-
-  if (result_save.status == 200) {
-    console.log("The program running successfully!");
-  }
+  return Blockly.Xml.domToPrettyText(xmlDom);
 }
-
-//stop the code that was being exeuted in the robot 
-function stop_script() {
-  stopScript();
-}
-
-// function open_map() {
-//   //importD();
-//   //openMap();
-// }
-
-
-
-function open_map() {
-  var e = document.getElementById("stage_select");
-  //var value = e.value;
-  var text = e.options[e.selectedIndex].text;
-  openMap(text);
-  
-  // let input = document.createElement('input');
-  // input.type = 'file';
-  // input.onchange = _this => {
-  //           let files =   Array.from(input.files);
-  //           alert(files[0]['name']);
-  //           openMap(files);
-  //           console.log(files);
-  //       };
-  // input.click();
-}
-
-function reset_stage() {
-  resetStage();
-}
-

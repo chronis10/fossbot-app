@@ -56,7 +56,7 @@
 </script>
 
 <body onclick="closeModalSuccessOrErrorwhenClickAnywhere()">
-  {% include 'header.html' %}
+  {% include 'common/header.html' %}
   <div id="main-container">
     <div id="go-back-to-home-button-container">
       <div id="button_fa_wrap"  >
@@ -99,8 +99,12 @@
         </div>
       </div>
 
+      <div>
+        <p>Data path:{{data_path}}</p>
+      </div>
 
       <div id="Blockly-Button-container">
+        
         <div id="Blockly-Button-wrap">
           <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -112,8 +116,8 @@
             </div>
           </div>
         </div>
-
-        {% if not docker %}
+        
+        {% if not docker and cur_platform=="Windows" %}
           <div id="Blockly-Button-wrap">
             <button onclick="open_audio_folder()"  class="save-panel-changes">{{ gettext('Sounds Folder')}}</button>
           </div>
@@ -129,13 +133,13 @@
 
     </div>
 
-    <!-- {% include 'footer.html' %} -->
+ 
 
     <!-- modal : error while loading/ saving settings -->
-    {% include 'modal-error.html' %}
+    {% include 'modals/modal-error.html' %}
 
     <!-- modal : success while loading/ saving settings -->
-    {% include 'modal-success.html' %}
+    {% include 'modals/modal-success.html' %}
 
 </body>
 

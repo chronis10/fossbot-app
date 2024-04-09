@@ -2,3 +2,4 @@ Pillow
 pystray
 pygame
 fossbot-lib
+coppeliasim-zmqremoteapi-client

@@ -10,8 +10,6 @@ socket.on('disconnect', () => {
   socket.emit('disconnection', { 'data': 'I\'m disconnected!' });
 });
 
-
-
 socket.on("trm", (incoming) => {
   console.log(incoming);
   document.getElementById('terminal_scrollable-content').innerHTML+= '<p>' + incoming.data + '</p>';
@@ -19,10 +17,7 @@ socket.on("trm", (incoming) => {
   elem.scrollTop = elem.scrollHeight;
 });
 
-
-
-
-const deleteProject = function (id) {
+const deleteProjectById = function (id) {
   return new Promise(function (resolve, reject) {
     socket.emit('delete_project', { project_id: id });
 
@@ -49,19 +44,11 @@ const executeScript = function(project_id) {
     socket.emit('execute_script', { 'project_id': project_id });
 
     socket.on('execute_script_result', (data) => {
-      console.log("execute_script_result:", data);
       resolve(data.status);
     });
   });
 }
 
-function sendManualControlCommand(command_name) {
-  socket.emit('manual_control_command', { command: command_name });
-
-  socket.on('manual_control_command_result', (data) => {
-    console.log("manual_control_command_result, data sent:", data);
-  });
-}
 
 function stopScript() {
   socket.emit('stop_script');
@@ -115,7 +102,7 @@ const sendCode = function(id,code) {
 
     socket.on('execute_blockly_result', (data) => {
       console.log("execute_blockly_result", data);
-      resolve(data);
+      resolve(data.status);
     });
   });
 }
