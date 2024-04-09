@@ -15,6 +15,7 @@ Beta 0.6 under development, please open a github issue for any bug or feature re
 3) Install the Coppelia Simulator (EDU or Player) ```https://coppeliarobotics.com/#download```
 
 ### At first run
+0) If you are a Windows user press allow and accepts in all security prompts. If you are Linux user you must run '''chmod +x fossbot-app``` in the terminal to give the app the permission to run.
 1) Start the ```FossBot Simulator``` app
 2) Go to settings sections inside the app
 3) Set the path to the CoppeliaSim executable e.g. ```C:\Program Files\CoppeliaRobotics\CoppeliaSimEdu_4.6\CoppeliaSimEdu\coppeliaSim.exe``` or ```/home/user/CoppeliaSim_Edu_4.6/coppeliaSim.sh```
