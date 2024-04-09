@@ -32,9 +32,14 @@ class Config:
     BROWSER_HOST = os.getenv('BROWSER_HOST', 'localhost')
    
     # Debug configuration
-    DEBUG = os.getenv('DEBUG', 'True') == 'True'
+    DEBUG = os.getenv('DEBUG', 'True') == 'False'
 
     # Austostart web browser
     AUTOSTART_BROWSER  = os.getenv('AUTOSTART_BROWSER', 'True') == 'True'
+
+    # # CoppeliaSim configuration
+    # COPPELIA_PATH = os.getenv('COPPELIA_PATH', '/home/chronis/CoppeliaSim_Edu_V4_6_0_rev18_Ubuntu20_04')
+    # COPPELIA_HEADLESS = os.getenv('COPPELIA_HEADLESS', 'True') == 'False'
+                              
 
     

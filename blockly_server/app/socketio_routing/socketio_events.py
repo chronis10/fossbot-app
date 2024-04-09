@@ -10,6 +10,10 @@ from extensions import db, process_manager
 from config import Config
 from app.control_utils.utils import stop_now, execute_blocks, imed_exit, load_parameters, save_parameters, get_all_projects, stop_now
 
+if Config.ROBOT_MODE=="coppelia":
+    from coppeliasim_zmqremoteapi_client import RemoteAPIClient
+
+
 def register_socketio_events(socketio):
     @socketio.on('connection')
     def on_connect(data):
@@ -55,8 +59,10 @@ def register_socketio_events(socketio):
             i = 0
             for key, value in parameters.items():
                 print(key)
-                if key == 'robot_name':                
-                    value['value'] = params_values['robot_name']
+                if key == 'robot_name' or key == 'coppelia_path':                
+                    value['value'] = params_values[key]
+                elif key == 'coppelia_headless' or key == 'rgb_led_type':
+                    value['value'] = params_values[key] == 'true'
                 elif key != 'simulator_ids':     
                     value['value'] = int(params_values[key])
                 i = i + 1
@@ -139,6 +145,8 @@ def register_socketio_events(socketio):
 
     @socketio.on('execute_blockly')
     def handle_execute_blockly(data):
+        client = RemoteAPIClient()
+        sim = client.require('sim')
         relay_to_robot(json.dumps(data))
         socketio.emit('execute_blockly_robot', {'status': '200', 'result': 'Code saved with success'})
         try:
@@ -147,9 +155,9 @@ def register_socketio_events(socketio):
             print(code)
             print(Config.ROBOT_MODE)
             if Config.ROBOT_MODE=="coppelia":
-                
-                r = requests.get(url = 'http://127.0.0.1:23020/start')
-                print(f'STart Coppelia {r}')
+                sim.startSimulation()
+                # r = requests.get(url = 'http://127.0.0.1:23020/start')
+                # print(f'Start Coppelia {r}')
             try:
                 stop_now()
                 exec_process = Process(target=execute_blocks, args=(code,),daemon=True)
@@ -173,24 +181,36 @@ def register_socketio_events(socketio):
 
     @socketio.on('open_map')
     def open_map(data):
+        client = RemoteAPIClient()
+        sim = client.require('sim')
         print(data)
         if '.ttt' in data:
             stop_now()
-            res = requests.get(url = 'http://localhost:23020/stop')
-            print(f'Stop Coppelia {res}')
+            # res = requests.get(url = 'http://localhost:23020/stop')
+            # print(f'Stop Coppelia {res}')
+            # coppelia_dir =  os.path.join(Config.DATA_DIR,'Coppelia_Scenes')
+            # scene_name =  os.path.join(coppelia_dir,data)
+            # print(scene_name)
+            # res = requests.post(url = 'http://localhost:23020/loadscene', data =scene_name)
+            # print(f'Load scene {res}')
+            sim.stopSimulation()
+            print(f'Stop Coppelia')
             coppelia_dir =  os.path.join(Config.DATA_DIR,'Coppelia_Scenes')
             scene_name =  os.path.join(coppelia_dir,data)
             print(scene_name)
-            res = requests.post(url = 'http://localhost:23020/loadscene', data =scene_name)
-            print(f'Load scene {res}')
+            sim.loadScene(scene_name)
+            print(f'Load scene {scene_name}')
+            sim.startSimulation()
         print('No map')
 
     @socketio.on('reset_stage')
     def reset_stage():
-        res = requests.get(url = 'http://localhost:23020/stop')
-        print(f'Stop Coppelia {res}')
-        res = requests.get(url = 'http://localhost:23020/start')
-        print(f'Start Coppelia {res}')
+        client = RemoteAPIClient()
+        sim = client.require('sim')
+        sim.stopSimulation()
+        print(f'Stop Coppelia')
+        sim.startSimulation()
+        print(f'Start Coppelia')
 
     @socketio.on('send_xml')
     def handle_send_xml(data):

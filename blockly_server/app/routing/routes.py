@@ -5,7 +5,7 @@ from app.db_models.models import Projects
 from config import Config
 from app.control_utils.utils import stop_now, get_robot_name, get_scenes, get_sound_effects, imed_exit
 from xml.dom import minidom
-
+import platform
 # Create a Blueprint
 routes_bp = Blueprint('routes_bp', __name__)
 
@@ -40,8 +40,10 @@ def shutdown():
 @routes_bp.route('/admin_panel')
 def admin_panel():
     stop_now()
+    cur_platform = platform.system()
+    data_path = Config.DATA_DIR
     robot_name = get_robot_name()
-    return render_template('panel-page.html', robot_name=robot_name,docker = Config.DOCKER, mode = Config.ROBOT_MODE)
+    return render_template('panel-page.html', robot_name=robot_name,docker = Config.DOCKER, mode = Config.ROBOT_MODE, cur_platform=cur_platform, data_path=data_path)
 
 @routes_bp.route('/stop_script')
 def stop_script():

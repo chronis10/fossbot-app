@@ -27,7 +27,6 @@ light_sensor:
    name: Dark True if sensor value greater than
    value: 700
    default: 700
-
 line_sensor_center:
    name: Central line senor if sensor value greater than
    value: 50
@@ -45,6 +44,21 @@ rotate_90:
    value: 1
    default: 1
 
+rgb_led_type:
+   name: RGB LED type (True anode/ False cathode)
+   value: false
+   default: false
+
+coppelia_path:
+   name: CoppeliaSim Path
+   value: 
+   default:
+   
+coppelia_headless:
+   name: CoppeliaSim Headless
+   value: false
+   default: false
+   
 simulator_ids:
   client_id: ~  # ~ is None (or empty value)
   fossbot_name: /fossbot

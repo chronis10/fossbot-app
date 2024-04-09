@@ -17,10 +17,14 @@ def get_all_projects():
 def stop_now():
     print('stop')
     if process_manager.get_process() is None:
+        print("nothing running")
         return{'status': 'nothing running'}
+    
     else:
         try:
-            process_manager.get_process().terminate()
+            #process_manager.get_process().terminate()
+            process_manager.get_process().kill()
+            print("stopped")
             return {'status': 'stopped'}
         except Exception as e:
             print(e)
@@ -102,7 +106,8 @@ def initialize_app():
     if Config.ROBOT_MODE == 'coppelia':
         coppelia_scenes_dir = os.path.join(Config.DATA_DIR, 'Coppelia_Scenes')
         if not os.path.exists(coppelia_scenes_dir):
-            os.makedirs(coppelia_scenes_dir)
+            shutil.copytree(os.path.join(Config.APP_DIR, 'assets/coppelia_default'), coppelia_scenes_dir)
+
 
     sound_effects_dir = os.path.join(Config.DATA_DIR, 'sound_effects')
     if not os.path.exists(sound_effects_dir):

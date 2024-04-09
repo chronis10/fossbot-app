@@ -7,13 +7,20 @@
 
 ## For the Simulator 
 
-Beta 0.6 under development, more instructions soon...
+Beta 0.6 under development, please open a github issue for any bug or feature request.
 
 ### Installation
 1) Download the latest release for your system (Windows, Ubuntu, MacOS) from the Releases section
 2) Unzip
-3) Install the Coppelia Simulator (EDU or Player) ```https://www.coppeliarobotics.com/downloads```
+3) Install the Coppelia Simulator (EDU or Player) ```https://coppeliarobotics.com/#download```
 
+### At first run
+1) Start the ```FossBot Simulator``` app
+2) Go to settings sections inside the app
+3) Set the path to the CoppeliaSim executable e.g. ```C:\Program Files\CoppeliaRobotics\CoppeliaSimEdu``` or ```/home/user/CoppeliaSim_Edu```
+4) Save the settings and restart the app
+
+Now the app will and the CoppeliaSim will start together.
 
 ### Usage
 1) Start the Coppelia Simulator

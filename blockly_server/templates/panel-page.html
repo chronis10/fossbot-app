@@ -99,8 +99,12 @@
         </div>
       </div>
 
+      <div>
+        <p>Data path:{{data_path}}</p>
+      </div>
 
       <div id="Blockly-Button-container">
+        
         <div id="Blockly-Button-wrap">
           <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -112,8 +116,8 @@
             </div>
           </div>
         </div>
-
-        {% if not docker %}
+        
+        {% if not docker and cur_platform=="Windows" %}
           <div id="Blockly-Button-wrap">
             <button onclick="open_audio_folder()"  class="save-panel-changes">{{ gettext('Sounds Folder')}}</button>
           </div>
