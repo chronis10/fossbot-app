@@ -40,7 +40,7 @@ function createNewProject() {
     
 }
 
-function uplodadProject() {
+function uploadProject() {
     document.getElementById("fileDialogId").click();
 }
 

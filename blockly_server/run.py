@@ -41,10 +41,8 @@ def create_app():
         paramters = utils.load_parameters()
         coppelia_path = paramters['coppelia_path']['value']
         coppelia_scenes_dir = os.path.join(os.path.join(Config.DATA_DIR, 'Coppelia_Scenes'),'default.ttt')
-        print(coppelia_scenes_dir)
         if coppelia_path:
-            headless = '-h ' if paramters['coppelia_headless']['value'] else ''
-            pwd = os.getcwd()
+            headless = '-gGUIITEMS_512 ' if paramters['coppelia_headless']['value'] else ''
             command = f'"{coppelia_path}" {headless}-GvisualizationStream.autoStart=true -f {coppelia_scenes_dir}'
             subprocess.Popen(command, shell=True)
 

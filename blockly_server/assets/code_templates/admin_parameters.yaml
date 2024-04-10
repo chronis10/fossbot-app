@@ -55,7 +55,7 @@ coppelia_path:
    default:
    
 coppelia_headless:
-   name: CoppeliaSim Headless
+   name: CoppeliaSim Simple Mode
    value: false
    default: false
    
