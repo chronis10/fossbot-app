@@ -11,92 +11,83 @@ require(['vs/editor/editor.main'], function () {
   });
 });
 
-function getCode() {
+function getMonacoXmlText() {
   var code = editor.getValue();
-  // var terminal = document.getElementById('terminal_scrollable-content');
-
-  // var codeLines = code.split('\n');  // Split the code string into an array of lines
-  // for (var i = 0; i < codeLines.length; i++) {
-  //   // Print each line separately
-  //   terminal.innerHTML += '<p>' + codeLines[i] + '</p>';
-  // }
   return code;
 }
 
-function loadXml(xml) {
-  if (xml !== null) {
-    const dom = Blockly.Xml.textToDom(xml);
-    Blockly.mainWorkspace.clear();
-    Blockly.Xml.domToWorkspace(dom, Blockly.mainWorkspace);
-  }
-}
 
-function loadPythonCode(code) {
+function loadXmlIntoMonaco(code) {
   if (code !== null) {
     editor.setValue(code);
   }
 }
 
-async function loadProject() {
-  const url_str = window.location.href;
-  console.log(url_str)
-
-  var url = new URL(url_str);
-  var id = url.searchParams.get("id");
-  console.log("project is id", id);
+async function loadProjectFromDB() {
+  const id = new URL(window.location.href).searchParams.get("id");
+  console.log("project id", id);
 
   if (id) {
-    const result = await sendXml(id);
-    console.log("result", result)
-    if (result.status == '200') {
-      if (result.editor === 'blockly') {
-        loadXml(result.data);
+    try {
+      const result = await sendXml(id);
+      if (result.status === '200') {
+        loadXmlIntoMonaco(result.data);
       } else {
-        loadPythonCode(result.data);
+        throw new Error('Load Error');
       }
-    } else {
-      console.log('Error when getting project\n', err);
+    } catch (error) {
+      console.error('Error when getting project', error);
       showModalError("Error on code loading!");
     }
   }
 }
 
-//send the code from thw workspace to be run in the robot 
-async function runCode(id) {
-  let monaco_code = editor.getValue();
-
-
-  if (monaco_code == "") {
+//send the code from the workspace to run on the robot 
+async function runMonacoCode(id) {
+  let monacoCode = editor.getValue();
+  if (!monacoCode) {
     console.log("no code to run");
-
-    //show modal
-    showModalError("No code detected!")
+    showModalError("No Code detected!");
     return;
   }
 
-  const result = await sendMonacoCode(id, monaco_code)
-  const status = result.status
-  if (status == 'started') {
-    showModalSuccess("The program running successfully!");
+  try {
+    const result = await sendMonacoCode(id, monacoCode);
+
+    console.log("sendMonacoCode result", result);
+    if (result === '200') {
+
+      showModalSuccess("The program started!");
+      if (id!=-1) {
+        await saveXmlToDB(id); // Save after running the code
+      }
+    } else {
+      showModalError("Error in running the code.");
+    }
+  } catch (error) {
+    showModalError("Error in running the code.")
   }
 }
 
-//stop the code that was being exeuted in the robot 
-function stop_script() {
-  stopScript();
-}
+// //stop the code that was being exeuted in the robot 
+// function stopScript() {
+//   stopScript();
+// }
 
-async function save_xml(id) {
-  let xmlText = getCode();
-  const result = await saveXml(id, xmlText)
-  const status = result.status
-  if (status == '200') {
-    showModalSuccess("Project Saved!");
-  } else {
-    showModalError("Error on saving!")
+async function saveXmlToDB(id) {
+  let xmlText = getMonacoXmlText();
+
+  try{
+    const result = await saveXml(id, xmlText)
+    if (result.status === '200') {
+      showModalSuccess("Project Saved!");
+    } else {
+      throw new Error('Save Error');
+    }
+  } catch (error) {
+    showModalError("Error on saving!");
   }
 }
-
 
 // Open accordion tabs
 var acc = document.getElementsByClassName("accordion");

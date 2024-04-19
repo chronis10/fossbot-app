@@ -219,6 +219,20 @@ def register_socketio_events(socketio):
         except Exception as e:
             emit('save_xml_result',  {'status': 'error occured', 'result': 'Code was not saved'})
 
+    # @socketio.on('save_xml')
+    # def handle_save_xml(data):
+    #     try: 
+    #         id = data['id']
+    #         code = data['code']        
+    #         project = Projects.query.get(id) 
+    #         project.data = code  
+    #         db.session.add(project)
+    #         db.session.commit()
+    #         emit('save_xml_result', {'status': '200', 'result': 'Code saved with success'})
+    #     except Exception as e:
+    #         emit('save_xml_result',  {'status': 'error occured', 'result': 'Code was not saved'})
+    
+
 
     @socketio.on('systray_controls')
     def handle_systray_controls(message):

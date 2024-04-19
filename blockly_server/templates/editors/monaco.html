@@ -39,7 +39,7 @@
   </style>
 </head>
 
-<body onload="loadProject()" onclick="closeModalSuccessOrErrorwhenClickAnywhere()">
+<body onload="loadProjectFromDB()" onclick="closeModalSuccessOrErrorwhenClickAnywhere()">
   {% include 'common/header.html' %}
   <br>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"
@@ -81,7 +81,7 @@
 
         <div id='button__headers_row'>
           <div id="button_fa_wrap">
-            <a onclick="save_xml('{{ project_id }}')" href="#" id="open-home-href"
+            <a onclick="saveXmlToDB('{{ project_id }}')" href="#" id="open-home-href"
               style="color: rgb(24, 21, 148); text-decoration: none;">
               <i class="fa-solid fa-floppy-disk"></i>
             </a>
@@ -95,6 +95,25 @@
           </div>
         </div>
 
+        {% if robot_mode=="coppelia" %}
+        <div class="embed-responsive embed-responsive-16by9" width="640" height="480">
+          <iframe class="embed-responsive-item" src="http://127.0.0.1:23020/"></iframe>
+        </div>
+        <br>
+        <div id="button__controls_row">
+          <button class="btn btn-success" onClick="window.open('http://127.0.0.1:23020');">{{
+            gettext('Window')}}</button>
+
+          <select id="stage_select" class="form-select">
+            <option value="-1" selected>Select stage</option>
+            {% for scene in scenes %}
+            <option>{{scene}}</option>
+            {% endfor %}
+          </select>
+          <button class="btn btn-primary" onClick="openMapForStage()">Load stage</button>
+        </div>
+        {% endif %}
+
         <div class="drop_shadow" id="terminal_div">
           <div id="terminal_scrollable-content">
             <p>FossBot Terminal...</p>
@@ -106,15 +125,22 @@
         <div id="button__controls_row">
 
           <div id="button_fa_wrap_controls">
-            <a onclick="runCode('{{ project_id }}')" href="#" style="color: rgb(56, 199, 0); text-decoration: none;">
+            <a onclick="runMonacoCode('{{ project_id }}')" href="#" style="color: rgb(56, 199, 0); text-decoration: none;">
               <i class="fa-solid fa-circle-play"></i>
             </a>
           </div>
           <div id="button_fa_wrap_controls">
-            <a onclick="stop_script()" href="#" style="color: rgb(199, 30, 0); text-decoration: none;">
+            <a onclick="stopScript()" href="#" style="color: rgb(199, 30, 0); text-decoration: none;">
               <i class="fa-solid fa-circle-stop"></i>
             </a>
           </div>
+          {% if robot_mode=="coppelia" %}
+          <div id="button_fa_wrap_controls">
+            <a onclick="resetStage()" href="#" style="color: rgb(253, 165, 1); text-decoration: none;">
+              <i class="fa-solid fa-circle-dot"></i>
+            </a>
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>
