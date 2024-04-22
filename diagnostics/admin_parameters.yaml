@@ -44,6 +44,12 @@ rotate_90:
    name: Rotate left/right (on simulator 1 == 90, on physical robot steps )
    value: 1
    default: 1
+   
+rgb_led_type:
+   name: RGB LED type (True anode/ False cathode)
+   value: false
+   default: false
+
 
 simulator_ids:
   client_id: ~  # ~ is None (or empty value)
