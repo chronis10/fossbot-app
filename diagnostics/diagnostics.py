@@ -101,6 +101,8 @@ def _test_rgb_led(robot: FossBot) -> None:
     response = input("Do you have an anode type RGB LED? (y/n): ")
     if response == "y":
         robot.rgb_led.anode = True
+    else:
+        robot.rgb_led.anode = False
     for color in colors:
         try:
             print(f"{color}...")
