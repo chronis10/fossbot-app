@@ -21,6 +21,10 @@ wget https://raw.githubusercontent.com/chronis10/fossbot-app/master/diagnostics/
 wget https://raw.githubusercontent.com/chronis10/fossbot-app/master/diagnostics/r2d2.mp3
 wget https://raw.githubusercontent.com/chronis10/fossbot-app/master/diagnostics/run_diagnostics.sh
 ```
+First run
+```bash
+chmod +x run_diagnostics.sh
+```
 
 Start the diagnostics container
 ```bash
