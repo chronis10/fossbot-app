@@ -5,4 +5,4 @@ COPY requirements_app.txt requirements_app.txt
 RUN pip3 install -r requirements.txt
 RUN pip3 install -r requirements_app.txt
 COPY . .
-CMD [ "python3", "app.py"]
+CMD [ "python3", "run.py"]
