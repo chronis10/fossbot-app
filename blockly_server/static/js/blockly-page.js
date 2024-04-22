@@ -50,15 +50,15 @@ async function runBlocklyCode(id) {
     const result = await sendCode(id, blocklyCode);
     
     console.log("sendCode result", result);
-    if (result === '200') {
-    
+    //if (result === '200') {
+         
       // showModalSuccess("The program started!");
-      if (id!=-1) {
-        await saveXmlToDB(id); // Save after running the code
-      }
-    } else {
-      showModalError("Error in running the code!");
-    }
+      //if (id!=-1) {
+        //await saveXmlToDB(id); // Save after running the code
+      //}
+    //} else {
+      //showModalError("Error in running the code!");
+    //}
     return;
 
   } catch (error) {
