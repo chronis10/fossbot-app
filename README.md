@@ -32,15 +32,22 @@ Now the app will and the CoppeliaSim will start together.
 
 
 ## For the Physical robot 
-### Installation
+
+## Raspberry Pi Images
+Burn the image to a microSD card using the specific image for your robot, then insert it into the robot.
+![Raspberry Pi Images](http://83.212.81.212:8080/)
+
+### Usage
+0) Activate the fully assembly FOSSBot and conect with ssh
+1) Connect throught your broswer to http://<Raspberry Pi ip>:8081
+2) Enjoy!
+
+### Without our image
 0) Activate the fully assembly FOSSBot and conect with ssh
 1) Install the docker on your Raspberry Pi
 2) Copy the docker-compose.yaml to the root directory
 3) Run ```docker compose -f docker-compose.yaml up -d```
 
-### Usage
-1) Connect throught your broswer to http://<Raspberry Pi ip>:8081
-2) Enjoy!
 
 ## Screenshots
 ![](images/blockly_coppelia.png)
@@ -51,7 +58,7 @@ Now the app will and the CoppeliaSim will start together.
 ## Software Development Team
 * Christos Chronis
 * Eleftheria Papageorgiou
-* Manousos Linardakis
+* Dimitrios Charitos
 
 ## Builds
 [![Build Windows app](https://github.com/chronis10/fossbot-app/actions/workflows/windows_app.yml/badge.svg)](https://github.com/chronis10/fossbot-app/actions/workflows/windows_app.yml)
