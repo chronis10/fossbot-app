@@ -1,0 +1,4 @@
+fossbot_lib/common/data_structures
+fossbot_lib/common/interfaces
+fossbot_lib/coppeliasim_robot/
+fossbot_lib/parameters_parser
