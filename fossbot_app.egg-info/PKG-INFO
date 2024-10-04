@@ -1,0 +1,32 @@
+Metadata-Version: 2.1
+Name: fossbot-app
+Version: 1.0.0
+Summary: FossBot Physical application
+Home-page: https://github.com/ellak/fossbot
+Author: Christos Chronis
+Author-email: chronis@hua.gr
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Requires-Dist: Flask
+Requires-Dist: Flask-Cors
+Requires-Dist: Flask-SocketIO
+Requires-Dist: Flask-Babel
+Requires-Dist: Flask-SQLAlchemy
+Requires-Dist: eventlet
+Requires-Dist: Pillow
+Requires-Dist: pystray
+Requires-Dist: pygame
+Requires-Dist: fossbot-lib
+Requires-Dist: pyzmq==20.0.0
+Requires-Dist: coppeliasim-zmqremoteapi-client
+Requires-Dist: RPi.GPIO==0.7.0
+Requires-Dist: fossbot-lib-real
+Requires-Dist: mpu6050-raspberrypi
+Requires-Dist: smbus
+Requires-Dist: Adafruit-GPIO
+Requires-Dist: Adafruit-MCP3008
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: flake8; extra == "dev"

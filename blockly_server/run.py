@@ -52,8 +52,11 @@ def create_app():
         
     return app,socketio
 
-
-if __name__ == '__main__':
+def main():
     freeze_support()
     app,socketio = create_app()   
     socketio.run(app, host = Config.HOST, port=Config.PORT, debug=Config.DEBUG , allow_unsafe_werkzeug=True)
+
+
+if __name__ == '__main__':
+    main()
