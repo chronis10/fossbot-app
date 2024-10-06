@@ -1,11 +1,10 @@
-from app.db_models.models import Projects
+from blockly_server.app.db_models.models import Projects
 import os
 import yaml
 import json
 import glob
-from config import Config
-from extensions import process_manager,agent
-from config import Config
+from blockly_server.extensions import process_manager,agent
+from blockly_server.config import Config
 import shutil
 from flask import request
 import time

@@ -1,0 +1,11 @@
+# Include all files and subdirectories in `templates` and `static`
+recursive-include blockly_server/templates *
+recursive-include blockly_server/static *
+recursive-include blockly_server/config *
+recursive-include blockly_server/assets *
+recursive-include blockly_server/translations *
+include blockly_server/babel.cfg
+include blockly_server/app.ico
+include blockly_server/messages.pot
+
+

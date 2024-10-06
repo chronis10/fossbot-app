@@ -1,0 +1,14 @@
+[Unit]
+Description=Run check_wifi.py at startup
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/check_wifi.py
+WorkingDirectory=/home/pi/
+StandardOutput=inherit
+StandardError=inherit
+Restart=on-failure
+User=pi
+
+[Install]
+WantedBy=multi-user.target

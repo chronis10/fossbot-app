@@ -1,0 +1,19 @@
+[Unit]
+Description=FossBot Physical Application
+After=network.target
+
+[Service]
+User=pi
+Group=pi
+Environment="ROBOT_MODE=physical"
+Environment="DOCKER=True"
+Environment="APP_DIR=/home/pi/.local/lib/python3.9/site-packages/blockly_server"
+ExecStart=/home/pi/.local/bin/fossbot_app
+WorkingDirectory=/home/pi
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=fossbot_app
+
+[Install]
+WantedBy=multi-user.target

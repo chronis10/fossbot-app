@@ -2,12 +2,15 @@ import os
 
 class Config:
     # DOCKER configuration
-    DOCKER = os.getenv('DOCKER','False') == 'True'
+    DOCKER = True #os.getenv('DOCKER','False') == 'True'
 
     # Directories configuration
-    BASE_DIR = '/app' if DOCKER else os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    APP_DIR = '/app' if DOCKER else os.path.abspath(os.path.dirname(__file__))
-    DATA_DIR = os.path.join(BASE_DIR, 'data')   
+    #BASE_DIR = os.getenv('BASE_DIR', '/app' if DOCKER else os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
+    #APP_DIR = os.getenv('APP_DIR', '/app' if DOCKER else os.path.abspath(os.path.dirname(__file__)))
+    #DATA_DIR =os.path.join(os.getenv('DATA_DIR', BASE_DIR), 'data')
+    BASE_DIR = "/home/pi/.local/lib/python3.9/site-packages/blockly_server"
+    APP_DIR = "/home/pi/.local/lib/python3.9/site-packages/blockly_server"
+    DATA_DIR = os.path.join("/home/pi", 'data')
     PROJECT_DIR = os.path.join(DATA_DIR, 'projects')
     ADMIN_PARAMS = os.path.join(DATA_DIR, 'admin_parameters.yaml')
 
@@ -23,6 +26,8 @@ class Config:
 
     # Languange configuration
     LOCALE = os.getenv('LOCALE', 'en')
+    if 'LOCALE' not in os.environ:
+      os.environ['LOCALE'] = 'en'
     BABEL_DEFAULT_LOCALE = LOCALE
     #BABEL_DEFAULT_Config.LOCALE = LOCALE
 

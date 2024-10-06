@@ -1,0 +1,4 @@
+ssid="My_Network_Name"
+psk="My_Wifi_Password" # Use None for Open AP
+key_mgmt="WPA-PSK"  # Change as needed (e.g. WPA-PSK (Almost always), None (Open AP))
+region="GR"         # Set your country code (e.g. GR, FR, TR, ES, RO, US, GB)

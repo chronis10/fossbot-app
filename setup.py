@@ -5,8 +5,8 @@ from setuptools import setup, find_packages
 #     long_description = fh.read()
 
 setup(
-    name='fossbot-app',
-    version='1.0.0',
+    name='fossbot_app',
+    version='1.1.9',
     packages=find_packages(),  # Automatically find and include all packages in your directory
     include_package_data=True,
     install_requires=[  # Core dependencies for your application
@@ -22,12 +22,12 @@ setup(
         'fossbot-lib',  # Replace with the source URL if not on PyPI
         'pyzmq==20.0.0',
         'coppeliasim-zmqremoteapi-client',
-        'RPi.GPIO==0.7.0',
-        'fossbot-lib-real',  # Replace with the source URL if not on PyPI
+        'fossbot-lib-real>=0.0.0',  # Replace with the source URL if not on PyPI
         'mpu6050-raspberrypi',
         'smbus',
         'Adafruit-GPIO',
         'Adafruit-MCP3008',
+	'sqlalchemy_serializer'
     ],
     extras_require={
         'dev': [
@@ -37,7 +37,7 @@ setup(
     },
     entry_points={  # Entry point for the CLI script
         'console_scripts': [
-            'fossbot-app=fossbot_app.run:main',  # Points to the `main()` function in `run.py`
+            'fossbot_app=blockly_server.run:main',  # Points to the `main()` function in `run.py`
         ],
     },
     author="Christos Chronis",

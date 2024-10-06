@@ -1,2 +1,0 @@
-[console_scripts]
-fossbot-app = fossbot_app.run:main

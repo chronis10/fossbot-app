@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
-from app.process.process_control import ProcessManager
-from app.robot.roboclass import Agent
+from blockly_server.app.process.process_control import ProcessManager
+from blockly_server.app.robot.roboclass import Agent
 
 db = SQLAlchemy()
 

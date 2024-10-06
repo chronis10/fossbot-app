@@ -3,16 +3,21 @@ from flask_cors import CORS
 from flask_socketio import SocketIO
 from multiprocessing import freeze_support
 from flask_babel import Babel
-from extensions import db
-from config import Config
+from blockly_server.extensions import db
+from blockly_server.config import Config
 import webbrowser
-import app.control_utils.utils as utils
+import blockly_server.app.control_utils.utils as utils
 import subprocess
 import os
 def create_app():
     global COPPELIA_STARTED
     # Initialize Flask app
-    app = Flask(__name__)
+    template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates'))
+    static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static'))
+    print(template_dir)
+    # Create the Flask app with the specified directories
+    app = Flask(__name__) #, template_folder=template_dir, static_folder=static_dir)
+
     app.config.from_object(Config)
 
     # Initialize Flask extensions
@@ -24,11 +29,11 @@ def create_app():
     babel = Babel(app, locale_selector= utils.get_locale)
 
     # Import routes
-    from app.routing.routes import routes_bp
+    from blockly_server.app.routing.routes import routes_bp
     app.register_blueprint(routes_bp, url_prefix='')
 
     # Import socketio events
-    from app.socketio_routing.socketio_events import register_socketio_events
+    from blockly_server.app.socketio_routing.socketio_events import register_socketio_events
     register_socketio_events(socketio)
 
     #Initialize db, files and folders

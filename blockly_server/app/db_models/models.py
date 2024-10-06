@@ -1,4 +1,4 @@
-from extensions import db # Import the database instance from your main Flask app
+from blockly_server.extensions import db # Import the database instance from your main Flask app
 from sqlalchemy_serializer import SerializerMixin  # Assuming SerializerMixin is a dependency
 
 class Projects(db.Model, SerializerMixin):

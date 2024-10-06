@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, jsonify, send_file
-from extensions import db
+from blockly_server.extensions import db
 import os
-from app.db_models.models import Projects
-from config import Config
-from app.control_utils.utils import stop_now, get_robot_name, get_scenes, get_sound_effects, imed_exit
+from blockly_server.app.db_models.models import Projects
+from blockly_server.config import Config
+from blockly_server.app.control_utils.utils import stop_now, get_robot_name, get_scenes, get_sound_effects, imed_exit
 from xml.dom import minidom
 import platform
 # Create a Blueprint

@@ -4,12 +4,12 @@ import shutil
 import requests
 from flask import jsonify, send_file, request
 from flask_socketio import emit
-from app.db_models.models import Projects
+from blockly_server.app.db_models.models import Projects
 from multiprocessing import Process
-from extensions import db, process_manager
-from config import Config
+from blockly_server.extensions import db, process_manager
+from blockly_server.config import Config
 import time
-from app.control_utils.utils import stop_now, execute_blocks, imed_exit, load_parameters, save_parameters, get_all_projects, stop_now
+from blockly_server.app.control_utils.utils import stop_now, execute_blocks, imed_exit, load_parameters, save_parameters, get_all_projects, stop_now
 
 if Config.ROBOT_MODE=="coppelia":
     from coppeliasim_zmqremoteapi_client import RemoteAPIClient

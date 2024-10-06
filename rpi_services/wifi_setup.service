@@ -1,0 +1,10 @@
+[Unit]
+Description=WiFi Setup Service
+After=network.target
+
+[Service]
+ExecStart=/boot/wifi_setup.sh
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target

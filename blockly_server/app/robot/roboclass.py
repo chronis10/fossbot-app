@@ -2,7 +2,7 @@ import socketio
 from fossbot_lib.parameters_parser.parser import load_parameters
 from fossbot_lib.common.data_structures import configuration
 from fossbot_lib.common.interfaces import robot_interface
-from config import Config
+from blockly_server.config import Config
 
 if Config.ROBOT_MODE == 'physical':
     from fossbot_lib.real_robot.fossbot import FossBot
