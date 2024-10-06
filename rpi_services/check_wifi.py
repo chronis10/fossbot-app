@@ -21,7 +21,7 @@ def check_wifi():
 def main():
     start_lib()
     # Initialize the LED control object
-    led_control = LedRGB(anode=True)
+    led_control = LedRGB(anode=False)
 
     # Check if the Raspberry Pi is connected to Wi-Fi
     if not check_wifi():
