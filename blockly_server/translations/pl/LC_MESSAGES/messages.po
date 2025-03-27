@@ -1,0 +1,150 @@
+# Greek translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR chronis@hua.gr, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-02-23 17:44+0200\n"
+"PO-Revision-Date: 2023-02-23 00:19+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pl\n"
+"Language-Team: pl <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: templates/blockly.html:160
+msgid "Logic"
+msgstr "Logika"
+
+#: templates/blockly.html:174
+msgid "Loops"
+msgstr "Pętle"
+
+#: templates/blockly.html:203
+msgid "Variables"
+msgstr "Zmienne"
+
+#: templates/blockly.html:205
+msgid "Movement"
+msgstr "Ruch"
+
+#: templates/blockly.html:238
+msgid "Operators"
+msgstr "Operatory"
+
+#: templates/blockly.html:339
+msgid "Text"
+msgstr "Tekst"
+
+#: templates/blockly.html:413
+msgid "Lists"
+msgstr "Listy"
+
+#: templates/blockly.html:465
+msgid "Interaction"
+msgstr "Interakcja"
+
+#: templates/blockly.html:481
+msgid "Sensors"
+msgstr "Czujniki"
+
+#: templates/home-page.html:112
+msgid "Title"
+msgstr "Tytuł"
+
+#: templates/home-page.html:113
+msgid "Description"
+msgstr "Opis"
+
+#: templates/home-page.html:114
+msgid "Export"
+msgstr "Eksportuj"
+
+#: templates/home-page.html:116
+msgid "Edit"
+msgstr "Edytuj"
+
+#: templates/home-page.html:117
+msgid "Delete"
+msgstr "Usuń"
+
+#: templates/home-page.html:143
+msgid "Instructions"
+msgstr "Instrukcje"
+
+#: templates/home-page.html:146
+msgid ""
+"In this page, you can see all the scripts that have been stored in this "
+"FOSSbot organized in folders. You can create new folders or script. You "
+"can also access the Administration page for configuring the FOSSbot "
+"parameters, and the visual programming mode."
+msgstr ""
+"Na tej stronie możesz zobaczyć wszystkie skrypty przechowywane w tym FOSSbot, zorganizowane w folderach. Możesz tworzyć nowe foldery lub skrypty. Możesz również uzyskać dostęp do strony Administracji w celu konfiguracji parametrów FOSSbota oraz trybu programowania wizualnego."
+
+#: templates/home-page.html:154
+msgid "Kindergarten Mode"
+msgstr "Tryb Przedszkolny"
+
+#: templates/home-page.html:157
+msgid ""
+"Using the button bellow you can use the robot in the Kindergarten Mode. "
+"This mode based on Blockly using card blocks."
+msgstr ""
+"Za pomocą poniższego przycisku możesz użyć robota w Trybie Przedszkolnym. Ten tryb opiera się na Blockly i wykorzystuje bloki kart."
+
+#: templates/modal-error.html:10
+msgid "A problem was detected!"
+msgstr "Wykryto problem!"
+
+#: templates/modal-project-description.html:13
+msgid "Please write a short description for the new project:"
+msgstr "Proszę napisać krótki opis nowego projektu:"
+
+#: templates/modal-project-name.html:13
+msgid "Please give a name for the new project:"
+msgstr "Proszę nadać nazwę nowemu projektowi:"
+
+#: templates/modal-success.html:10
+msgid "Success!"
+msgstr "Sukces!"
+
+#: templates/panel-page.html:77
+msgid "Administration page"
+msgstr "Strona Administracji"
+
+#: templates/panel-page.html:84
+msgid ""
+"In the administration page you can configure several FOSSbot parameters, "
+"such as its name or the values of some of its blocks"
+msgstr ""
+"Na stronie Administracji możesz skonfigurować kilka parametrów FOSSbota, takich jak jego nazwa lub wartości niektórych bloków."
+
+#: templates/panel-page.html:95
+msgid "Parameter name"
+msgstr "Nazwa parametru"
+
+#: templates/panel-page.html:96
+msgid "Default value"
+msgstr "Wartość domyślna"
+
+#: templates/panel-page.html:97
+msgid "Value"
+msgstr "Wartość"
+
+#: templates/panel-page.html:110
+msgid "Sounds Folder"
+msgstr "Folder dźwięków"
+
+#: templates/panel-page.html:113
+msgid "Stages Folder"
+msgstr "Folder etapów"
+
+#: templates/panel-page.html:117
+msgid "Save changes"
+msgstr "Zapisz zmiany"

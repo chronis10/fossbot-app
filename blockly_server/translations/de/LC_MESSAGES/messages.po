@@ -1,0 +1,150 @@
+# Greek translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR chronis@hua.gr, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-02-23 17:44+0200\n"
+"PO-Revision-Date: 2023-02-23 00:19+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: templates/blockly.html:160
+msgid "Logic"
+msgstr "Logik"
+
+#: templates/blockly.html:174
+msgid "Loops"
+msgstr "Schleifen"
+
+#: templates/blockly.html:203
+msgid "Variables"
+msgstr "Variablen"
+
+#: templates/blockly.html:205
+msgid "Movement"
+msgstr "Bewegung"
+
+#: templates/blockly.html:238
+msgid "Operators"
+msgstr "Operatoren"
+
+#: templates/blockly.html:339
+msgid "Text"
+msgstr "Text"
+
+#: templates/blockly.html:413
+msgid "Lists"
+msgstr "Listen"
+
+#: templates/blockly.html:465
+msgid "Interaction"
+msgstr "Interaktion"
+
+#: templates/blockly.html:481
+msgid "Sensors"
+msgstr "Sensoren"
+
+#: templates/home-page.html:112
+msgid "Title"
+msgstr "Titel"
+
+#: templates/home-page.html:113
+msgid "Description"
+msgstr "Beschreibung"
+
+#: templates/home-page.html:114
+msgid "Export"
+msgstr "Exportieren"
+
+#: templates/home-page.html:116
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: templates/home-page.html:117
+msgid "Delete"
+msgstr "Löschen"
+
+#: templates/home-page.html:143
+msgid "Instructions"
+msgstr "Anweisungen"
+
+#: templates/home-page.html:146
+msgid ""
+"In this page, you can see all the scripts that have been stored in this "
+"FOSSbot organized in folders. You can create new folders or script. You "
+"can also access the Administration page for configuring the FOSSbot "
+"parameters, and the visual programming mode."
+msgstr ""
+"Auf dieser Seite können Sie alle Skripte sehen, die in diesem FOSSbot gespeichert und in Ordnern organisiert sind. Sie können neue Ordner oder Skripte erstellen. Sie können auch auf die Administrationsseite zugreifen, um die Parameter des FOSSbots zu konfigurieren, sowie auf den visuellen Programmiermodus."
+
+#: templates/home-page.html:154
+msgid "Kindergarten Mode"
+msgstr "Kindergarten-Modus"
+
+#: templates/home-page.html:157
+msgid ""
+"Using the button bellow you can use the robot in the Kindergarten Mode. "
+"This mode based on Blockly using card blocks."
+msgstr ""
+"Mit der Schaltfläche unten können Sie den Roboter im Kindergarten-Modus verwenden. Dieser Modus basiert auf Blockly und verwendet Kartenblöcke."
+
+#: templates/modal-error.html:10
+msgid "A problem was detected!"
+msgstr "Ein Problem wurde erkannt!"
+
+#: templates/modal-project-description.html:13
+msgid "Please write a short description for the new project:"
+msgstr "Bitte schreiben Sie eine kurze Beschreibung für das neue Projekt:"
+
+#: templates/modal-project-name.html:13
+msgid "Please give a name for the new project:"
+msgstr "Bitte geben Sie einen Namen für das neue Projekt an:"
+
+#: templates/modal-success.html:10
+msgid "Success!"
+msgstr "Erfolg!"
+
+#: templates/panel-page.html:77
+msgid "Administration page"
+msgstr "Administrationsseite"
+
+#: templates/panel-page.html:84
+msgid ""
+"In the administration page you can configure several FOSSbot parameters, "
+"such as its name or the values of some of its blocks"
+msgstr ""
+"Auf der Administrationsseite können Sie verschiedene Parameter des FOSSbots konfigurieren, wie z. B. seinen Namen oder die Werte einiger seiner Blöcke."
+
+#: templates/panel-page.html:95
+msgid "Parameter name"
+msgstr "Parametername"
+
+#: templates/panel-page.html:96
+msgid "Default value"
+msgstr "Standardwert"
+
+#: templates/panel-page.html:97
+msgid "Value"
+msgstr "Wert"
+
+#: templates/panel-page.html:110
+msgid "Sounds Folder"
+msgstr "Sounds-Ordner"
+
+#: templates/panel-page.html:113
+msgid "Stages Folder"
+msgstr "Stages-Ordner"
+
+#: templates/panel-page.html:117
+msgid "Save changes"
+msgstr "Änderungen speichern"
