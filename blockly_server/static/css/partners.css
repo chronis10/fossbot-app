@@ -1,0 +1,15 @@
+.partners {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 6rem; /* spacing between images */
+  flex-wrap: wrap; /* wrap on smaller screens */
+  padding: 2rem 10rem;
+}
+
+.partner-logo {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+}
