@@ -1,0 +1,161 @@
+# Greek translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR chronis@hua.gr, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-02-23 17:44+0200\n"
+"PO-Revision-Date: 2023-02-23 00:19+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: templates/blockly.html:111
+msgid "Window"
+msgstr "Fenêtre"
+
+#: templates/blockly.html:114
+msgid "Select stage"
+msgstr "Sélectionner un scénario"
+
+#: templates/blockly.html:119
+msgid "Load stage"
+msgstr "Charger un scénario"
+
+#: templates/blockly.html:160
+msgid "Logic"
+msgstr "Logique"
+
+#: templates/blockly.html:174
+msgid "Loops"
+msgstr "Boucles"
+
+#: templates/blockly.html:203
+msgid "Variables"
+msgstr "Variables"
+
+#: templates/blockly.html:205
+msgid "Movement"
+msgstr "Mouvement"
+
+#: templates/blockly.html:238
+msgid "Operators"
+msgstr "Opérateurs"
+
+#: templates/blockly.html:339
+msgid "Text"
+msgstr "Texte"
+
+#: templates/blockly.html:413
+msgid "Lists"
+msgstr "Listes"
+
+#: templates/blockly.html:465
+msgid "Interaction"
+msgstr "Interaction"
+
+#: templates/blockly.html:481
+msgid "Sensors"
+msgstr "Capteurs"
+
+#: templates/home-page.html:112
+msgid "Title"
+msgstr "Titre"
+
+#: templates/home-page.html:113
+msgid "Description"
+msgstr "Description"
+
+#: templates/home-page.html:114
+msgid "Export"
+msgstr "Exporter"
+
+#: templates/home-page.html:116
+msgid "Edit"
+msgstr "Modifier"
+
+#: templates/home-page.html:117
+msgid "Delete"
+msgstr "Supprimer"
+
+#: templates/home-page.html:143
+msgid "Instructions"
+msgstr "Instructions"
+
+#: templates/home-page.html:146
+msgid "In this page, you can see all the scripts that have been stored in this FOSSbot organized in folders. You can create new folders or script. You can also access the Administration page for configuring the FOSSbot parameters, and the visual programming mode."
+msgstr "Sur cette page, vous pouvez voir tous les scripts stockés dans ce FOSSbot organisés en dossiers. Vous pouvez créer de nouveaux dossiers ou scripts. Vous pouvez également accéder à la page d'Administration pour configurer les paramètres du FOSSbot et le mode de programmation visuelle."
+
+#: templates/home-page.html:154
+msgid "Kindergarten Mode"
+msgstr "Mode Maternelle"
+
+#: templates/home-page.html:157
+msgid "Using the button bellow you can use the robot in the Kindergarten Mode. This mode based on Blockly using card blocks."
+msgstr "En utilisant le bouton ci-dessous, vous pouvez utiliser le robot en Mode Maternelle. Ce mode est basé sur Blockly avec des blocs cartes."
+
+#: templates/modal-error.html:10
+msgid "A problem was detected!"
+msgstr "Un problème a été détecté !"
+
+#: templates/modal-project-description.html:13
+msgid "Please write a short description for the new project:"
+msgstr "Veuillez écrire une brève description pour le nouveau projet :"
+
+#: templates/modal-project-name.html:13
+msgid "Please give a name for the new project:"
+msgstr "Veuillez donner un nom au nouveau projet :"
+
+#: templates/modal-success.html:10
+msgid "Success!"
+msgstr "Succès !"
+
+#: templates/panel-page.html:77
+msgid "Administration page"
+msgstr "Page d'administration"
+
+#: templates/panel-page.html:84
+msgid ""
+"In the administration page you can configure several FOSSbot parameters, "
+"such as its name or the values of some of its blocks"
+msgstr "Dans la page d'administration, vous pouvez configurer plusieurs paramètres du FOSSbot, tels que son nom ou les valeurs de certains de ses blocs"
+
+#: templates/panel-page.html:95
+msgid "Parameter name"
+msgstr "Nom du paramètre"
+
+#: templates/panel-page.html:96
+msgid "Default value"
+msgstr "Valeur par défaut"
+
+#: templates/panel-page.html:97
+msgid "Value"
+msgstr "Valeur"
+
+#: templates/panel-page.html:103
+msgid "Data path"
+msgstr "Chemin des données"
+
+#: templates/panel-page.html:110
+msgid "Sounds Folder"
+msgstr "Dossier des sons"
+
+#: templates/panel-page.html:111
+msgid "Language"
+msgstr "Langue"
+
+#: templates/panel-page.html:113
+msgid "Stages Folder"
+msgstr "Dossier des scénarios"
+
+#: templates/panel-page.html:117
+msgid "Save changes"
+msgstr "Enregistrer les modifications"

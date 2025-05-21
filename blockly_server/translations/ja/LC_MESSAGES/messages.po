@@ -18,9 +18,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
+#: templates/blockly.html:111
+msgid "Window"
+msgstr "ウィンドウ"
+
+#: templates/blockly.html:114
+msgid "Select stage"
+msgstr "ステージ選択"
+
+#: templates/blockly.html:119
+msgid "Load stage"
+msgstr "ステージ読み込み"
+
 #: templates/blockly.html:160
 msgid "Logic"
-msgstr "ロジック"
+msgstr "論理"
 
 #: templates/blockly.html:174
 msgid "Loops"
@@ -32,7 +44,7 @@ msgstr "変数"
 
 #: templates/blockly.html:205
 msgid "Movement"
-msgstr "移動"
+msgstr "動作"
 
 #: templates/blockly.html:238
 msgid "Operators"
@@ -79,24 +91,16 @@ msgid "Instructions"
 msgstr "説明書"
 
 #: templates/home-page.html:146
-msgid ""
-"In this page, you can see all the scripts that have been stored in this "
-"FOSSbot organized in folders. You can create new folders or script. You "
-"can also access the Administration page for configuring the FOSSbot "
-"parameters, and the visual programming mode."
-msgstr ""
-"このページでは、フォルダに整理されたFOSSbotに保存されているすべてのスクリプトを確認できます。新しいフォルダやスクリプトを作成できます。また、FOSSbotのパラメータを設定するための管理ページや、ビジュアルプログラミングモードにアクセスすることもできます。"
+msgid "In this page, you can see all the scripts that have been stored in this FOSSbot organized in folders. You can create new folders or script. You can also access the Administration page for configuring the FOSSbot parameters, and the visual programming mode."
+msgstr "このページでは、フォルダーに整理されたFOSSbotに保存されているすべてのスクリプトを確認できます。新しいフォルダーやスクリプトを作成できます。また、FOSSbotのパラメータを設定する管理ページやビジュアルプログラミングモードにアクセスできます。"
 
 #: templates/home-page.html:154
 msgid "Kindergarten Mode"
 msgstr "幼稚園モード"
 
 #: templates/home-page.html:157
-msgid ""
-"Using the button bellow you can use the robot in the Kindergarten Mode. "
-"This mode based on Blockly using card blocks."
-msgstr ""
-"下のボタンを使用して、ロボットを幼稚園モードで使用できます。このモードは、カードブロックを使用したBlocklyに基づいています。"
+msgid "Using the button bellow you can use the robot in the Kindergarten Mode. This mode based on Blockly using card blocks."
+msgstr "下のボタンを使用して、ロボットを幼稚園モードで使用できます。このモードはカードブロックを使用したBlocklyに基づいています。"
 
 #: templates/modal-error.html:10
 msgid "A problem was detected!"
@@ -104,11 +108,11 @@ msgstr "問題が検出されました！"
 
 #: templates/modal-project-description.html:13
 msgid "Please write a short description for the new project:"
-msgstr "新しいプロジェクトの簡単な説明を記入してください："
+msgstr "新しいプロジェクトの簡単な説明を入力してください："
 
 #: templates/modal-project-name.html:13
 msgid "Please give a name for the new project:"
-msgstr "新しいプロジェクトに名前を付けてください："
+msgstr "新しいプロジェクトの名前を入力してください："
 
 #: templates/modal-success.html:10
 msgid "Success!"
@@ -122,8 +126,7 @@ msgstr "管理ページ"
 msgid ""
 "In the administration page you can configure several FOSSbot parameters, "
 "such as its name or the values of some of its blocks"
-msgstr ""
-"管理ページでは、FOSSbotの名前や一部のブロックの値など、いくつかのパラメータを設定できます。"
+msgstr "管理ページでは、FOSSbotの名前やブロックの値など、いくつかのパラメータを設定できます"
 
 #: templates/panel-page.html:95
 msgid "Parameter name"
@@ -137,9 +140,17 @@ msgstr "デフォルト値"
 msgid "Value"
 msgstr "値"
 
+#: templates/panel-page.html:103
+msgid "Data path"
+msgstr "データパス"
+
 #: templates/panel-page.html:110
 msgid "Sounds Folder"
 msgstr "サウンドフォルダ"
+
+#: templates/panel-page.html:111
+msgid "Language"
+msgstr "言語"
 
 #: templates/panel-page.html:113
 msgid "Stages Folder"

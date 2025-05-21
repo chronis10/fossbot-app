@@ -12,11 +12,23 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: tr\n"
 "Language-Team: tr <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
+
+#: templates/blockly.html:111
+msgid "Window"
+msgstr "Pencere"
+
+#: templates/blockly.html:114
+msgid "Select stage"
+msgstr "Sahne seç"
+
+#: templates/blockly.html:119
+msgid "Load stage"
+msgstr "Sahne yükle"
 
 #: templates/blockly.html:160
 msgid "Logic"
@@ -64,7 +76,7 @@ msgstr "Açıklama"
 
 #: templates/home-page.html:114
 msgid "Export"
-msgstr "Dışa Aktar"
+msgstr "Dışa aktar"
 
 #: templates/home-page.html:116
 msgid "Edit"
@@ -79,24 +91,16 @@ msgid "Instructions"
 msgstr "Talimatlar"
 
 #: templates/home-page.html:146
-msgid ""
-"In this page, you can see all the scripts that have been stored in this "
-"FOSSbot organized in folders. You can create new folders or script. You "
-"can also access the Administration page for configuring the FOSSbot "
-"parameters, and the visual programming mode."
-msgstr ""
-"Bu sayfada, FOSSbot'ta klasörler halinde düzenlenmiş tüm komut dosyalarını görebilirsiniz. Yeni klasörler veya komut dosyaları oluşturabilirsiniz. Ayrıca, FOSSbot parametrelerini yapılandırmak ve görsel programlama moduna erişmek için Yönetim sayfasına gidebilirsiniz."
+msgid "In this page, you can see all the scripts that have been stored in this FOSSbot organized in folders. You can create new folders or script. You can also access the Administration page for configuring the FOSSbot parameters, and the visual programming mode."
+msgstr "Bu sayfada, klasörler halinde düzenlenmiş FOSSbot'ta saklanan tüm komut dosyalarını görebilirsiniz. Yeni klasörler veya komut dosyaları oluşturabilirsiniz. Ayrıca FOSSbot parametrelerini ve görsel programlama modunu yapılandırmak için Yönetim sayfasına erişebilirsiniz."
 
 #: templates/home-page.html:154
 msgid "Kindergarten Mode"
 msgstr "Anaokulu Modu"
 
 #: templates/home-page.html:157
-msgid ""
-"Using the button bellow you can use the robot in the Kindergarten Mode. "
-"This mode based on Blockly using card blocks."
-msgstr ""
-"Aşağıdaki düğmeyi kullanarak robotu Anaokulu Modu'nda kullanabilirsiniz. Bu mod, kart blokları kullanan Blockly'e dayanmaktadır."
+msgid "Using the button bellow you can use the robot in the Kindergarten Mode. This mode based on Blockly using card blocks."
+msgstr "Aşağıdaki düğmeyi kullanarak robotu Anaokulu Modunda kullanabilirsiniz. Bu mod, kart blokları kullanan Blockly tabanlıdır."
 
 #: templates/modal-error.html:10
 msgid "A problem was detected!"
@@ -112,39 +116,46 @@ msgstr "Lütfen yeni projeye bir ad verin:"
 
 #: templates/modal-success.html:10
 msgid "Success!"
-msgstr "Başarı!"
+msgstr "Başarılı!"
 
 #: templates/panel-page.html:77
 msgid "Administration page"
-msgstr "Yönetim Sayfası"
+msgstr "Yönetim sayfası"
 
 #: templates/panel-page.html:84
 msgid ""
 "In the administration page you can configure several FOSSbot parameters, "
 "such as its name or the values of some of its blocks"
-msgstr ""
-"Yönetim sayfasında, FOSSbot'un adı veya bazı bloklarının değerleri gibi çeşitli parametreleri yapılandırabilirsiniz."
+msgstr "Yönetim sayfasında, adı veya bazı bloklarının değerleri gibi çeşitli FOSSbot parametrelerini yapılandırabilirsiniz"
 
 #: templates/panel-page.html:95
 msgid "Parameter name"
-msgstr "Parametre Adı"
+msgstr "Parametre adı"
 
 #: templates/panel-page.html:96
 msgid "Default value"
-msgstr "Varsayılan Değer"
+msgstr "Varsayılan değer"
 
 #: templates/panel-page.html:97
 msgid "Value"
 msgstr "Değer"
 
+#: templates/panel-page.html:103
+msgid "Data path"
+msgstr "Veri yolu"
+
 #: templates/panel-page.html:110
 msgid "Sounds Folder"
 msgstr "Sesler Klasörü"
 
+#: templates/panel-page.html:111
+msgid "Language"
+msgstr "Dil"
+
 #: templates/panel-page.html:113
 msgid "Stages Folder"
-msgstr "Aşamalar Klasörü"
+msgstr "Sahneler Klasörü"
 
 #: templates/panel-page.html:117
 msgid "Save changes"
-msgstr "Değişiklikleri Kaydet"
+msgstr "Değişiklikleri kaydet"

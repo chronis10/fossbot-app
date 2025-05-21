@@ -18,6 +18,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
+#: templates/blockly.html:111
+msgid "Window"
+msgstr "Finestra"
+
+#: templates/blockly.html:114
+msgid "Select stage"
+msgstr "Seleziona scenario"
+
+#: templates/blockly.html:119
+msgid "Load stage"
+msgstr "Carica scenario"
+
 #: templates/blockly.html:160
 msgid "Logic"
 msgstr "Logica"
@@ -79,24 +91,16 @@ msgid "Instructions"
 msgstr "Istruzioni"
 
 #: templates/home-page.html:146
-msgid ""
-"In this page, you can see all the scripts that have been stored in this "
-"FOSSbot organized in folders. You can create new folders or script. You "
-"can also access the Administration page for configuring the FOSSbot "
-"parameters, and the visual programming mode."
-msgstr ""
-"In questa pagina, puoi vedere tutti gli script memorizzati in questo FOSSbot, organizzati in cartelle. Puoi creare nuove cartelle o script. Puoi anche accedere alla pagina di Amministrazione per configurare i parametri del FOSSbot e alla modalità di programmazione visiva."
+msgid "In this page, you can see all the scripts that have been stored in this FOSSbot organized in folders. You can create new folders or script. You can also access the Administration page for configuring the FOSSbot parameters, and the visual programming mode."
+msgstr "In questa pagina puoi vedere tutti gli script memorizzati in questo FOSSbot organizzati in cartelle. Puoi creare nuove cartelle o script. Puoi anche accedere alla pagina Amministrazione per configurare i parametri del FOSSbot e la modalità di programmazione visiva."
 
 #: templates/home-page.html:154
 msgid "Kindergarten Mode"
-msgstr "Modalità Asilo"
+msgstr "Modalità Scuola Materna"
 
 #: templates/home-page.html:157
-msgid ""
-"Using the button bellow you can use the robot in the Kindergarten Mode. "
-"This mode based on Blockly using card blocks."
-msgstr ""
-"Utilizzando il pulsante sottostante, puoi utilizzare il robot in Modalità Asilo. Questa modalità si basa su Blockly e utilizza blocchi a schede."
+msgid "Using the button bellow you can use the robot in the Kindergarten Mode. This mode based on Blockly using card blocks."
+msgstr "Utilizzando il pulsante sottostante puoi usare il robot in Modalità Scuola Materna. Questa modalità si basa su Blockly utilizzando blocchi a schede."
 
 #: templates/modal-error.html:10
 msgid "A problem was detected!"
@@ -116,18 +120,17 @@ msgstr "Successo!"
 
 #: templates/panel-page.html:77
 msgid "Administration page"
-msgstr "Pagina di Amministrazione"
+msgstr "Pagina di amministrazione"
 
 #: templates/panel-page.html:84
 msgid ""
 "In the administration page you can configure several FOSSbot parameters, "
 "such as its name or the values of some of its blocks"
-msgstr ""
-"Nella pagina di Amministrazione, puoi configurare diversi parametri del FOSSbot, come il suo nome o i valori di alcuni dei suoi blocchi."
+msgstr "Nella pagina di amministrazione puoi configurare diversi parametri del FOSSbot, come il suo nome o i valori di alcuni blocchi"
 
 #: templates/panel-page.html:95
 msgid "Parameter name"
-msgstr "Nome del parametro"
+msgstr "Nome parametro"
 
 #: templates/panel-page.html:96
 msgid "Default value"
@@ -137,13 +140,21 @@ msgstr "Valore predefinito"
 msgid "Value"
 msgstr "Valore"
 
+#: templates/panel-page.html:103
+msgid "Data path"
+msgstr "Percorso dati"
+
 #: templates/panel-page.html:110
 msgid "Sounds Folder"
-msgstr "Cartella Suoni"
+msgstr "Cartella suoni"
+
+#: templates/panel-page.html:111
+msgid "Language"
+msgstr "Lingua"
 
 #: templates/panel-page.html:113
 msgid "Stages Folder"
-msgstr "Cartella Scenari"
+msgstr "Cartella scenari"
 
 #: templates/panel-page.html:117
 msgid "Save changes"

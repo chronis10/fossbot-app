@@ -108,16 +108,15 @@
         </div>
         <br>
         <div id="button__controls_row">
-          <button class="btn btn-success" onClick="window.open('http://127.0.0.1:23020');">{{
-            gettext('Window')}}</button>
+          <button class="btn btn-success" onClick="window.open('http://127.0.0.1:23020');">{{ gettext('Window') }}</button>
 
           <select id="stage_select" class="form-select">
-            <option value="-1" selected>Select stage</option>
+            <option value="-1" selected>{{ gettext('Select stage') }}</option>
             {% for scene in scenes %}
             <option>{{scene}}</option>
             {% endfor %}
           </select>
-          <button class="btn btn-primary" onClick="openMapForStage()">Load stage</button>
+          <button class="btn btn-primary" onClick="openMapForStage()">{{ gettext('Load stage') }} </button>
           <!-- <div id="button_fa_wrap_controls_small">
            
             <a onclick="open_map()" href="#"  style="color: rgb(23, 76, 155); text-decoration: none;">

@@ -18,6 +18,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
+#: templates/blockly.html:111
+msgid "Window"
+msgstr "Παράθυρο"
+
+#: templates/blockly.html:114
+msgid "Select stage"
+msgstr "Επιλέξτε στάδιο"
+
+#: templates/blockly.html:119
+msgid "Load stage"
+msgstr "Φόρτωσε στάδιο"
+
 #: templates/blockly.html:160
 msgid "Logic"
 msgstr "Λογική"
@@ -79,30 +91,16 @@ msgid "Instructions"
 msgstr "Οδηγίες"
 
 #: templates/home-page.html:146
-msgid ""
-"In this page, you can see all the scripts that have been stored in this "
-"FOSSbot organized in folders. You can create new folders or script. You "
-"can also access the Administration page for configuring the FOSSbot "
-"parameters, and the visual programming mode."
-msgstr ""
-"Μέσα απο την σελίδα αυτή, μπορείς να δεις όλα τα προτζεκτ που έχουν "
-"δημιουργηθεί και αποθηκευτεί πάνω στο συνδεδεμμένο ρομπότ καθώς και τους "
-"φακέλους στους οποίους ανήκουν. Μπορείς να δημιουργήσεις καινούριο φάκελο"
-" ή προτζεκτ.Υπάρχει ακόμα η δυνατότητα να μεταβείς στην σελίδα του "
-"διαχειριστικού για την παραμετροποίηση τιμών που αφορούν το ρομπότ αλλά "
-"και στην σελίδα του εικονικού προγραμματισμού."
+msgid "In this page, you can see all the scripts that have been stored in this FOSSbot organized in folders. You can create new folders or script. You can also access the Administration page for configuring the FOSSbot parameters, and the visual programming mode."
+msgstr "Μέσα απο την σελίδα αυτή, μπορείς να δεις όλα τα προτζεκτ που έχουν δημιουργηθεί και αποθηκευτεί πάνω στο συνδεδεμμένο ρομπότ καθώς και τους φακέλους στους οποίους ανήκουν. Μπορείς να δημιουργήσεις καινούριο φάκελο ή προτζεκτ.Υπάρχει ακόμα η δυνατότητα να μεταβείς στην σελίδα του διαχειριστικού για την παραμετροποίηση τιμών που αφορούν το ρομπότ αλλά και στην σελίδα του εικονικού προγραμματισμού."
 
 #: templates/home-page.html:154
 msgid "Kindergarten Mode"
 msgstr "Έκδοση Νηπιαγωγείου"
 
 #: templates/home-page.html:157
-msgid ""
-"Using the button bellow you can use the robot in the Kindergarten Mode. "
-"This mode based on Blockly using card blocks."
-msgstr ""
-"Κάνοντας κλικ στο παρακάτω κουμπί, θα μεταφερθείτε σε μια απλοποιημένη "
-"έκδοση του Blockly ειδικά σχεδιασμένη για το Νηπιαγωγείο."
+msgid "Using the button bellow you can use the robot in the Kindergarten Mode. This mode based on Blockly using card blocks."
+msgstr "Κάνοντας κλικ στο παρακάτω κουμπί, θα μεταφερθείτε σε μια απλοποιημένη έκδοση του Blockly ειδικά σχεδιασμένη για το Νηπιαγωγείο."
 
 #: templates/modal-error.html:10
 msgid "A problem was detected!"
@@ -145,9 +143,17 @@ msgstr "Προεπιλεγμένη τιμή"
 msgid "Value"
 msgstr "Τιμή"
 
+#: templates/panel-page.html:103
+msgid "Data path"
+msgstr "Διαδρομή δεδομένων"
+
 #: templates/panel-page.html:110
 msgid "Sounds Folder"
 msgstr "Φάκελος ήχοι"
+
+#: templates/panel-page.html:111
+msgid "Language"
+msgstr "Γλώσσα"
 
 #: templates/panel-page.html:113
 msgid "Stages Folder"

@@ -18,13 +18,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
+#: templates/blockly.html:111
+msgid "Window"
+msgstr "Janela"
+
+#: templates/blockly.html:114
+msgid "Select stage"
+msgstr "Selecionar palco"
+
+#: templates/blockly.html:119
+msgid "Load stage"
+msgstr "Carregar palco"
+
 #: templates/blockly.html:160
 msgid "Logic"
 msgstr "Lógica"
 
 #: templates/blockly.html:174
 msgid "Loops"
-msgstr "Loops"
+msgstr "Ciclos"
 
 #: templates/blockly.html:203
 msgid "Variables"
@@ -72,35 +84,27 @@ msgstr "Editar"
 
 #: templates/home-page.html:117
 msgid "Delete"
-msgstr "Excluir"
+msgstr "Eliminar"
 
 #: templates/home-page.html:143
 msgid "Instructions"
 msgstr "Instruções"
 
 #: templates/home-page.html:146
-msgid ""
-"In this page, you can see all the scripts that have been stored in this "
-"FOSSbot organized in folders. You can create new folders or script. You "
-"can also access the Administration page for configuring the FOSSbot "
-"parameters, and the visual programming mode."
-msgstr ""
-"Nesta página, você pode ver todos os scripts armazenados neste FOSSbot, organizados em pastas. Você pode criar novas pastas ou scripts. Também pode acessar a página de Administração para configurar os parâmetros do FOSSbot e o modo de programação visual."
+msgid "In this page, you can see all the scripts that have been stored in this FOSSbot organized in folders. You can create new folders or script. You can also access the Administration page for configuring the FOSSbot parameters, and the visual programming mode."
+msgstr "Nesta página, pode ver todos os scripts armazenados neste FOSSbot organizados em pastas. Pode criar novas pastas ou scripts. Também pode aceder à página de Administração para configurar os parâmetros do FOSSbot e o modo de programação visual."
 
 #: templates/home-page.html:154
 msgid "Kindergarten Mode"
-msgstr "Modo Jardim de Infância"
+msgstr "Modo Infantário"
 
 #: templates/home-page.html:157
-msgid ""
-"Using the button bellow you can use the robot in the Kindergarten Mode. "
-"This mode based on Blockly using card blocks."
-msgstr ""
-"Usando o botão abaixo, você pode usar o robô no Modo Jardim de Infância. Este modo é baseado no Blockly e utiliza blocos de cartão."
+msgid "Using the button bellow you can use the robot in the Kindergarten Mode. This mode based on Blockly using card blocks."
+msgstr "Ao utilizar o botão abaixo, pode usar o robô no Modo Infantário. Este modo baseia-se no Blockly utilizando blocos de cartão."
 
 #: templates/modal-error.html:10
 msgid "A problem was detected!"
-msgstr "Um problema foi detectado!"
+msgstr "Foi detetado um problema!"
 
 #: templates/modal-project-description.html:13
 msgid "Please write a short description for the new project:"
@@ -108,7 +112,7 @@ msgstr "Por favor, escreva uma breve descrição para o novo projeto:"
 
 #: templates/modal-project-name.html:13
 msgid "Please give a name for the new project:"
-msgstr "Por favor, dê um nome para o novo projeto:"
+msgstr "Por favor, dê um nome ao novo projeto:"
 
 #: templates/modal-success.html:10
 msgid "Success!"
@@ -116,14 +120,13 @@ msgstr "Sucesso!"
 
 #: templates/panel-page.html:77
 msgid "Administration page"
-msgstr "Página de Administração"
+msgstr "Página de administração"
 
 #: templates/panel-page.html:84
 msgid ""
 "In the administration page you can configure several FOSSbot parameters, "
 "such as its name or the values of some of its blocks"
-msgstr ""
-"Na página de Administração, você pode configurar vários parâmetros do FOSSbot, como seu nome ou os valores de alguns de seus blocos."
+msgstr "Na página de administração pode configurar vários parâmetros do FOSSbot, como o seu nome ou os valores de alguns dos seus blocos"
 
 #: templates/panel-page.html:95
 msgid "Parameter name"
@@ -131,20 +134,28 @@ msgstr "Nome do parâmetro"
 
 #: templates/panel-page.html:96
 msgid "Default value"
-msgstr "Valor padrão"
+msgstr "Valor predefinido"
 
 #: templates/panel-page.html:97
 msgid "Value"
 msgstr "Valor"
 
+#: templates/panel-page.html:103
+msgid "Data path"
+msgstr "Caminho dos dados"
+
 #: templates/panel-page.html:110
 msgid "Sounds Folder"
-msgstr "Pasta de Sons"
+msgstr "Pasta de sons"
+
+#: templates/panel-page.html:111
+msgid "Language"
+msgstr "Idioma"
 
 #: templates/panel-page.html:113
 msgid "Stages Folder"
-msgstr "Pasta de Estágios"
+msgstr "Pasta de palcos"
 
 #: templates/panel-page.html:117
 msgid "Save changes"
-msgstr "Salvar alterações"
+msgstr "Guardar alterações"
