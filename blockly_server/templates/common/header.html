@@ -2,21 +2,8 @@
     <div class="header-wrap">
         <div class="whitebgr">
             <div id="header-logo" class="header-logo">
-                {% if config.BABEL_DEFAULT_LOCALE == 'el' %}
-                <img src="{{ url_for('static',filename='photos/gfoss_el.png')}}" class="ellak-logo" alt=" ">
-                {% else %}
-                <img src="{{ url_for('static',filename='photos/gfoss_en.png')}}" class="ellak-logo" alt=" ">
-                {% endif %}
-            </div>    
-        <div id="header-logo" class="header-logo">
-            {% if config.BABEL_DEFAULT_LOCALE == 'el' %}
-            <img src="{{ url_for('static',filename='photos/hua_el.png')}}" class="hua-logo" alt=" ">
-            {% else %}
-            <img src="{{ url_for('static',filename='photos/hua_en.png')}}" class="hua-logo" alt=" ">
-            {% endif %}
+                <img src="{{ url_for('static',filename='photos/steps-logo.png')}}" class="ellak-logo" alt=" ">
+            </div>        
         </div>
-
-    </div>
- 
     </div>
 </header>

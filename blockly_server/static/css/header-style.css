@@ -34,17 +34,16 @@ header {
   background-image: url('/static/photos/white_curve.png');
   background-repeat: no-repeat;
   background-attachment: absolute;
-  background-size: 500px 100px; 
+  background-size: 250px 100px; 
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   align-items: center;
   padding: 20px;
-  
 }
+
 .hua-logo {
-  
   max-width: 250px;
   max-height: 50px;
   margin-right: 0.2rem;
