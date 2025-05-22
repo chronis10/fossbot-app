@@ -60,99 +60,94 @@
 
 <body onclick="closeModalSuccessOrErrorwhenClickAnywhere()">
   {% include 'common/header.html' %}
-  <div id="main-container">
     <div id="content-container">
-      <br>
       <div class="row">
-      <div class="col-8">
-        <div class="container">
+        <div class="col-8">
+          <div class="container">
+            <div class="row custom_row_right">
+              <div id="button_headers_row_two_icon">
+                <div id="button_fa_wrap_upload">
+                  <a onclick="uploadProject()" href="#" style="color: rgb(141, 141, 141); text-decoration: none;">
+                    <i class="fa-solid fa-upload"></i>
+                  </a>
+                  <form action="{{ url_for('routes_bp.upload_project') }}" method="POST" enctype="multipart/form-data"
+                    style="display: none;">
+                    <input type="file" id="fileDialogId" name="file" onchange="form.submit()" />
+                  </form>
+                </div>
 
-          <!-- <div class="banner_home " >
-            <img  src="{{ url_for('static',filename='photos/superlogo.png')}}"  width="500" alt=" ">
-
-          </div> -->
-
-          <div class="row custom_row_right">
-            <div id="button_headers_row_two_icon">
-              <div id="button_fa_wrap_upload">
-                <a onclick="uploadProject()" href="#" style="color: rgb(141, 141, 141); text-decoration: none;">
-                  <i class="fa-solid fa-upload"></i>
-                </a>
-                <form action="{{ url_for('routes_bp.upload_project') }}" method="POST" enctype="multipart/form-data"
-                  style="display: none;">
-                  <input type="file" id="fileDialogId" name="file" onchange="form.submit()" />
-                </form>
+                <div id="button_fa_wrap_home">
+                  <a onclick="createNewProject()" href="#" style="color: rgb(19, 148, 7); text-decoration: none;">
+                    <i class="fa-solid fa-plus-square"></i>
+                  </a>
+                </div>
               </div>
+            </div>
 
-              <div id="button_fa_wrap_home">
-                <a onclick="createNewProject()" href="#" style="color: rgb(19, 148, 7); text-decoration: none;">
-                  <i class="fa-solid fa-plus-square"></i>
-                </a>
+            <div id="project-lists-container">
+              <div id="project-lists-table">
+                <table id="table-projects" role="grid">
+                  <thead id="head-table-projects" role="grid">
+                    <tr role="row">
+                      <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Title')}}</th>
+                      <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Description')}}</th>
+                      <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Export')}}</th>
+                      <!-- <th class="head-title" tabindex="0" rowspan="1" colspan="1"></th> -->
+                      <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Edit')}}</th>
+                      <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Delete') }}</th>
+                    </tr>
+                  </thead>
+                  <tbody id="body-table-projects" role="grid">
+
+                  </tbody>
+
+                </table>
               </div>
             </div>
           </div>
+        </div>
 
-          <div id="project-lists-container">
-            <div id="project-lists-table">
-              <table id="table-projects" role="grid">
-                <thead id="head-table-projects" role="grid">
-                  <tr role="row">
-                    <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Title')}}</th>
-                    <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Description')}}</th>
-                    <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Export')}}</th>
-                    <!-- <th class="head-title" tabindex="0" rowspan="1" colspan="1"></th> -->
-                    <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Edit')}}</th>
-                    <th class="head-title" tabindex="0" rowspan="1" colspan="1">{{ gettext('Delete') }}</th>
-                  </tr>
-                </thead>
-                <tbody id="body-table-projects" role="grid">
-
-                </tbody>
-
-              </table>
-            </div>
+        <div class="col-4">
+          <div class="container">
+          <div id="custom-one" class="row">            
+              <div id="button_fa_wrap">
+                <a href="/admin_panel" style="color: rgb(75, 75, 75); text-decoration: none;">
+                  <i class="fa-solid fa-cog"></i>
+                </a>
+              </div>           
           </div>
-        </div>
-      </div>
+          <div class="row custom_row_text">
+            <h3 style="color: rgb(252, 122, 1);">{{ gettext('Instructions') }}</h3>
+          </div>
+          <div class="row custom_row_text">
+            <strong>{{ gettext('In this page, you can see all the scripts that have been stored in this FOSSbot
+              organized in folders. You can create new folders or script. You can also access the Administration page
+              for configuring the FOSSbot parameters, and the visual programming mode.') }}</strong>
+          </div>
 
-      <div class="col-4">
-        <div class="container">
-        <div id="custom-one" class="row">            
-            <div id="button_fa_wrap">
-              <a href="/admin_panel" style="color: rgb(75, 75, 75); text-decoration: none;">
-                <i class="fa-solid fa-cog"></i>
-              </a>
-            </div>           
-        </div>
-        <div class="row custom_row_text">
-          <h3 style="color: rgb(252, 122, 1);">{{ gettext('Instructions') }}</h3>
-        </div>
-        <div class="row custom_row_text">
-          <strong>{{ gettext('In this page, you can see all the scripts that have been stored in this FOSSbot organized in folders. You can create new folders or script. You can also access the Administration page for configuring the FOSSbot parameters, and the visual programming mode.') }}</strong>
-        </div>
+          <br>
 
-        <br>
+          <div class="row custom_row_text">            
+              <h3 style="color: rgb(252, 122, 1);">{{ gettext('Kindergarten Mode') }}</h3>          
+          </div>
+          <div class="row custom_row_text">
+              <strong>{{ gettext('Using the button bellow you can use the robot in the Kindergarten Mode. This mode
+                based on Blockly using card blocks.') }} </strong>
+          </div>
+          <br>
+          <div class="row custom_row_text_center">
+              
+              <div id="button_fa_wrap">
 
-        <div class="row custom_row_text">            
-            <h3 style="color: rgb(252, 122, 1);">{{ gettext('Kindergarten Mode') }}</h3>          
-        </div>
-        <div class="row custom_row_text">
-            <strong>{{ gettext('Using the button bellow you can use the robot in the Kindergarten Mode. This mode based on Blockly using card blocks.') }} </strong>
-        </div>
-        <br>
-        <div class="row custom_row_text_center">
-            
-            <div id="button_fa_wrap">
-
-              <a href="/kindergarten?id=-1" style="color: rgb(12, 135, 235); text-decoration: none;">
-                <input type="image" src="{{ url_for('static', filename='/photos/card_mode2.png') }}"
-                  style="height:150px;">
-              </a>
-            </div>
+                <a href="/kindergarten?id=-1" style="color: rgb(12, 135, 235); text-decoration: none;">
+                  <input type="image" src="{{ url_for('static', filename='/photos/card_mode2.png') }}"
+                    style="height:150px;">
+                </a>
+              </div>
 
 
-        </div> 
-      </div>       
+          </div> 
+        </div>       
       </div>
     </div>
 
@@ -160,7 +155,6 @@
       </div>
     </div>
 
-  </div>
 
 
   <!-- modal : error -->

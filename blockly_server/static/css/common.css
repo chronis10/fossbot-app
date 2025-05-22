@@ -6,8 +6,8 @@ html, body{
   /* margin: 0; */
   /* height:100vh; */
   margin:0;
-   padding:0;
-   height:100%;
+  padding:0;
+  height:100%;
 }
 
 label, button {
@@ -64,8 +64,9 @@ label, button {
 #content-container{
   height: fit-content;
   width: 100%;  
-
+  padding: 2rem;
 }
+
 #button_fa_wrap{
   height: 60px;
   width: 65px;
