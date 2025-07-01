@@ -617,3 +617,26 @@ Blockly.Python['transmit'] = function(block) {
   var value_for_print = Blockly.Python.valueToCode(block, 'for_print', Blockly.Python.ORDER_ATOMIC);
   return 'transmit(' + value_for_print + ')\n';
 };
+
+// ROTATE DEGREES ANGLE 
+Blockly.Blocks['rotate_degrees_angle'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Drehe")
+      .appendField(new Blockly.FieldNumber(0, -360, 360), "angle")
+      .appendField("Grad");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+
+Blockly.Python['rotate_degrees_angle'] = function (block) {
+  var input_value = block.getFieldValue('angle');
+  var code = 'robot.rotate_degrees(' + input_value + ')\n';
+  return code;
+}
+

@@ -12,7 +12,8 @@ Beta 0.6 is under development, please open a GitHub issue for any bug or feature
 ### Installation
 1) Download the latest release for your system (Windows, Ubuntu, MacOS) from the Releases section
 2) Unzip
-3) Install the Coppelia Simulator (EDU or Player) ```https://coppeliarobotics.com/#download```
+3) Install the Coppelia Simulator (EDU or Player) ```https://www.coppeliarobotics.com/previousVersions```
+** Download versio 4.7 or prior, the latest version is not supported yet.**
 
 ### At first run
 0) If you are a Windows user press allow and accept in all security prompts. If you are a Linux user you must run '''chmod +x fossbot-app``` in the terminal to permit the app to run.

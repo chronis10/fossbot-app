@@ -401,3 +401,25 @@ Blockly.Blocks['move_forward'] = {
       this.setHelpUrl(" ");
     }
   };
+
+  // ROTATE DEGREES ANGLE 
+Blockly.Blocks['rotate_degrees_angle'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Gire")
+      .appendField(new Blockly.FieldNumber(0, -360, 360), "angle")
+      .appendField("graus");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+
+Blockly.Python['rotate_degrees_angle'] = function (block) {
+  var input_value = block.getFieldValue('angle');
+  var code = 'robot.rotate_degrees(' + input_value + ')\n';
+  return code;
+}

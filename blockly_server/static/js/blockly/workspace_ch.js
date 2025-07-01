@@ -244,6 +244,29 @@ Blockly.Python['turn_left_90'] = function (block) {
   return code;
 };
 
+
+// ROTATE DEGREES ANGLE 
+Blockly.Blocks['rotate_degrees_angle'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("转动")
+      .appendField(new Blockly.FieldNumber(0, -360, 360), "angle")
+      .appendField("度");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+
+Blockly.Python['rotate_degrees_angle'] = function (block) {
+  var input_value = block.getFieldValue('angle');
+  var code = 'robot.rotate_degrees(' + input_value + ')\n';
+  return code;
+}
+
 // BEEP
 Blockly.Blocks['beep'] = {
   init: function () {
