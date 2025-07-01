@@ -28,7 +28,7 @@ jobs:
             cd dist
             dir
         - name: Upload artifact
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v4
           with:
             name: windows-fossbot
             path: D:\\a\\fossbot-app\\fossbot-app\\blockly_server\\dist
