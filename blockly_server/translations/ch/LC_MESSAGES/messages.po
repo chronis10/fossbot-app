@@ -10,9 +10,9 @@ msgstr ""
 "POT-Creation-Date: 2023-02-23 17:44+0200\n"
 "PO-Revision-Date: 2023-02-23 00:19+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: el\n"
-"Language-Team: el <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,146 +20,142 @@ msgstr ""
 
 #: templates/blockly.html:111
 msgid "Window"
-msgstr "Παράθυρο"
+msgstr "窗口"
 
 #: templates/blockly.html:114
 msgid "Select stage"
-msgstr "Επιλέξτε στάδιο"
+msgstr "选择舞台"
 
 #: templates/blockly.html:119
 msgid "Load stage"
-msgstr "Φόρτωσε στάδιο"
+msgstr "加载舞台"
 
 #: templates/blockly.html:160
 msgid "Logic"
-msgstr "Λογική"
+msgstr "逻辑"
 
 #: templates/blockly.html:174
 msgid "Loops"
-msgstr "Επανάληψη"
+msgstr "循环"
 
 #: templates/blockly.html:203
 msgid "Variables"
-msgstr "Μεταβλητές"
+msgstr "变量"
 
 #: templates/blockly.html:205
 msgid "Movement"
-msgstr "Κίνηση"
+msgstr "运动"
 
 #: templates/blockly.html:238
 msgid "Operators"
-msgstr "Πράξεις"
+msgstr "运算符"
 
 #: templates/blockly.html:339
 msgid "Text"
-msgstr "Κείμενο"
+msgstr "文本"
 
 #: templates/blockly.html:413
 msgid "Lists"
-msgstr "Λίστες"
+msgstr "列表"
 
 #: templates/blockly.html:465
 msgid "Interaction"
-msgstr "Αλληλεπίδραση"
+msgstr "交互"
 
 #: templates/blockly.html:481
 msgid "Sensors"
-msgstr "Αισθητήρες"
+msgstr "传感器"
 
 #: templates/home-page.html:112
 msgid "Title"
-msgstr "Τίτλος"
+msgstr "标题"
 
 #: templates/home-page.html:113
 msgid "Description"
-msgstr "Περιγραφή"
+msgstr "描述"
 
 #: templates/home-page.html:114
 msgid "Export"
-msgstr "Εξαγωγή"
+msgstr "导出"
 
 #: templates/home-page.html:116
 msgid "Edit"
-msgstr "Επεξεργασία"
+msgstr "编辑"
 
 #: templates/home-page.html:117
 msgid "Delete"
-msgstr "Διαγραφή"
+msgstr "删除"
 
 #: templates/home-page.html:143
 msgid "Instructions"
-msgstr "Οδηγίες"
+msgstr "说明"
 
 #: templates/home-page.html:146
 msgid "In this page, you can see all the scripts that have been stored in this FOSSbot organized in folders. You can create new folders or script. You can also access the Administration page for configuring the FOSSbot parameters, and the visual programming mode."
-msgstr "Μέσα απο την σελίδα αυτή, μπορείς να δεις όλα τα προτζεκτ που έχουν δημιουργηθεί και αποθηκευτεί πάνω στο συνδεδεμμένο ρομπότ καθώς και τους φακέλους στους οποίους ανήκουν. Μπορείς να δημιουργήσεις καινούριο φάκελο ή προτζεκτ.Υπάρχει ακόμα η δυνατότητα να μεταβείς στην σελίδα του διαχειριστικού για την παραμετροποίηση τιμών που αφορούν το ρομπότ αλλά και στην σελίδα του εικονικού προγραμματισμού."
+msgstr "在此页面中，您可以查看按文件夹组织的FOSSbot中存储的所有脚本。您可以创建新文件夹或脚本。您还可以访问管理页面配置FOSSbot参数和可视化编程模式。"
 
 #: templates/home-page.html:154
 msgid "Kindergarten Mode"
-msgstr "Έκδοση Νηπιαγωγείου"
+msgstr "幼儿园模式"
 
 #: templates/home-page.html:157
 msgid "Using the button bellow you can use the robot in the Kindergarten Mode. This mode based on Blockly using card blocks."
-msgstr "Κάνοντας κλικ στο παρακάτω κουμπί, θα μεταφερθείτε σε μια απλοποιημένη έκδοση του Blockly ειδικά σχεδιασμένη για το Νηπιαγωγείο."
+msgstr "使用下面的按钮，您可以在幼儿园模式下使用机器人。此模式基于使用卡片块的Blockly。"
 
 #: templates/modal-error.html:10
 msgid "A problem was detected!"
-msgstr "Υπήρξε πρόβλημα!"
+msgstr "检测到问题！"
 
 #: templates/modal-project-description.html:13
 msgid "Please write a short description for the new project:"
-msgstr "Παρακαλώ γράψε μια σύντομη περιγραφή για το καινούριο πρότζεκτ:"
+msgstr "请为新项目写一个简短的描述："
 
 #: templates/modal-project-name.html:13
 msgid "Please give a name for the new project:"
-msgstr "Παρακαλώ γράψε το όνομα του καινούριου πρότζεκτ:"
+msgstr "请为新项目命名："
 
 #: templates/modal-success.html:10
 msgid "Success!"
-msgstr "Επιτυχία!"
+msgstr "成功！"
 
 #: templates/panel-page.html:77
 msgid "Administration page"
-msgstr "Διαχειριστικό περιβάλλον"
+msgstr "管理页面"
 
 #: templates/panel-page.html:84
 msgid ""
 "In the administration page you can configure several FOSSbot parameters, "
 "such as its name or the values of some of its blocks"
-msgstr ""
-"Μέσα απο την σελίδα του διαχειριστικού υπάρχει η δυνατότητα να γίνουν "
-"αλλαγές σε τιμές που αφορούν το ρομπότ όπως το όνομα του ή τιμές "
-"ορισμένων μπλοκς"
+msgstr "在管理页面中，您可以配置多个FOSSbot参数，例如其名称或某些块的值"
 
 #: templates/panel-page.html:95
 msgid "Parameter name"
-msgstr "Όνομα παραμέτρου"
+msgstr "参数名称"
 
 #: templates/panel-page.html:96
 msgid "Default value"
-msgstr "Προεπιλεγμένη τιμή"
+msgstr "默认值"
 
 #: templates/panel-page.html:97
 msgid "Value"
-msgstr "Τιμή"
+msgstr "值"
 
 #: templates/panel-page.html:103
 msgid "Data path"
-msgstr "Διαδρομή δεδομένων"
+msgstr "数据路径"
 
 #: templates/panel-page.html:110
 msgid "Sounds Folder"
-msgstr "Φάκελος ήχοι"
+msgstr "声音文件夹"
 
 #: templates/panel-page.html:111
 msgid "Language"
-msgstr "Γλώσσα"
+msgstr "语言"
 
 #: templates/panel-page.html:113
 msgid "Stages Folder"
-msgstr "Φάκελος πίστες"
+msgstr "舞台文件夹"
 
 #: templates/panel-page.html:117
 msgid "Save changes"
-msgstr "Αποθήκευση"
-
+msgstr "保存更改"

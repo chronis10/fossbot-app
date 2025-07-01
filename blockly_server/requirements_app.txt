@@ -2,5 +2,5 @@ Pillow
 pystray
 pygame
 fossbot-lib
-pyzmq==20.0.0
+pyzmq==23.2.1
 coppeliasim-zmqremoteapi-client

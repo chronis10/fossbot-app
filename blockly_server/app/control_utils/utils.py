@@ -92,7 +92,7 @@ def get_locale():
         if lan is not None:
             Config.LOCALE = lan
             return lan
-        return request.accept_languages.best_match(['el', 'en'])
+        return request.accept_languages.best_match(['el', 'en', 'ch', 'de', 'es', 'fr', 'it', 'ja', 'pl', 'pt', 'tr'])
 
 def initialize_app():
     """

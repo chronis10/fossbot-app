@@ -25,7 +25,7 @@ let demoWorkspace = Blockly.inject('blocklyDiv', options);
 Blockly.Blocks['move_forward'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Προχώρα μπροστά");
+      .appendField("Vorwärts bewegen");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -43,7 +43,7 @@ Blockly.Python['move_forward'] = function (block) {
 Blockly.Blocks['move_forward_default'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Προχώρα μπροστά ένα βήμα");
+      .appendField("Ein Schritt vorwärts");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -61,9 +61,9 @@ Blockly.Python['move_forward_default'] = function (block) {
 Blockly.Blocks['move_forward_distance'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Προχώρα μπροστά")
+      .appendField("Vorwärts bewegen für")
       .appendField(new Blockly.FieldNumber(0, 0, 1000), "number_of_steps")
-      .appendField("εκατοστά");
+      .appendField("cm");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -82,7 +82,7 @@ Blockly.Python['move_forward_distance'] = function (block) {
 Blockly.Blocks['move_reverse'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Προχώρα προς τα πίσω");
+      .appendField("Rückwärts bewegen");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -100,7 +100,7 @@ Blockly.Python['move_reverse'] = function (block) {
 Blockly.Blocks['move_reverse_default'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Προχώρα προς τα πίσω ένα βήμα");
+      .appendField("Ein Schritt rückwärts");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -118,9 +118,9 @@ Blockly.Python['move_reverse_default'] = function (block) {
 Blockly.Blocks['move_reverse_distance'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Προχώρα προς τα πίσω")
+      .appendField("Rückwärts bewegen für")
       .appendField(new Blockly.FieldNumber(0, 0, 1000), "number_of_steps")
-      .appendField("εκατοστά");
+      .appendField("cm");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -139,7 +139,7 @@ Blockly.Python['move_reverse_distance'] = function (block) {
 Blockly.Blocks['stop'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Σταμάτα");
+      .appendField("Stopp");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -157,9 +157,9 @@ Blockly.Python['stop'] = function (block) {
 Blockly.Blocks['wait'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Περίμενε")
+      .appendField("Warten")
       .appendField(new Blockly.FieldNumber(0,null ,null), "wait_s")
-      .appendField("δευτερόλεπτα");
+      .appendField("Sekunden");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -177,7 +177,7 @@ Blockly.Python['wait'] = function (block) {
 Blockly.Blocks['turn_right'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Στρίψε δεξιά");
+      .appendField("Nach rechts drehen");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -194,7 +194,7 @@ Blockly.Python['turn_right'] = function (block) {
 Blockly.Blocks['turn_right_90'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Στρίψε δεξιά 90 μοίρες");
+      .appendField("90 Grad nach rechts drehen");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -212,7 +212,7 @@ Blockly.Python['turn_right_90'] = function (block) {
 Blockly.Blocks['turn_left'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Στρίψε αριστερά");
+      .appendField("Nach links drehen");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -230,7 +230,7 @@ Blockly.Python['turn_left'] = function (block) {
 Blockly.Blocks['turn_left_90'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Στρίψε αριστερά 90 μοίρες");
+      .appendField("90 Grad nach links drehen");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -244,52 +244,11 @@ Blockly.Python['turn_left_90'] = function (block) {
   return code;
 };
 
-//ROTATE DEGREES ANGLE 
-Blockly.Blocks['rotate_degrees_angle'] = {
-  init: function () {
-    this.appendDummyInput()
-      .appendField("Στρίψε")
-      .appendField(new Blockly.FieldNumber(0, -360, 360), "angle")
-      .appendField("μοίρες");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(290);
-    this.setTooltip("");
-    this.setHelpUrl("");
-  }
-};
-
-
-Blockly.Python['rotate_degrees_angle'] = function (block) {
-  var input_value = block.getFieldValue('angle');
-  var code = 'robot.rotate_degrees(' + input_value + ')\n';
-  return code;
-}
-
-//ROTATE DEFAULT 
-// Blockly.Blocks['rotate_default'] = {
-//   init: function () {
-//     this.appendDummyInput()
-//       .appendField("Στρίψε default μοίρες")
-//     this.setPreviousStatement(true, null);
-//     this.setNextStatement(true, null);
-//     this.setColour(290);
-//     this.setTooltip("");
-//     this.setHelpUrl("");
-//   }
-// };
-
-
-// Blockly.Python['rotate_default'] = function (block) {
-//   var code = 'robot.rotate_default()\n';
-//   return code;
-// }
-
 // BEEP
 Blockly.Blocks['beep'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Beep");
+      .appendField("Piepen");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -307,9 +266,9 @@ Blockly.Python['beep'] = function (block) {
 Blockly.Blocks['set_color'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Διάλεξε")
-      .appendField(new Blockly.FieldDropdown([["κόκκινο", "'red'"], ["πράσινο", "'green'"], ["μπλε", "'blue'"], ["λευκό", "'white'"], ["βιολετί", "'violet'"], ["κυανό", "'cyan'"], ["κίτρινο", "'yellow'"], ["κλειστό", "'closed'"]]), "color_option")
-      .appendField("χρώμα");
+      .appendField("Wähle")
+      .appendField(new Blockly.FieldDropdown([["rot", "'red'"], ["grün", "'green'"], ["blau", "'blue'"], ["weiß", "'white'"], ["violett", "'violet'"], ["cyan", "'cyan'"], ["gelb", "'yellow'"], ["geschlossen", "'closed'"]]), "color_option")
+      .appendField("Farbe");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -339,7 +298,7 @@ socket.on('sound_effects', (data) => {
   Blockly.Blocks['play_sound'] = {
     init: function () {
       this.appendDummyInput()
-        .appendField("Παίξε τον ήχο")
+        .appendField("Spiele den Sound")
         .appendField(new Blockly.FieldDropdown(this.generateOptions), "option");
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
@@ -357,7 +316,7 @@ socket.on('sound_effects', (data) => {
         }
         return sound_effects
       } else {
-        return new Array(["","No-option"])
+        return new Array(["","Keine Option"])
       }
     }
   };
@@ -375,7 +334,7 @@ Blockly.Python['play_sound'] = function (block) {
 Blockly.Blocks['distance'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("απόσταση από εμπόδιο");
+      .appendField("Entfernung von");
     this.setOutput(true, 'Number');
     this.setColour(45);
     this.setTooltip("");
@@ -392,7 +351,7 @@ Blockly.Python['distance'] = function (block) {
 Blockly.Blocks['light_sensor'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("σένσορας φωτός");
+      .appendField("Lichtsensor");
     this.setOutput(true, 'Number');
     this.setColour(45);
     this.setTooltip("");
@@ -409,7 +368,7 @@ Blockly.Python['light_sensor'] = function (block) {
 Blockly.Blocks['noise_detection'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("θόρυβος");
+      .appendField("Geräusch");
     this.setOutput(true, 'Boolean');
     this.setColour(45);
     this.setTooltip("");
@@ -426,7 +385,7 @@ Blockly.Python['noise_detection'] = function (block) {
 Blockly.Blocks['check_for_obstacle'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("ύπαρξη εμποδίου");
+      .appendField("Hindernis vorhanden");
     this.setOutput(true, 'Boolean');
     this.setColour(45);
     this.setTooltip("");
@@ -443,8 +402,8 @@ Blockly.Python['check_for_obstacle'] = function (block) {
 Blockly.Blocks['check_for_line'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField(new Blockly.FieldDropdown([["αριστερός", "3"], ["μεσαίος", "1"], ["δεξιός", "2"]]), "check_for_line_option")
-      .appendField("ύπαρξη μαύρης γραμμής");
+      .appendField(new Blockly.FieldDropdown([["links", "3"], ["mitte", "1"], ["rechts", "2"]]), "check_for_line_option")
+      .appendField("Schwarze Linie vorhanden");
     this.setOutput(true, 'Boolean');
     this.setColour(45);
     this.setTooltip("");
@@ -462,8 +421,8 @@ Blockly.Python['check_for_line'] = function (block) {
 Blockly.Blocks['floor_sensor'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField(new Blockly.FieldDropdown([["αριστερός", "3"], ["μεσαίος", "1"], ["δεξιός", "2"]]), "floor_sensor_option")
-      .appendField("αισθητήρας εδάφους");
+      .appendField(new Blockly.FieldDropdown([["links", "3"], ["mitte", "1"], ["rechts", "2"]]), "floor_sensor_option")
+      .appendField("Bodensensor");
     this.setOutput(true, 'Number');
     this.setColour(45);
     this.setTooltip("");
@@ -481,7 +440,7 @@ Blockly.Python['floor_sensor'] = function (block) {
 Blockly.Blocks['check_for_dark'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("είναι σκοτεινά");
+      .appendField("Ist es dunkel");
     this.setOutput(true, 'Boolean');
     this.setColour(45);
     this.setTooltip("");
@@ -494,32 +453,12 @@ Blockly.Python['check_for_dark'] = function (block) {
   return [code,Blockly.Python.ORDER_NONE];
 }
 
-// //CHECK ON LINE 
-// Blockly.Blocks['check_on_line'] = {
-//   init: function () {
-//     this.appendDummyInput()
-//       .appendField(new Blockly.FieldDropdown([["αριστερή", "left "], ["μεσαία", "center"], ["δεξιά", "right"]]), "option")
-//       .appendField("γραμμή");
-//     this.setOutput(true, 'Boolean');
-//     this.setColour(45);
-//     this.setTooltip("");
-//     this.setHelpUrl("");
-//   }
-// };
-
-// Blockly.Python['check_on_line'] = function (block) {
-//   var input_value = block.getFieldValue('option');
-//   var code = 'robot.check_on_line(' + input_value + ')';
-//   return [code,Blockly.Python.ORDER_NONE];
-// }
-
-
 //GET LAST MOVE DISTANCE
 Blockly.Blocks['get_last_move_distance'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField(new Blockly.FieldDropdown([["αριστερή", "left "], ["δεξιά", "right"]]), "option")
-      .appendField("απόσταση τελευταίας κίνησης");
+      .appendField(new Blockly.FieldDropdown([["links", "left "], ["rechts", "right"]]), "option")
+      .appendField("Entfernung von der letzten Bewegung");
     this.setOutput(true, 'Number');
     this.setColour(45);
     this.setTooltip("");
@@ -537,7 +476,7 @@ Blockly.Python['get_last_move_distance'] = function (block) {
 Blockly.Blocks['get_acceleration'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("επιτάχυνση στον άξονα")
+      .appendField("Beschleunigung auf Achse")
       .appendField(new Blockly.FieldDropdown([["x", "x"], ["y", "y"], ["z", "z"]]), "option");
     this.setOutput(true, 'Number');
     this.setColour(45);
@@ -556,7 +495,7 @@ Blockly.Python['get_acceleration'] = function (block) {
 Blockly.Blocks['get_gyroscope'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("τιμή γυροσκοπίου στον άξονα")
+      .appendField("Gyroskopwert auf Achse")
       .appendField(new Blockly.FieldDropdown([["x", "x"], ["y", "y"], ["z", "z"]]), "option");
     this.setOutput(true, 'Number');
     this.setColour(45);
@@ -575,7 +514,7 @@ Blockly.Python['get_gyroscope'] = function (block) {
 Blockly.Blocks['temperature'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("θερμοκρασία");
+      .appendField("Temperatur");
     this.setOutput(true, 'Number');
     this.setColour(45);
     this.setTooltip("");
@@ -592,7 +531,7 @@ Blockly.Python['temperature'] = function (block) {
 Blockly.Blocks['humidity'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("υγρασία");
+      .appendField("Luftfeuchtigkeit");
     this.setOutput(true, 'Number');
     this.setColour(45);
     this.setTooltip("");
@@ -605,28 +544,11 @@ Blockly.Python['humidity'] = function (block) {
   return [code,Blockly.Python.ORDER_NONE];
 }
 
-// BATTERY
-// Blockly.Blocks['battery'] = {
-//   init: function () {
-//     this.appendDummyInput()
-//       .appendField("μπαταρία");
-//     this.setOutput(true, 'Number');
-//     this.setColour(45);
-//     this.setTooltip("");
-//     this.setHelpUrl("");
-//   }
-// };
-
-// Blockly.Python['battery'] = function (block) {
-//   var code = 'robot.get_battery()';
-//   return [code,Blockly.Python.ORDER_NONE];
-// }
-
 //TIME BLOCKS 
 Blockly.Blocks['begin_timer'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Έναρξη μέτρησης χρόνου");
+      .appendField("Timer starten");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -645,7 +567,7 @@ Blockly.Python['begin_timer'] = function (block) {
 Blockly.Blocks['stop_timer'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Σταμάτημα μέτρησης χρόνου");
+      .appendField("Timer stoppen");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(290);
@@ -662,7 +584,7 @@ Blockly.Python['stop_timer'] = function (block) {
 Blockly.Blocks['get_timer'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Χρόνος που πέρασε");
+      .appendField("Verstrichene Zeit");
     this.setOutput(true, 'Number');
     this.setColour(290);
     this.setTooltip("");
@@ -682,7 +604,7 @@ Blockly.Blocks['transmit'] = {
   init: function() {
     this.appendValueInput("for_print")
         .setCheck(null)
-        .appendField("Εκτύπωσε");
+        .appendField("Drucken");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(120);
@@ -695,3 +617,26 @@ Blockly.Python['transmit'] = function(block) {
   var value_for_print = Blockly.Python.valueToCode(block, 'for_print', Blockly.Python.ORDER_ATOMIC);
   return 'transmit(' + value_for_print + ')\n';
 };
+
+// ROTATE DEGREES ANGLE 
+Blockly.Blocks['rotate_degrees_angle'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Drehe")
+      .appendField(new Blockly.FieldNumber(0, -360, 360), "angle")
+      .appendField("Grad");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+
+Blockly.Python['rotate_degrees_angle'] = function (block) {
+  var input_value = block.getFieldValue('angle');
+  var code = 'robot.rotate_degrees(' + input_value + ')\n';
+  return code;
+}
+
