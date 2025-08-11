@@ -171,3 +171,17 @@ button.export_img {
   min-width: 200px;
   min-height: 40px;
 }
+
+.stage_select {
+  width: 200px;
+}
+
+.open_window{
+  width: 100px;
+  padding: 5px;
+}
+
+.load_stage{
+  width: 100px;
+  padding: 5px;
+}
