@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: fossbot-app
+Version: 1.1.9
+Summary: FossBot Physical application
+Home-page: https://github.com/ellak/fossbot
+Author: Christos Chronis
+Author-email: chronis@hua.gr
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Provides-Extra: dev

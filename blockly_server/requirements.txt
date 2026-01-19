@@ -12,3 +12,5 @@ Flask-Babel
 simple-websocket
 requests
 websocket-client
+evdev
+pexpect

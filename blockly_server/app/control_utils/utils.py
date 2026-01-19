@@ -82,7 +82,7 @@ def imed_exit():
     except Exception as e:
         os._exit(0)
 
-def execute_blocks(code):
+def execute_blocks(code, stop_event=None):
     agent.execute(code)
 
 

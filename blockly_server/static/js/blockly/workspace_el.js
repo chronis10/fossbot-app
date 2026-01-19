@@ -571,6 +571,44 @@ Blockly.Python['get_gyroscope'] = function (block) {
   return [code,Blockly.Python.ORDER_NONE];
 }
 
+Blockly.Blocks['set_left_motor_speed'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Όρισε την ταχύτητα του αριστερού κινητήρα σε")
+      .appendField(new Blockly.FieldNumber(50, 0, 100), "speed");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("Set the speed of the left motor (0-100)");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Python['set_left_motor_speed'] = function (block) {
+  var speed = block.getFieldValue('speed');
+  var code = 'robot.motor_left.set_speed(' + speed + ')\n';
+  return code;
+};
+
+Blockly.Blocks['set_right_motor_speed'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Όρισε την ταχύτητα του δεξιού κινητήρα σε")
+      .appendField(new Blockly.FieldNumber(50, 0, 100), "speed");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("Set the speed of the right motor (0-100)");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Python['set_right_motor_speed'] = function (block) {
+  var speed = block.getFieldValue('speed');
+  var code = 'robot.motor_right.set_speed(' + speed + ')\n';
+  return code;
+};
+
 // TEMPERATUR
 Blockly.Blocks['temperature'] = {
   init: function () {

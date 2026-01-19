@@ -69,7 +69,8 @@ class Agent():
 
     def execute(self,code):
         parameters = self.load_parameters()
-        robot = FossBot(parameters=parameters)      
+        #robot = FossBot(parameters=parameters)
+        robot = FossBot()       
         if Config.ROBOT_MODE != 'coppelia':
             param = load_parameters(path=Config.ADMIN_PARAMS)
             robot.rgb_led.anode = param['rgb_led_type']["value"]

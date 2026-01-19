@@ -1,0 +1,3 @@
+[console_scripts]
+fossbot_app = blockly_server.run:main
+
