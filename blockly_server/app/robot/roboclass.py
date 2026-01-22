@@ -4,10 +4,7 @@ from fossbot_lib.common.data_structures import configuration
 from fossbot_lib.common.interfaces import robot_interface
 from blockly_server.config import Config
 
-if Config.ROBOT_MODE == 'physical':
-    from fossbot_lib.real_robot.fossbot import FossBot
-else:
-    from fossbot_lib.coppeliasim_robot.fossbot import FossBot
+from fossbot_lib.real_robot.fossbot import FossBot
 
 
 class Communication():
@@ -60,20 +57,15 @@ class Agent():
             "rotate_90": configuration.Rotate90(**file_params["rotate_90"])
         }
 
-        if Config.ROBOT_MODE == 'coppelia':
-            simulation_ids = configuration.SimRobotIds(**file_params["simulator_ids"])
-            return configuration.SimRobotParameters(simulation=simulation_ids, **common_params)
-        else:
-            return configuration.RobotParameters(**common_params)
+        return configuration.RobotParameters(**common_params)
     
 
     def execute(self,code):
         parameters = self.load_parameters()
         #robot = FossBot(parameters=parameters)
         robot = FossBot()       
-        if Config.ROBOT_MODE != 'coppelia':
-            param = load_parameters(path=Config.ADMIN_PARAMS)
-            robot.rgb_led.anode = param['rgb_led_type']["value"]
+        param = load_parameters(path=Config.ADMIN_PARAMS)
+        robot.rgb_led.anode = param['rgb_led_type']["value"]
         coms = Communication()
         transmit = coms.transmit
         exec(code)

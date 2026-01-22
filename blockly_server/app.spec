@@ -32,7 +32,6 @@ a = Analysis(
         'engineio.async_drivers.threading',
                 'pyzmq',
                 'zmq',
-                'coppeliasim_zmqremoteapi_client',
                 'eventlet.hubs.epolls',
                 'eventlet.hubs.kqueue',
                 'eventlet.hubs.selects',

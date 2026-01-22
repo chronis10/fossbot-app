@@ -14,10 +14,7 @@ from multiprocessing import Process
 from blockly_server.extensions import db, process_manager
 from blockly_server.config import Config
 import time
-from blockly_server.app.control_utils.utils import stop_now, execute_blocks, imed_exit, load_parameters, save_parameters, get_all_projects
-
-if Config.ROBOT_MODE == "coppelia":
-    from coppeliasim_zmqremoteapi_client import RemoteAPIClient
+from blockly_server.app.control_utils.utils import stop_now, execute_blocks, imed_exit, load_parameters, save_parameters, get_all_projects, get_sound_effects
 
 class SocketIOEvents:
     def __init__(self, socketio):
@@ -100,9 +97,6 @@ class SocketIOEvents:
         self.socketio.on_event('fossbot_status', self.on_fossbot_status)
         self.socketio.on_event('execute_blockly', self.handle_execute_blockly)
         self.socketio.on_event('open_audio_folder', self.open_audio_folder)
-        self.socketio.on_event('open_stage_folder', self.open_map_folder)
-        self.socketio.on_event('open_map', self.open_map)
-        self.socketio.on_event('reset_stage', self.reset_stage)
         self.socketio.on_event('send_xml', self.handle_send_xml)
         self.socketio.on_event('save_xml', self.handle_save_xml)
         self.socketio.on_event('systray_controls', self.handle_systray_controls)
@@ -121,12 +115,7 @@ class SocketIOEvents:
         emit('all-projects', {'status': '200', 'data': projects_list})
 
     def blockly_get_sound_effects(self):
-        if os.path.exists(os.path.join(Config.DATA_DIR, 'sound_effects.json')):
-            with open(os.path.join(Config.DATA_DIR, 'sound_effects.json'), 'r') as file:
-                sounds = json.load(file)
-                emit('sound_effects', {'status': 200, 'data': sounds})
-        else:
-            emit('sound_effects', {'status': 404, 'data': 'file does not exist'})
+        emit('sound_effects', {'status': 200, 'data': get_sound_effects()})
 
     def handle_get_admin_panel_parameters(self):
         parameters = load_parameters()
@@ -138,9 +127,9 @@ class SocketIOEvents:
             params_values = json.loads(data['parameters'])
             parameters = load_parameters()
             for key, value in parameters.items():
-                if key in ['robot_name', 'coppelia_path']:
+                if key in ['robot_name']:
                     value['value'] = params_values[key]
-                elif key in ['coppelia_headless', 'rgb_led_type']:
+                elif key in ['rgb_led_type']:
                     value['value'] = params_values[key] == 'true'
                 elif key != 'simulator_ids':
                     value['value'] = int(params_values[key])
@@ -217,11 +206,6 @@ class SocketIOEvents:
         self.socketio.emit('execute_blockly_robot', {'status': '200', 'result': 'Code saved with success'})
         try:
             code = data['code']
-            if Config.ROBOT_MODE == "coppelia":
-                client = RemoteAPIClient()
-                sim = client.require('sim')
-                sim.startSimulation()
-                time.sleep(1)
             
             if self.user_script_process and self.user_script_process.is_alive():
                 stop_now()
@@ -251,29 +235,6 @@ class SocketIOEvents:
 
     def open_audio_folder(self):
         os.startfile(os.path.realpath(os.path.join(Config.DATA_DIR, 'sound_effects')))
-
-    def open_map_folder(self):
-        os.startfile(os.path.realpath(os.path.join(Config.DATA_DIR, 'Coppelia_Scenes')))
-
-    def open_map(self, data):
-        if Config.ROBOT_MODE == "coppelia" and '.ttt' in data:
-            client = RemoteAPIClient()
-            sim = client.require('sim')
-            stop_now()
-            self.user_script_running.clear()
-            sim.stopSimulation()
-            coppelia_dir = os.path.join(Config.DATA_DIR, 'Coppelia_Scenes')
-            scene_name = os.path.join(coppelia_dir, data)
-            sim.loadScene(scene_name)
-            sim.startSimulation()
-
-    def reset_stage(self):
-        if Config.ROBOT_MODE == "coppelia":
-            client = RemoteAPIClient()
-            sim = client.require('sim')
-            sim.stopSimulation()
-            time.sleep(1)
-            sim.startSimulation()
 
     def handle_send_xml(self, data):
         try:

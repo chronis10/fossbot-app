@@ -1,12 +1,19 @@
 import time
 
 class Input:
-    def __init__(self, robot, debounce_s=0.18, poll_dt=0.05):
+    def __init__(self, robot, debounce_s=0.05, poll_dt=0.02, hold_start_s=0.30, repeat_rate_s=0.06):
         self.robot = robot
         self.debounce_s = debounce_s
         self.poll_dt = poll_dt
-        self.last_action_t = 0.0
+        self.hold_start_s = hold_start_s
+        self.repeat_rate_s = repeat_rate_s
         self.last_state = self.get_raw_state()
+        self.button_info = {
+            "bt1": {"last_event": 0.0, "hold_started": None},
+            "bt2": {"last_event": 0.0, "hold_started": None},
+            "bt3": {"last_event": 0.0, "hold_started": None},
+            "bt4": {"last_event": 0.0, "hold_started": None},
+        }
 
     def get_raw_state(self):
         return {
@@ -18,20 +25,34 @@ class Input:
 
     def get_pressed_buttons(self):
         now = time.monotonic()
-        can_act = (now - self.last_action_t) >= self.debounce_s
-
-        if not can_act:
-            self.last_state = self.get_raw_state()
-            return {}
-
         current_state = self.get_raw_state()
-        pressed = {k: (current_state[k] and not self.last_state[k]) for k in current_state.keys()}
-        
-        if any(pressed.values()):
-            self.last_action_t = now
-            
+        pressed_events = {}
+
+        for btn, is_pressed in current_state.items():
+            was_pressed = self.last_state.get(btn, False)
+            info = self.button_info[btn]
+
+            if is_pressed and not was_pressed:
+                # Fresh press, respect debounce
+                if now - info["last_event"] >= self.debounce_s:
+                    pressed_events[btn] = {"repeat": False}
+                    info["last_event"] = now
+                    info["hold_started"] = now
+            elif is_pressed and was_pressed:
+                if info["hold_started"] is None:
+                    info["hold_started"] = now
+                # Held press, emit repeat events after hold_start_s
+                if info["hold_started"] and (now - info["hold_started"]) >= self.hold_start_s:
+                    if now - info["last_event"] >= self.repeat_rate_s:
+                        pressed_events[btn] = {"repeat": True}
+                        info["last_event"] = now
+            else:
+                # Released
+                info["hold_started"] = None
+                # Do not bump last_event on release so the next tap can fire immediately after debounce window
+
         self.last_state = current_state
-        return pressed
+        return pressed_events
 
     def poll(self):
         time.sleep(self.poll_dt)

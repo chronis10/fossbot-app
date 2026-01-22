@@ -16,7 +16,7 @@ class Config:
 
 
     # Robot configuration
-    ROBOT_MODE = os.getenv('ROBOT_MODE', 'coppelia')
+    ROBOT_MODE = os.getenv('ROBOT_MODE', 'physical')
     
 
     # Database configuration
@@ -41,10 +41,3 @@ class Config:
 
     # Austostart web browser
     AUTOSTART_BROWSER  = os.getenv('AUTOSTART_BROWSER', 'True') == 'True'
-
-    # # CoppeliaSim configuration
-    # COPPELIA_PATH = os.getenv('COPPELIA_PATH', '/home/chronis/CoppeliaSim_Edu_V4_6_0_rev18_Ubuntu20_04')
-    # COPPELIA_HEADLESS = os.getenv('COPPELIA_HEADLESS', 'True') == 'False'
-                              
-
-    

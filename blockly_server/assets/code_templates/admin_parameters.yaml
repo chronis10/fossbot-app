@@ -48,16 +48,6 @@ rgb_led_type:
    name: RGB LED type (True anode/ False cathode)
    value: false
    default: false
-
-coppelia_path:
-   name: CoppeliaSim Path
-   value: 
-   default:
-   
-coppelia_headless:
-   name: CoppeliaSim Simple Mode
-   value: false
-   default: false
    
 simulator_ids:
   client_id: ~  # ~ is None (or empty value)

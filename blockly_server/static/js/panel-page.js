@@ -26,14 +26,14 @@ function loadSettings(data) {
         console.log('parameter:', parameter_key);
         
 
-        if(parameter_key == "robot_name" || parameter_key == "coppelia_path") {
+        if(parameter_key == "robot_name") {
             document.getElementById("body-table-parameters").insertRow(-1).innerHTML =
             '<tr>' +
             '<td>' + parameter['name'] + '</td>' +
             '<td>' + parameter['default'] + '</td>' +
             '<td>' + '<input type="text" id="' + i + '" value="' + parameter['value'] + '" name="' + parameter_key +  '">' + '</td>' +
             '</tr>';
-        }else if (parameter_key == "rgb_led_type" || parameter_key == "coppelia_headless"){
+        }else if (parameter_key == "rgb_led_type"){
             document.getElementById("body-table-parameters").insertRow(-1).innerHTML =
             '<tr>' +
             '<td>' + parameter['name'] + '</td>' +

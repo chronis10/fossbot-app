@@ -4,11 +4,12 @@ from .battery import BatteryScreen
 from .wifi import WifiScanScreen
 from .saved_networks import SavedNetworksScreen
 from .bluetooth import BluetoothScreen
+from .diagnostics import DiagnosticsScreen
 
 class MainMenuScreen(Screen):
     def __init__(self, robot, screen_manager, battery_monitor):
         super().__init__(robot, screen_manager)
-        self.menu_items = ["Network", "Battery", "Saved Networks", "Add Network", "Remote Control"]
+        self.menu_items = ["Network", "Battery", "Saved Networks", "Add Network", "Remote Control", "Diagnostics"]
         self.current_item = 0
         self.battery_monitor = battery_monitor
 
@@ -58,5 +59,7 @@ class MainMenuScreen(Screen):
                 self.screen_manager.push_screen(WifiScanScreen(self.robot, self.screen_manager))
             elif selected == "Remote Control":
                 self.screen_manager.push_screen(BluetoothScreen(self.robot, self.screen_manager))
+            elif selected == "Diagnostics":
+                self.screen_manager.push_screen(DiagnosticsScreen(self.robot, self.screen_manager))
         elif pressed_buttons.get("bt4"):
             self.robot.buzzer.play([(600, 0.08)])

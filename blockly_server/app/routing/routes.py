@@ -3,7 +3,7 @@ from blockly_server.extensions import db
 import os
 from blockly_server.app.db_models.models import Projects
 from blockly_server.config import Config
-from blockly_server.app.control_utils.utils import stop_now, get_robot_name, get_scenes, get_sound_effects, imed_exit
+from blockly_server.app.control_utils.utils import stop_now, get_robot_name, imed_exit
 from xml.dom import minidom
 import platform
 # Create a Blueprint
@@ -21,9 +21,8 @@ def shared_blockly_logic(project_id=None, kindergarten=False):
 
     print("------------------>", id)
     robot_name = get_robot_name()
-    scenes = get_scenes()
     locale = Config.LOCALE
-    return render_template('editors/blockly.html', project_id=id, robot_name=robot_name, scenes=scenes,locale=locale, robot_mode=Config.ROBOT_MODE, kindergarten=kindergarten)
+    return render_template('editors/blockly.html', project_id=id, robot_name=robot_name,locale=locale, robot_mode=Config.ROBOT_MODE, kindergarten=kindergarten)
 
 @routes_bp.route('/blockly')
 def blockly():

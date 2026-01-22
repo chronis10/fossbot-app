@@ -125,7 +125,7 @@ socket.on('sound_effects', (data) => {
   Blockly.Blocks['play_sound'] = {
     init: function () {
       this.appendDummyInput()
-        .appendField("παίξε τον ήχο")
+        .appendField("παίξε μελωδία")
         .appendField(new Blockly.FieldDropdown(this.generateOptions), "option");
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
@@ -134,24 +134,17 @@ socket.on('sound_effects', (data) => {
       this.setHelpUrl("");
     },
     generateOptions: function () {
-      let sound_effects = new Array()
-      if (received_data.status == 200) {
-        const soundsArray = received_data.data
-        for (let i = 0; i < soundsArray.length; i++) {
-          let obj = soundsArray[i]
-          sound_effects.push([obj.sound_name, '\''+ obj.sound_path + '\''])
-        }
-        return sound_effects
-      } else {
-        return new Array(["","No-option"])
+      if (received_data.status == 200 && Array.isArray(received_data.data)) {
+        return received_data.data.map((melody) => [melody, `'${melody}'`]);
       }
+      return new Array(["","No-option"])
     }
   };
 });
 
 Blockly.Python['play_sound'] = function (block) {
   var input_value = block.getFieldValue('option');
-  var code = 'robot.play_sound(' + input_value + ')\n';
+  var code = 'robot.play_melody(' + input_value + ')\n';
   return code;
 }
 

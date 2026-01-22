@@ -5,28 +5,6 @@
 ## Fossbot Application
 ![](images/screen1.png)
 
-## For the Simulator 
-
-Beta 0.6 is under development, please open a GitHub issue for any bug or feature request.
-
-### Installation
-1) Download the latest release for your system (Windows, Ubuntu, MacOS) from the Releases section
-2) Unzip
-3) Install the Coppelia Simulator (EDU or Player) ```https://coppeliarobotics.com/#download```
-
-### At first run
-0) If you are a Windows user press allow and accept in all security prompts. If you are a Linux user you must run '''chmod +x fossbot-app``` in the terminal to permit the app to run.
-1) Start the ```FossBot Simulator``` app
-2) Go to the settings sections inside the app
-3) Set the path to the CoppeliaSim executable e.g. ```C:\Program Files\CoppeliaRobotics\CoppeliaSimEdu_4.6\CoppeliaSimEdu\coppeliaSim.exe``` or ```/home/user/CoppeliaSim_Edu_4.6/coppeliaSim.sh```
-4) Save the settings and restart the app
-
-Now the app and the CoppeliaSim will start together.
-
-### Usage
-1) Start the ```fossbot-app.exe``` or ```fossbot-app```  app
-2) Enjoy!
-
 
 ## For the Physical robot 
 
@@ -61,10 +39,6 @@ We have also created and a [User's Manual](https://github.com/chronis10/fossbot-
 * The access point functionality is provided using [Comitup](https://davesteele.github.io/comitup/).
 
 ## Screenshots
-![](images/blockly_coppelia.png)
-
-
-
 
 ## Software Development Team
 * Christos Chronis

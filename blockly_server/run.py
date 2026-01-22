@@ -10,7 +10,6 @@ import blockly_server.app.control_utils.utils as utils
 import subprocess
 import os
 def create_app():
-    global COPPELIA_STARTED
     # Initialize Flask app
     template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates'))
     static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static'))
@@ -42,15 +41,6 @@ def create_app():
     with app.app_context():
         db.create_all()
     
-    if Config.ROBOT_MODE == 'coppelia':
-        paramters = utils.load_parameters()
-        coppelia_path = paramters['coppelia_path']['value']
-        coppelia_scenes_dir = os.path.join(os.path.join(Config.DATA_DIR, 'Coppelia_Scenes'),'default.ttt')
-        if coppelia_path:
-            headless = '-gGUIITEMS_512 ' if paramters['coppelia_headless']['value'] else ''
-            command = f'"{coppelia_path}" {headless}-GvisualizationStream.autoStart=true -f {coppelia_scenes_dir}'
-            subprocess.Popen(command, shell=True)
-
     if not Config.DOCKER:
         if Config.AUTOSTART_BROWSER:
             webbrowser.open_new(f"http://{Config.BROWSER_HOST}:{Config.PORT}")

@@ -6,7 +6,6 @@ Flask-Cors
 Flask-SQLAlchemy
 Flask-SocketIO
 Pillow
-coppeliasim-zmqremoteapi-client
 eventlet
 fossbot-lib
 fossbot-lib-real>=0.0.0

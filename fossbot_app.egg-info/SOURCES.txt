@@ -26,6 +26,7 @@ blockly_server/assets/code_templates/admin_parameters.yaml
 blockly_server/assets/code_templates/template.xml
 blockly_server/assets/coppelia_default/chessboard.ttt
 blockly_server/assets/coppelia_default/default.ttt
+blockly_server/assets/sound_effects/beep.mp3
 blockly_server/assets/sound_effects/empodio.mp3
 blockly_server/assets/sound_effects/euxaristw.mp3
 blockly_server/assets/sound_effects/geia.mp3

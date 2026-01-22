@@ -12,6 +12,7 @@
       </block>
       <block type="controls_if">
         <mutation elseif="1" else="1"></mutation>
+      </block>
     </category>
     <category name="{{ gettext('Loops')}}" colour="#5BA55B">
       <block type="controls_repeat_ext">
@@ -71,6 +72,8 @@
       <block type="turn_right_90">
       </block>
       <block type="turn_left_90">
+      </block>
+      <block type="rotate_degrees">
       </block>
   <!-- MOTOR SPEED BLOCKS -->
   <block type="set_left_motor_speed">
@@ -334,15 +337,17 @@
       <block type="humidity"> </block>-->
       <!-- <block type="battery"> </block> -->
       <block type="distance"> </block>
+      <block type="obstacle_sensor"> </block>
       <block type="light_sensor"> </block>
       <block type="noise_detection"> </block>
-      <block type="check_for_obstacle"> </block>
-      <block type="check_for_line"> </block>
+      <!-- <block type="check_for_obstacle"> </block> -->
+      <!-- <block type="check_for_line"> </block> -->
+      <block type="obstacle_sensor"> </block>
       <block type="floor_sensor"> </block>
-      <block type="check_for_dark"> </block>
+      <!-- <block type="check_for_dark"> </block> -->
       <!-- <block type="check_on_line"> </block> -->
       <!--<block type="get_last_move_distance"> </block> -->
       <block type="get_acceleration"> </block>
       <block type="get_gyroscope"> </block>
     </category>
-  </xml>
+  </xml> 

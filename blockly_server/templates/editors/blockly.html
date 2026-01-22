@@ -102,31 +102,7 @@
           </div>
         </div> -->
 
-        {% if robot_mode=="coppelia" %}
-        <div class="embed-responsive embed-responsive-16by9" width="640" height="480">
-          <iframe class="embed-responsive-item" src="http://127.0.0.1:23020/"></iframe>
-        </div>
-        <br>
-        <div id="button__controls_row">
-          <button class="btn btn-success" onClick="window.open('http://127.0.0.1:23020');">{{
-            gettext('Window')}}</button>
 
-          <select id="stage_select" class="form-select">
-            <option value="-1" selected>Select stage</option>
-            {% for scene in scenes %}
-            <option>{{scene}}</option>
-            {% endfor %}
-          </select>
-          <button class="btn btn-primary" onClick="openMapForStage()">Load stage</button>
-          <!-- <div id="button_fa_wrap_controls_small">
-           
-            <a onclick="open_map()" href="#"  style="color: rgb(23, 76, 155); text-decoration: none;">
-            <i class="fa-solid fa-globe"></i>
-            </a>
-          </div> -->
-
-        </div>
-        {% endif %}
 
         {%if not kindergarten %}
         <div class="drop_shadow" id="terminal_div">
@@ -148,13 +124,7 @@
               <i class="fa-solid fa-circle-stop"></i>
             </a>
           </div>
-          {% if robot_mode=="coppelia" %}
-          <div id="button_fa_wrap_controls">
-            <a onclick="resetStage()" href="#" style="color: rgb(253, 165, 1); text-decoration: none;">
-              <i class="fa-solid fa-circle-dot"></i>
-            </a>
-          </div>
-          {% endif %}
+
         </div>
       </div>
     </div>

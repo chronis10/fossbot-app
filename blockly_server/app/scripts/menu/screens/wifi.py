@@ -129,9 +129,12 @@ class WifiPasswordScreen(Screen):
 
     def handle_input(self, pressed_buttons):
         now = time.monotonic()
-        if now - self.last_input_t < 0.1: # simple debounce
+        if now - self.last_input_t < 0.05: # light debounce; rapid repeats handled by Input
             return
-        
+
+        def is_repeat(ev):
+            return isinstance(ev, dict) and ev.get("repeat", False)
+
         def ensure_slot():
             if self.char_index >= len(self.password):
                 self.password += CHARSET[0]
@@ -150,28 +153,37 @@ class WifiPasswordScreen(Screen):
             except Exception:
                 return 0
 
-        if pressed_buttons.get("bt1"):
-            self.robot.buzzer.play([(600, 0.08)])
+        ev1 = pressed_buttons.get("bt1")
+        ev2 = pressed_buttons.get("bt2")
+        ev3 = pressed_buttons.get("bt3")
+        ev4 = pressed_buttons.get("bt4")
+
+        if ev1:
+            if not is_repeat(ev1):
+                self.robot.buzzer.play([(600, 0.08)])
             cur = get_char()
             ci = (char_to_idx(cur) + 1) % CHARSET_LEN
             set_char(CHARSET[ci])
             self.last_input_t = now
-        elif pressed_buttons.get("bt2"):
-            self.robot.buzzer.play([(600, 0.08)])
+        elif ev2:
+            if not is_repeat(ev2):
+                self.robot.buzzer.play([(600, 0.08)])
             cur = get_char()
             ci = (char_to_idx(cur) - 1) % CHARSET_LEN
             set_char(CHARSET[ci])
             self.last_input_t = now
-        elif pressed_buttons.get("bt3"):
-            self.robot.buzzer.play([(600, 0.08)])
+        elif ev3:
+            if not is_repeat(ev3):
+                self.robot.buzzer.play([(600, 0.08)])
             self.char_index += 1
             if self.char_index < 0:
                 self.char_index = 0
             if self.char_index >= len(self.password):
                 self.password += CHARSET[0]
             self.last_input_t = now
-        elif pressed_buttons.get("bt4"):
-            self.robot.buzzer.play([(600, 0.08)])
+        elif ev4:
+            if not is_repeat(ev4):
+                self.robot.buzzer.play([(600, 0.08)])
             ok, msg = utils.connect_wifi(self.ssid, self.password)
             result_msg = msg if msg else ("Connected" if ok else "Connect failed")
             self.screen_manager.push_screen(WifiResultScreen(self.robot, self.screen_manager, result_msg))

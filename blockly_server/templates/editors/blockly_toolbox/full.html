@@ -1,4 +1,4 @@
-<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
     <category name="{{ gettext('Logic')}}" colour="#5B80A5">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
@@ -12,6 +12,7 @@
       </block>
       <block type="controls_if">
         <mutation elseif="1" else="1"></mutation>
+      </block>
     </category>
     <category name="{{ gettext('Loops')}}" colour="#5BA55B">
       <block type="controls_repeat_ext">
@@ -72,12 +73,17 @@
       </block>
       <block type="turn_left_90">
       </block>
-      <block type="set_left_motor_speed">
-      <field name="speed">50</field>
+      <block type="rotate_degrees">
       </block>
-      <block type="set_right_motor_speed">
-      <field name="speed">50</field>
-      </block>
+  <!-- MOTOR SPEED BLOCKS -->
+  <block type="set_left_motor_speed">
+    <field name="speed">50</field>
+  </block>
+
+  <block type="set_right_motor_speed">
+    <field name="speed">50</field>
+  </block>
+
       <!-- <block type="rotate_degrees_angle">
       </block> -->
       <!-- <block type="rotate_default">
@@ -331,15 +337,17 @@
       <block type="humidity"> </block>-->
       <!-- <block type="battery"> </block> -->
       <block type="distance"> </block>
+      <block type="obstacle_sensor"> </block>
       <block type="light_sensor"> </block>
       <block type="noise_detection"> </block>
-      <block type="check_for_obstacle"> </block>
-      <block type="check_for_line"> </block>
+      <!-- <block type="check_for_obstacle"> </block> -->
+      <!-- <block type="check_for_line"> </block> -->
+      <block type="obstacle_sensor"> </block>
       <block type="floor_sensor"> </block>
-      <block type="check_for_dark"> </block>
+      <!-- <block type="check_for_dark"> </block> -->
       <!-- <block type="check_on_line"> </block> -->
       <!--<block type="get_last_move_distance"> </block> -->
       <block type="get_acceleration"> </block>
       <block type="get_gyroscope"> </block>
     </category>
-  </xml>
+  </xml> 

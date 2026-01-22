@@ -3,4 +3,3 @@ pystray
 pygame
 fossbot-lib
 pyzmq==20.0.0
-coppeliasim-zmqremoteapi-client

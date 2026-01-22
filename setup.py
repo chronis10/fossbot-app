@@ -21,7 +21,6 @@ setup(
         'pygame',
         'fossbot-lib',  # Replace with the source URL if not on PyPI
         'pyzmq==20.0.0',
-        'coppeliasim-zmqremoteapi-client',
         'fossbot-lib-real>=0.0.0',  # Replace with the source URL if not on PyPI
         'mpu6050-raspberrypi',
         'smbus',

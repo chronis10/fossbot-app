@@ -1,13 +1,25 @@
 from blockly_server.app.db_models.models import Projects
 import os
 import yaml
-import json
-import glob
 from blockly_server.extensions import process_manager,agent
 from blockly_server.config import Config
 import shutil
 from flask import request
 import time
+
+MELODY_NAMES = [
+    "click",
+    "success",
+    "error",
+    "mario_coin",
+    "mario_jump",
+    "mario_start",
+    "starwars_theme",
+    "starwars_fanfare",
+    "r2d2_chirp",
+    "r2d2_talk",
+    "r2d2_excited",
+]
 
 def get_all_projects():
     projects = Projects.query.all()
@@ -47,28 +59,9 @@ def get_robot_name():
             return value['value']
     return " "
 
-def get_scenes():
-    files = glob.glob(os.path.join(Config.DATA_DIR,'Coppelia_Scenes/*.ttt')) 
-    names = [item.split("\\")[-1] for item in files]
-    return names
-
 def get_sound_effects():
-    print("Getting sounds")    
-    if os.path.exists(os.path.join(Config.DATA_DIR,'sound_effects')):
-        mp3_sounds_list = glob.glob(os.path.join(Config.DATA_DIR,'sound_effects/*.mp3'))
-        sounds_names = []
-        for sound in mp3_sounds_list: 
-            split_list = os.path.split(sound)
-            audio_name = split_list[-1]
-            audio_name_list = audio_name.split(".")
-            audio_name = audio_name_list[0]
-            sounds_names.append({ "sound_name": audio_name, "sound_path": os.path.normpath(sound)})        
-        print("sound effects:")        
-        #delete first the json file if exists and then create it again 
-        if os.path.exists(os.path.join(Config.DATA_DIR,'sound_effects.json')):
-            os.remove(os.path.join(Config.DATA_DIR,'sound_effects.json'))
-        with open(os.path.join(Config.DATA_DIR,'sound_effects.json'), 'w') as out_file:
-            json.dump(sounds_names, out_file)  
+    """Return available buzzer melodies."""
+    return MELODY_NAMES
 
 
 def shutdown_flask():
@@ -103,18 +96,11 @@ def initialize_app():
     elif not os.path.exists(Config.PROJECT_DIR):
         os.makedirs(Config.PROJECT_DIR)
 
-    if Config.ROBOT_MODE == 'coppelia':
-        coppelia_scenes_dir = os.path.join(Config.DATA_DIR, 'Coppelia_Scenes')
-        if not os.path.exists(coppelia_scenes_dir):
-            shutil.copytree(os.path.join(Config.APP_DIR, 'assets/coppelia_default'), coppelia_scenes_dir)
-
-
+    # Maintain an audio directory for compatibility with UI actions.
     sound_effects_dir = os.path.join(Config.DATA_DIR, 'sound_effects')
-    if not os.path.exists(sound_effects_dir):
-        shutil.copytree(os.path.join(Config.APP_DIR, 'assets/sound_effects'), sound_effects_dir)
+    os.makedirs(sound_effects_dir, exist_ok=True)
 
     #db.create_all()
-    get_sound_effects()
 
     admin_params_path = Config.ADMIN_PARAMS
     if not os.path.exists(admin_params_path):
